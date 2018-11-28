@@ -9,9 +9,16 @@ RUN cd lifecycle && git fetch && git checkout fa3d26c086b09559588cfaf0c28c3efe07
 WORKDIR /go/src/github.com/buildpack/lifecycle
 RUN CGO_ENABLED=0 GO111MODULE=on go install -a -installsuffix static "./cmd/..."
 
+RUN mkdir -p /go/src/github.com/heroku/pack-images
+COPY . /go/src/github.com/heroku/pack-images/
+WORKDIR /go/src/github.com/heroku/pack-images
+RUN CGO_ENABLED=0 GO111MODULE=on go install -a -installsuffix static "./cmd/..."
+
 FROM heroku/heroku:18-build
 
 COPY --from=builder /go/bin /lifecycle
+
+COPY bin/buildpack-fetch /lifecycle/buildpack-fetch
 
 ENV PACK_USER_ID 0
 ENV PACK_GROUP_ID 0
@@ -21,4 +28,5 @@ ENV PACK_STACK_ID "heroku-18"
 
 LABEL io.buildpacks.stack.id="heroku-18"
 
-COPY bin/buildpack-install /usr/local/bin/buildpack-install
+RUN mkdir -p /workspace/config /cache /platform/env /buildpacks /tmp/buildpacks
+

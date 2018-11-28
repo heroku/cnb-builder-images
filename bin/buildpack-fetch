@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+install_buildpack() {
+  local buildpack="${1?}"
+  local buildpackDir="/tmp/buildpacks"
+
+  name=""
+  if echo "$buildpack" | grep -q '^https://github.com/'; then
+    name="$(echo "$buildpack" | sha1sum | cut -f 1 -d ' ')"
+    git clone "$buildpack" --recursive "$buildpackDir/$name"
+  elif echo "$buildpack" | grep -q '^http'; then
+    name="$(echo "$buildpack" | sha1sum | cut -f 1 -d ' ')"
+    mkdir -p "$buildpackDir/$name"
+    curl --retry 3 -sfL "$buildpack" | tar --warning=none -xz -C "$buildpackDir/$name"
+  else
+    name="$(dirname "$buildpack")___$(basename "$buildpack")" && \
+    mkdir -p "$buildpackDir/$name" && \
+    curl --retry 3 -sfL https://buildpack-registry.s3.amazonaws.com/buildpacks/"$buildpack".tgz | tar --warning=none -xz -C "$buildpackDir/$name"
+  fi
+
+  /lifecycle/buildpack-install -buildpack "$buildpackDir/$name" -latest
+}
+
+install_buildpack ${1?}
