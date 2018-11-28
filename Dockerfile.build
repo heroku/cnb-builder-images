@@ -21,4 +21,4 @@ ENV PACK_STACK_ID "heroku-18"
 
 LABEL io.buildpacks.stack.id="heroku-18"
 
-COPY bin/buildpack-installer /usr/local/bin/buildpack-installer
+COPY bin/buildpack-install /usr/local/bin/buildpack-install
