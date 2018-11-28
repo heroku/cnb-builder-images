@@ -19,7 +19,7 @@ install_buildpack() {
     curl --retry 3 -sfL https://buildpack-registry.s3.amazonaws.com/buildpacks/"$buildpack".tgz | tar --warning=none -xz -C "$buildpackDir/$name"
   fi
 
-  /lifecycle/buildpack-install -buildpack "$buildpackDir/$name" -latest
+  /lifecycle/buildpack-install -buildpack "$buildpackDir/$name"
 }
 
 install_buildpack ${1?}

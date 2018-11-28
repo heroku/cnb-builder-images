@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="11f92221-27cd-47fa-8302-bba9074741f3" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile.build" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile.build" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/buildpack-install" beforeDir="false" afterPath="$PROJECT_DIR$/bin/buildpack-fetch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/buildpack-fetch" beforeDir="false" afterPath="$PROJECT_DIR$/bin/buildpack-fetch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/buildpack-install/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/buildpack-install/main.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,20 +14,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cmd/buildpack-install/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="12" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+            <state relative-caret-position="415">
+              <caret line="99" column="52" selection-start-line="99" selection-start-column="52" selection-end-line="99" selection-end-column="52" />
+              <folding>
+                <element signature="e#14#128#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="buildpack-fetch" pinned="false" current-in-tab="true">
+      <file leaf-file-name="buildpack-fetch" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bin/buildpack-fetch">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="315">
-              <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+              <caret line="21" column="63" selection-start-line="21" selection-start-column="63" selection-end-line="21" selection-end-column="63" />
             </state>
           </provider>
         </entry>
@@ -87,8 +89,8 @@
       <list>
         <option value="$PROJECT_DIR$/bin/buildpack-install" />
         <option value="$PROJECT_DIR$/Dockerfile.build" />
-        <option value="$PROJECT_DIR$/cmd/buildpack-install/main.go" />
         <option value="$PROJECT_DIR$/bin/buildpack-fetch" />
+        <option value="$PROJECT_DIR$/cmd/buildpack-install/main.go" />
       </list>
     </option>
   </component>
@@ -224,12 +226,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1543416464792</updated>
-      <workItem from="1543416467499" duration="3389000" />
+      <workItem from="1543416467499" duration="4146000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3389000" />
+    <option name="totallyTimeSpent" value="4146000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="0" />
@@ -245,7 +247,7 @@
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32982457" />
+      <window_info anchor="bottom" id="Terminal" weight="0.32982457" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
@@ -313,13 +315,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/buildpack-install/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="12" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Dockerfile.build">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -330,7 +325,17 @@
     <entry file="file://$PROJECT_DIR$/bin/buildpack-fetch">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <caret line="21" column="63" selection-start-line="21" selection-start-column="63" selection-end-line="21" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/buildpack-install/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="99" column="52" selection-start-line="99" selection-start-column="52" selection-end-line="99" selection-end-column="52" />
+          <folding>
+            <element signature="e#14#128#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

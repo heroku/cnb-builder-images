@@ -14,7 +14,6 @@ var (
 	buildpacksDir     string
 	orderPath         string
 	inputBuildpackDir string
-	latest            bool
 )
 
 type ErrorFail struct {
@@ -56,8 +55,6 @@ func exit(err error) {
 
 type Buildpack struct {
 	ID      string `toml:"id"`
-	URI     string `toml:"uri"`
-	Dir     string
 	Version string `toml:"version"`
 }
 
@@ -71,7 +68,6 @@ type BuildpackTOML struct {
 
 func init() {
 	flag.StringVar(&inputBuildpackDir, "buildpack", "", "local path of the buildpack to install")
-	flag.BoolVar(&latest, "latest", false, "true if this is the latest version of the buildpack")
 	flag.StringVar(&buildpacksDir, "buildpacks", "/buildpacks", "path to buildpacks directory")
 	flag.StringVar(&orderPath, "order", "/buildpacks/order.toml", "path to order.toml")
 }
@@ -93,50 +89,33 @@ func install() error {
 	}
 
 	metadata := buildpackTOML.Buildpack
+
+	if metadata.ID == "" {
+		return failErr(err, "parse buildpack ID")
+	}
+
+	if metadata.Version == "" {
+		return failErr(err, "parse buildpack version")
+	}
+
 	buildpackDirName := filepath.Base(inputBuildpackDir)
 	outputBuildpackDir := filepath.Join(buildpacksDir, buildpackDirName, metadata.Version)
-	err = os.MkdirAll(outputBuildpackDir, os.ModePerm)
-	if err != nil {
-		return failErr(err, "creating buildpack directory")
+
+	if err = os.MkdirAll(filepath.Dir(outputBuildpackDir), os.ModePerm); err != nil {
+		return failErr(err, "create buildpack directory")
 	}
 
 	if err := os.Rename(inputBuildpackDir, outputBuildpackDir); err != nil {
-		return failErr(err, "installing buildpack directory")
+		return failErr(err, "install buildpack version")
 	}
 
-	//if latest {
-	//	latestDir := filepath.Join(buildpacksDir, metadata.ID, "latest")
-	//	fileInfo, err := os.Lstat(latestDir)
-	//	if !os.IsNotExist(err) {
-	//		if fileInfo.Mode()&os.ModeSymlink == os.ModeSymlink {
-	//			err := os.Remove(latestDir)
-	//			if err != nil {
-	//				return FailErr(err, "create latest symlink")
-	//			}
-	//		}
-	//	}
-	//	os.Symlink(outputBuildpackDir, latestDir)
-	//}
-	//
-	//buildpacks, err := lifecycle.NewBuildpackMap(buildpacksDir)
-	//if err != nil {
-	//	return FailErr(err, "read buildpack directory")
-	//}
-
-	//order, err := buildpacks.ReadOrder(orderPath)
-	//if err != nil {
-	//	return FailErr(err, "read buildpack order file")
-	//}
-
-	// TODO append to order.toml
-	f, err := os.OpenFile(orderPath, os.O_APPEND|os.O_WRONLY, 0600)
+	f, err := os.OpenFile(orderPath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return failErr(err, "opening order.toml")
 	}
 	defer f.Close()
 
-	groupTemplate :=`
-[[groups]]
+	groupTemplate :=`[[groups]]
 buildpacks = [ { id = "%s", version = "%s" } ]
 `
 	_, err = f.WriteString(fmt.Sprintf(groupTemplate, metadata.ID, metadata.Version))
