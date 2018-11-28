@@ -1,0 +1,24 @@
+ARG go_version=1.11.0
+
+FROM golang:${go_version} as builder
+
+RUN mkdir -p /go/src/github.com/buildpack/
+WORKDIR /go/src/github.com/buildpack/
+RUN git clone https://github.com/buildpack/lifecycle
+RUN cd lifecycle && git fetch && git checkout fa3d26c086b09559588cfaf0c28c3efe070f0477
+WORKDIR /go/src/github.com/buildpack/lifecycle
+RUN CGO_ENABLED=0 GO111MODULE=on go install -a -installsuffix static "./cmd/..."
+
+FROM heroku/heroku:18-build
+
+COPY --from=builder /go/bin /lifecycle
+
+ENV PACK_USER_ID 0
+ENV PACK_GROUP_ID 0
+
+ENV STACK "heroku-18"
+ENV PACK_STACK_ID "heroku-18"
+
+LABEL io.buildpacks.stack.id="heroku-18"
+
+COPY bin/buildpack-installer /usr/local/bin/buildpack-installer

@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+install_buildpack() {
+  local buildpack="${1?}"
+
+  name=""
+  if echo "$buildpack" | grep -q '^https://github.com/'; then
+    name="$(echo "$buildpack" | sha1sum | cut -f 1 -d ' ')"
+    git clone "$buildpack" --recursive /tmp/buildpacks/$name
+  elif echo "$buildpack" | grep -q '^http'; then
+    name="$(echo "$buildpack" | sha1sum | cut -f 1 -d ' ')"
+    mkdir -p /tmp/buildpacks/$name
+    curl --retry 3 -sfL "$buildpack" | tar --warning=none -xz -C /tmp/buildpacks/$name
+  else
+    name="$(dirname "$buildpack")___$(basename "$buildpack")" && \
+    mkdir -p /tmp/buildpacks/$name && \
+    curl --retry 3 -sfL https://buildpack-registry.s3.amazonaws.com/buildpacks/"$buildpack".tgz | tar --warning=none -xz -C /tmp/buildpacks/$name
+  fi
+
+  local id=$(cat "/tmp/buildpacks/${name}/buildpack.toml" | yj -t | jq -r .buildpack.id)
+  local version=$(cat "/tmp/buildpacks/${name}/buildpack.toml" | yj -t | jq -r .buildpack.version)
+  mkdir -p "/buildpacks/$id"
+  mv "/tmp/buildpacks/${name}" "/buildpacks/${id}/${version}"
+  ln -s "$version" "/buildpacks/${id}/latest"
+  cat << EOF >> /buildpacks/order.toml
+[[groups]]
+buildpacks = [ { id = "${id}", version = "latest" } ]
+EOF
+}
+
+install_buildpack ${1?}
