@@ -3,6 +3,7 @@
 SHELL=/bin/bash -o pipefail
 
 build:
+	@docker pull heroku/heroku:18-build
 	@docker build -f Dockerfile.build -t heroku/pack:18-build .
 	@docker build -f Dockerfile.run -t heroku/pack:18 .
 	-pack delete-stack heroku-18
