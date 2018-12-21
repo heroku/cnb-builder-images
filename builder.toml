@@ -1,8 +1,8 @@
 [[buildpacks]]
   id = "heroku/java"
-  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.6/java-buildpack-v0.6.tgz"
+  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.7/java-buildpack-v0.7.tgz"
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/java"
-    version = "0.6"
+    version = "0.7"
