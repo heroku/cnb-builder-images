@@ -1,11 +1,11 @@
-ARG go_version=1.11.0
+ARG go_version=1.11.4
 
 FROM golang:${go_version} as builder
 
 RUN mkdir -p /go/src/github.com/buildpack/
 WORKDIR /go/src/github.com/buildpack/
 RUN git clone https://github.com/buildpack/lifecycle
-RUN cd lifecycle && git fetch && git checkout 177afa69a3ea07375b25ddb0c0ccbd674f77b3a2
+RUN cd lifecycle && git fetch && git checkout d2ca0ad81fb9
 WORKDIR /go/src/github.com/buildpack/lifecycle
 RUN CGO_ENABLED=0 GO111MODULE=on go install -a -installsuffix static "./cmd/..."
 
