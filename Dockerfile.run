@@ -5,7 +5,7 @@ FROM golang:${go_version} as builder
 RUN mkdir -p /go/src/github.com/buildpack/
 WORKDIR /go/src/github.com/buildpack/
 RUN git clone https://github.com/buildpack/lifecycle
-RUN cd lifecycle && git fetch && git checkout ec59c797880f02bd9d7592db124c7b0a280fca15
+RUN cd lifecycle && git fetch && git checkout eab76608350ea131747f02f3a907c65aec1aa879
 WORKDIR /go/src/github.com/buildpack/lifecycle
 RUN CGO_ENABLED=0 GO111MODULE=on go install -a -installsuffix static "./cmd/..."
 
