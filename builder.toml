@@ -1,8 +1,22 @@
+[stack]
+id = "heroku-18"
+build-image = "heroku/pack:18-build"
+run-image = "heroku/pack:18"
+
 [[buildpacks]]
   id = "heroku/java"
   uri = "https://github.com/heroku/java-buildpack/releases/download/v0.8/java-buildpack-v0.8.tgz"
+
+[[buildpacks]]
+  id = "heroku/nodejs"
+  uri = "buildpacks/nodejs"
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/java"
     version = "0.8"
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/nodejs"
+    version = "0.1"

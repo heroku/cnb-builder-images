@@ -20,8 +20,11 @@ COPY --from=builder /go/bin /lifecycle
 
 COPY bin/buildpack-fetch /lifecycle/buildpack-fetch
 
-ENV PACK_USER_ID 0
+ENV PACK_USER_ID 2007
 ENV PACK_GROUP_ID 0
+
+RUN mkdir -p /workspace
+RUN useradd -u 2007 -g 0 -ms /bin/bash -d /workspace/app heroku
 
 ENV STACK "heroku-18"
 ENV PACK_STACK_ID "heroku-18"
