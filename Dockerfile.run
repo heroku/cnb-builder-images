@@ -13,11 +13,14 @@ FROM heroku/heroku:18
 
 COPY --from=builder /go/bin /lifecycle
 
-ENV PACK_USER_ID 2007
-ENV PACK_GROUP_ID 0
+ARG pack_uid=1000
+ARG pack_gid=1000
+ENV PACK_USER_ID=${pack_uid}
+ENV PACK_GROUP_ID=${pack_gid}
 
 RUN mkdir -p /workspace
-RUN useradd -u 2007 -g 0 -ms /bin/bash -d /workspace/app heroku
+RUN groupadd pack --gid ${pack_gid} && \
+    useradd -u ${pack_uid} -g ${pack_gid} -ms /bin/bash -d /workspace/app heroku
 
 USER heroku
 ENV STACK "heroku-18"
