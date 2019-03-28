@@ -8,6 +8,10 @@ run-image = "heroku/pack:18"
   uri = "https://github.com/heroku/java-buildpack/releases/download/v0.8/java-buildpack-v0.8.tgz"
 
 [[buildpacks]]
+  id = "heroku/ruby"
+  uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/cnb-alpha/ruby-buildpack-vCNB-alpha.tgz"
+
+[[buildpacks]]
   id = "heroku/nodejs"
   uri = "buildpacks/nodejs"
 
@@ -15,6 +19,11 @@ run-image = "heroku/pack:18"
   [[groups.buildpacks]]
     id = "heroku/java"
     version = "0.8"
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/ruby"
+    version = "0.0.1"
 
 [[groups]]
   [[groups.buildpacks]]
