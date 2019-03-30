@@ -28,4 +28,4 @@ run-image = "heroku/pack:18"
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/nodejs"
-    version = "0.1"
+    version = "v0.0.2.0.1"
