@@ -5,7 +5,7 @@ FROM golang:${go_version} as builder
 RUN mkdir -p /go/src/github.com/buildpack/
 WORKDIR /go/src/github.com/buildpack/
 RUN git clone https://github.com/buildpack/lifecycle
-RUN cd lifecycle && git fetch && git checkout eecd1c5c1b4c105ec71aa25bfac76706faaff0b9
+RUN cd lifecycle && git fetch && git checkout 645dc4f6a36ef87807e6e50b22b59a3facaa8b4b
 WORKDIR /go/src/github.com/buildpack/lifecycle
 RUN CGO_ENABLED=0 GO111MODULE=on go install -a -installsuffix static "./cmd/..."
 
@@ -15,8 +15,8 @@ COPY --from=builder /go/bin /lifecycle
 
 ARG pack_uid=1000
 ARG pack_gid=1000
-ENV PACK_USER_ID=${pack_uid}
-ENV PACK_GROUP_ID=${pack_gid}
+ENV CNB_USER_ID=${pack_uid}
+ENV CNB_GROUP_ID=${pack_gid}
 
 RUN mkdir -p /workspace
 RUN groupadd pack --gid ${pack_gid} && \
@@ -24,5 +24,5 @@ RUN groupadd pack --gid ${pack_gid} && \
 
 USER heroku
 ENV STACK "heroku-18"
-ENV PACK_STACK_ID "heroku-18"
+ENV CNB_STACK_ID "heroku-18"
 LABEL io.buildpacks.stack.id="heroku-18"
