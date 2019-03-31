@@ -5,11 +5,15 @@ run-image = "heroku/pack:18"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.8/java-buildpack-v0.8.tgz"
+  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.11/java-buildpack-v0.11.tgz"
 
 [[buildpacks]]
   id = "heroku/ruby"
   uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/cnb-alpha/ruby-buildpack-vCNB-alpha.tgz"
+
+[[buildpacks]]
+  id = "heroku/procfile"
+  uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.2/procfile-cnb-v0.2.tgz"
 
 [[buildpacks]]
   id = "heroku/nodejs"
@@ -18,14 +22,19 @@ run-image = "heroku/pack:18"
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/java"
-    version = "0.8"
+    version = "0.11"
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/ruby"
     version = "0.0.1"
 
+  [[groups.buildpacks]]
+    id = "heroku/procfile"
+    version = "0.2"
+    optional = true
+
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/nodejs"
-    version = "v0.0.2.0.1"
+    version = "v0.0.3.0.1"
