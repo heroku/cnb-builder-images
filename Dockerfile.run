@@ -1,17 +1,21 @@
-ARG go_version=1.11.4
-
-FROM golang:${go_version} as builder
-
-RUN mkdir -p /go/src/github.com/buildpack/
-WORKDIR /go/src/github.com/buildpack/
-RUN git clone https://github.com/buildpack/lifecycle
-RUN cd lifecycle && git fetch && git checkout 645dc4f6a36ef87807e6e50b22b59a3facaa8b4b
-WORKDIR /go/src/github.com/buildpack/lifecycle
-RUN CGO_ENABLED=0 GO111MODULE=on go install -a -installsuffix static "./cmd/..."
+#ARG go_version=1.11.4
+#
+#FROM golang:${go_version} as builder
+#
+#RUN mkdir -p /go/src/github.com/buildpack/
+#WORKDIR /go/src/github.com/buildpack/
+#RUN git clone https://github.com/buildpack/lifecycle
+#RUN cd lifecycle && git fetch && git checkout c8650a97ae4bb64ad112
+#WORKDIR /go/src/github.com/buildpack/lifecycle
+#RUN CGO_ENABLED=0 GO111MODULE=on go install -a -installsuffix static "./cmd/..."
 
 FROM heroku/heroku:18
 
-COPY --from=builder /go/bin /lifecycle
+#COPY --from=builder /go/bin /lifecycle
+
+RUN mkdir -p /lifecycle
+RUN curl -sfL https://github.com/buildpack/lifecycle/releases/download/v0.1.0/lifecycle-v0.1.0+linux.x86-64.tgz | tar xz -C /lifecycle --strip-components=2
+RUN chmod +x /lifecycle/*
 
 RUN ln -s /workspace /app
 
