@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 buildpacks_dir="$(cd $(dirname $0); pwd)" # absolute path
-cnb_shim_version="v0.0.3"
+cnb_shim_version="v0.0.4"
 
 fetch_shim() {
   shim_dir="${1:?}"
@@ -34,5 +34,8 @@ TOML
 
 shim_dir="$(mktemp -d)"
 fetch_shim "${shim_dir}"
+install_buildpack "python" "Python" "${shim_dir}"
+install_buildpack "php" "PHP" "${shim_dir}"
+install_buildpack "go" "Go" "${shim_dir}"
 install_buildpack "nodejs" "Node.js" "${shim_dir}"
 rm -rf "${shim_dir}"

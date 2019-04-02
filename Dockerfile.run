@@ -13,6 +13,8 @@ FROM heroku/heroku:18
 
 COPY --from=builder /go/bin /lifecycle
 
+RUN ln -s /workspace /app
+
 ARG pack_uid=1000
 ARG pack_gid=1000
 ENV CNB_USER_ID=${pack_uid}
@@ -20,7 +22,7 @@ ENV CNB_GROUP_ID=${pack_gid}
 
 RUN mkdir -p /workspace
 RUN groupadd pack --gid ${pack_gid} && \
-    useradd -u ${pack_uid} -g ${pack_gid} -ms /bin/bash -d /workspace/app heroku
+    useradd -u ${pack_uid} -g ${pack_gid} -ms /bin/bash -d /workspace heroku
 
 USER heroku
 ENV STACK "heroku-18"
