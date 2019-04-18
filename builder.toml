@@ -5,7 +5,7 @@ run-image = "heroku/pack:18"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.11/java-buildpack-v0.11.tgz"
+  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.13/java-buildpack-v0.13.tgz"
 
 [[buildpacks]]
   id = "heroku/ruby"
@@ -18,6 +18,10 @@ run-image = "heroku/pack:18"
 [[buildpacks]]
   id = "heroku/python"
   uri = "buildpacks/python"
+
+[[buildpacks]]
+  id = "heroku/gradle"
+  uri = "buildpacks/gradle"
 
 [[buildpacks]]
   id = "heroku/php"
@@ -54,7 +58,12 @@ run-image = "heroku/pack:18"
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/java"
-    version = "0.11"
+    version = "0.13"
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/gradle"
+    version = "v0.0.4.0.1"
 
 [[groups]]
   [[groups.buildpacks]]

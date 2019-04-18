@@ -35,6 +35,7 @@ TOML
 shim_dir="$(mktemp -d)"
 fetch_shim "${shim_dir}"
 install_buildpack "python" "Python" "${shim_dir}"
+install_buildpack "gradle" "Gradle" "${shim_dir}"
 install_buildpack "php" "PHP" "${shim_dir}"
 install_buildpack "go" "Go" "${shim_dir}"
 install_buildpack "nodejs" "Node.js" "${shim_dir}"
