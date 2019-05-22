@@ -22,8 +22,8 @@ jobs:
       - run: pack build heroku/go-getting-started:test --path go-getting-started --builder heroku/buildpacks:18-test
 workflows:
   version: 2
-  jobs:
-    test-language-integrations:
+  test-languages:
+    jobs:
       - clone
       - docker-pull
       - install-buildpacks:
