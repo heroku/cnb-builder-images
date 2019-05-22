@@ -24,8 +24,8 @@ workflows:
   version: 2
   test-languages:
     jobs:
-      - clone
       - docker-pull
+      - clone
       - install-buildpacks:
           requires: clone
       - docker-build-run-image:
