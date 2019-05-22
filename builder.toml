@@ -48,7 +48,7 @@ run-image = "heroku/pack:18"
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/python"
-    version = "v0.0.4.0.1"
+    version = "v0.0.5.0.1"
 
   [[groups.buildpacks]]
     id = "heroku/procfile"
@@ -63,12 +63,12 @@ run-image = "heroku/pack:18"
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/gradle"
-    version = "v0.0.4.0.1"
+    version = "v0.0.5.0.1"
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/php"
-    version = "v0.0.4.0.1"
+    version = "v0.0.5.0.1"
 
   [[groups.buildpacks]]
     id = "heroku/procfile"
@@ -78,7 +78,7 @@ run-image = "heroku/pack:18"
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/go"
-    version = "v0.0.4.0.1"
+    version = "v0.0.5.0.1"
 
   [[groups.buildpacks]]
     id = "heroku/procfile"
@@ -88,4 +88,4 @@ run-image = "heroku/pack:18"
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/nodejs"
-    version = "v0.0.4.0.1"
+    version = "v0.0.5.0.1"
