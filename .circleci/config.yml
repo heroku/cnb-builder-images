@@ -1,0 +1,47 @@
+version: 2.0
+jobs:
+  clone:
+  docker-pull:
+    steps:
+      - run: docker pull heroku:18-build
+  install-buildpacks:
+    steps:
+      - run: ./buildpacks/install.sh
+  docker-build-run-image:
+    steps:
+      - run: docker build -f Dockerfile.run -t heroku/pack:18-test .
+  docker-build-build-image:
+    steps:
+      - run: docker build -f Dockerfile.build -t heroku/pack:18-build-test .
+  create-builder-image:
+    steps:
+      - run: pack create-builder heroku/buildpacks:18-test --builder-config builder.toml --no-pull
+  test-go:
+    steps:
+      - run: git clone git@github.com:heroku/go-getting-started
+      - run: pack build heroku/go-getting-started:test --path go-getting-started --builder heroku/buildpacks:18-test
+workflows:
+  version: 2
+  jobs:
+    test:
+      - clone
+      - docker-pull
+      - install-buildpacks:
+          requires: clone
+      - docker-build-run-image:
+          requires:
+            - clone
+            - docker-pull
+            - install-buildpacks
+      - docker-build-build-image:
+          requires:
+            - clone
+            - pull
+            - download-buildpacks
+      - create-builder-image:
+          requires:
+            - docker-build-run-image
+            - docker-build-build-image
+      - test-go:
+          requires: 
+            - create-builder-image
