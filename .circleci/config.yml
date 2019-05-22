@@ -23,7 +23,7 @@ jobs:
 workflows:
   version: 2
   jobs:
-    test:
+    test-language-integrations:
       - clone
       - docker-pull
       - install-buildpacks:
