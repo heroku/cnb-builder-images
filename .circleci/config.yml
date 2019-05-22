@@ -31,14 +31,12 @@ workflows:
             - clone
       - docker-build-run-image:
           requires:
-            - clone
             - docker-pull
             - install-buildpacks
       - docker-build-build-image:
           requires:
-            - clone
-            - pull
-            - download-buildpacks
+            - docker-pull
+            - install-buildpacks
       - create-builder-image:
           requires:
             - docker-build-run-image
