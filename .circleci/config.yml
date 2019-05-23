@@ -1,22 +1,43 @@
 version: 2.0
 jobs:
   clone:
+    docker:
+      - image: ubuntu:18.04
+    working_directory: ~/pack-images
+    steps:
+      - checkout
+      - save-cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/pack-images
   docker-pull:
+    docker:
+      - image: ubuntu:18.04
     steps:
       - run: docker pull heroku:18-build
   install-buildpacks:
+    docker:
+      - image: ubuntu:18.04
     steps:
       - run: ./buildpacks/install.sh
   docker-build-run-image:
+    docker:
+      - image: ubuntu:18.04
     steps:
       - run: docker build -f Dockerfile.run -t heroku/pack:18-test .
   docker-build-build-image:
+    docker:
+      - image: ubuntu:18.04
     steps:
       - run: docker build -f Dockerfile.build -t heroku/pack:18-build-test .
   create-builder-image:
+    docker:
+      - image: ubuntu:18.04
     steps:
       - run: pack create-builder heroku/buildpacks:18-test --builder-config builder.toml --no-pull
   test-go:
+    docker:
+      - image: ubuntu:18.04
     steps:
       - run: git clone git@github.com:heroku/go-getting-started
       - run: pack build heroku/go-getting-started:test --path go-getting-started --builder heroku/buildpacks:18-test
