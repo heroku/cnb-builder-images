@@ -1,8 +1,7 @@
 version: 2.0
 jobs:
   clone:
-    docker:
-      - image: ubuntu:18.04
+    machine: true
     working_directory: ~/pack-images
     steps:
       - checkout
@@ -14,10 +13,11 @@ jobs:
     docker:
       - image: ubuntu:18.04
     steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run: docker pull heroku:18-build
   install-buildpacks:
-    docker:
-      - image: ubuntu:18.04
+    machine: true
     steps:
       - run: ./buildpacks/install.sh
   docker-build-run-image:
