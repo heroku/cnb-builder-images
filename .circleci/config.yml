@@ -12,7 +12,7 @@ jobs:
   docker-pull:
     machine: true
     steps:
-      - run: docker pull heroku:18-build
+      - run: docker pull heroku/heroku:18-build
   install-buildpacks:
     machine: true
     working_directory: ~/pack-images
