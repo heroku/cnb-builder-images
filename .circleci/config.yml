@@ -43,11 +43,12 @@ jobs:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
       - run: docker build -f Dockerfile.build -t heroku/pack:18-build-test .
   create-builder-image:
-    docker:
-      - image: ubuntu:18.04
+    machine: true
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
       - run: pack create-builder heroku/buildpacks:18-test --builder-config builder.toml --no-pull
   test-go:
     docker:
