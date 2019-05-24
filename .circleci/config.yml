@@ -10,8 +10,7 @@ jobs:
           paths:
             - ~/pack-images
   docker-pull:
-    docker:
-      - image: ubuntu:18.04
+    machine: true
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
