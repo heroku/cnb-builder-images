@@ -12,8 +12,6 @@ jobs:
   docker-pull:
     machine: true
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run: docker pull heroku:18-build
   install-buildpacks:
     machine: true
