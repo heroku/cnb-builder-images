@@ -11,6 +11,7 @@ jobs:
   docker-prep:
     machine: true
     steps:
+      - run: mkdir -p ~/.docker
       - run: echo {} > ~/.docker/config.json
       - run: docker pull heroku/heroku:18-build
       - run: docker pull heroku/heroku:18
