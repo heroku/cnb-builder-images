@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   clone:
     docker:
-      image: circleci/golang:1.12.5
+      - image: circleci/golang:1.12.5
     steps:
       - checkout
       - save-cache:
@@ -19,7 +19,7 @@ jobs:
       - run: docker pull heroku/heroku:18
   install-buildpacks:
     docker:
-      image: circleci/golang:1.12.5
+      - image: circleci/golang:1.12.5
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -31,7 +31,7 @@ jobs:
             - ~/project/buildpacks
   docker-build-run-image:
     docker:
-      image: circleci/golang:1.12.5
+      - image: circleci/golang:1.12.5
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -42,7 +42,7 @@ jobs:
       - run: docker build -f Dockerfile.run -t heroku/pack:18 .
   docker-build-build-image:
     docker:
-      image: circleci/golang:1.12.5
+      - image: circleci/golang:1.12.5
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -53,7 +53,7 @@ jobs:
       - run: docker build -f Dockerfile.build -t heroku/pack:18-build .
   create-builder-image:
     docker:
-      image: circleci/golang:1.12.5
+      - image: circleci/golang:1.12.5
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -67,7 +67,7 @@ jobs:
       - run: pack create-builder heroku/buildpacks:18-test --builder-config builder.toml --no-pull
   test-go:
     docker:
-      image: circleci/golang:1.12.5
+      - image: circleci/golang:1.12.5
     steps:
       - run: git clone git@github.com:heroku/go-getting-started
       - run: pack build heroku/go-getting-started:test --path go-getting-started --builder heroku/buildpacks:18-test
