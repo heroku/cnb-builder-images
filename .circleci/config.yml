@@ -61,16 +61,16 @@ workflows:
   test-languages:
     jobs:
       - clone
-      - docker-pull
+      - docker-prep
       - install-buildpacks:
           requires: 
             - clone
       - docker-build-run-image:
           requires:
-            - docker-pull
+            - docker-prep
       - docker-build-build-image:
           requires:
-            - docker-pull
+            - docker-prep
       - create-builder-image:
           requires:
             - install-buildpacks
