@@ -29,6 +29,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
+      - setup_remote_docker
       - run: docker build -f Dockerfile.run -t heroku/pack:18 .
       - run: mkdir docker_cache_run
       - run: docker save heroku/pack:18 > docker_cache_run/pack-18.tar
@@ -44,6 +45,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
+      - setup_remote_docker
       - run: docker build -f Dockerfile.build -t heroku/pack:18-build .
       - run: mkdir docker_cache_build
       - run: docker save heroku/pack:18 > docker_cache_build/pack-18-build.tar
@@ -63,6 +65,7 @@ jobs:
           key: v1-docker-cache-build-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-docker-cache-run-{{ .Environment.CIRCLE_SHA1 }}
+      - setup_remote_docker
       - run: go get github.com/buildpack/pack/cmd/pack
       - run: mkdir -p ~/.docker
       - run: echo {} > ~/.docker/config.json
