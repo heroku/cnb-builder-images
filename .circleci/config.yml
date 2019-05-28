@@ -80,16 +80,14 @@ workflows:
   test-languages:
     jobs:
       - clone
-      - docker-prep
       - install-buildpacks:
           requires: 
             - clone
       - docker-build-run-image:
           requires:
-            - docker-prep
+            - clone
       - docker-build-build-image:
-          requires:
-            - docker-prep
+            - clone
       - create-builder-image:
           requires:
             - install-buildpacks
