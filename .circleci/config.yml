@@ -2,20 +2,18 @@ version: 2.0
 jobs:
   clone:
     machine: true
-    working_directory: ~/pack-images
     steps:
       - checkout
       - save-cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ~/pack-images
+            - ~/repo
   docker-pull:
     machine: true
     steps:
       - run: docker pull heroku/heroku:18-build
   install-buildpacks:
     machine: true
-    working_directory: ~/pack-images
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -23,10 +21,9 @@ jobs:
       - save-cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ~/pack-images/buildpacks
+            - ~/repo/buildpacks
   docker-build-run-image:
     machine: true
-    working_directory: ~/pack-images
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -35,7 +32,6 @@ jobs:
       - run: docker build -f Dockerfile.run -t heroku/pack:18-test .
   docker-build-build-image:
     machine: true
-    working_directory: ~/pack-images
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
@@ -44,7 +40,6 @@ jobs:
       - run: docker build -f Dockerfile.build -t heroku/pack:18-build-test .
   create-builder-image:
     machine: true
-    working_directory: ~/pack-images
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
