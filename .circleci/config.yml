@@ -9,14 +9,6 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/project
-  docker-prep:
-    docker:
-      - image: circleci/golang:1.12.5
-    steps:
-      - setup_remote_docker:
-         docker_layer_caching: true
-      - run: docker pull heroku/heroku:18-build
-      - run: docker pull heroku/heroku:18
   install-buildpacks:
     docker:
       - image: circleci/golang:1.12.5
@@ -37,9 +29,13 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
-      - setup_remote_docker:
-         docker_layer_caching: true
       - run: docker build -f Dockerfile.run -t heroku/pack:18 .
+      - run: mkdir docker_cache_run
+      - run: docker save heroku/pack:18 > docker_cache_run/pack-18.tar
+      - save-cache:
+          key: v1-docker-cache-run-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - docker_cache_run
   docker-build-build-image:
     docker:
       - image: circleci/golang:1.12.5
@@ -48,9 +44,13 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
-      - setup_remote_docker:
-         docker_layer_caching: true
       - run: docker build -f Dockerfile.build -t heroku/pack:18-build .
+      - run: mkdir docker_cache_build
+      - run: docker save heroku/pack:18 > docker_cache_build/pack-18-build.tar
+      - save-cache:
+          key: v1-docker-cache-build-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - docker_cache_build
   create-builder-image:
     docker:
       - image: circleci/golang:1.12.5
@@ -59,11 +59,15 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
-      - setup_remote_docker:
-         docker_layer_caching: true
+      - restore_cache:
+          key: v1-docker-cache-build-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-run-{{ .Environment.CIRCLE_SHA1 }}
       - run: go get github.com/buildpack/pack/cmd/pack
       - run: mkdir -p ~/.docker
       - run: echo {} > ~/.docker/config.json
+      - run: docker load < docker_cache_build/pack-18-build.tar
+      - run: docker load < docker_cache_run/pack-18.tar
       - run: pack create-builder heroku/buildpacks:18-test --builder-config builder.toml --no-pull
   test-go:
     docker:
