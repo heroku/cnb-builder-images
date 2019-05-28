@@ -17,6 +17,7 @@ jobs:
     steps:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run: pwd; ls
       - run: ./buildpacks/install.sh
       - save-cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
