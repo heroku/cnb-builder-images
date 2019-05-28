@@ -48,7 +48,7 @@ jobs:
       - setup_remote_docker
       - run: docker build -f Dockerfile.build -t heroku/pack:18-build .
       - run: mkdir docker_cache_build
-      - run: docker save heroku/pack:18 > docker_cache_build/pack-18-build.tar
+      - run: docker save heroku/pack:18-build > docker_cache_build/pack-18-build.tar
       - save-cache:
           key: v1-docker-cache-build-{{ .Environment.CIRCLE_SHA1 }}
           paths:
