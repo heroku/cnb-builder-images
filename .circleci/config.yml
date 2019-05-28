@@ -8,10 +8,12 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/project
-  docker-pull:
+  docker-prep:
     machine: true
     steps:
+      - run: echo {} > ~/.docker/config.json
       - run: docker pull heroku/heroku:18-build
+      - run: docker pull heroku/heroku:18
   install-buildpacks:
     machine: true
     steps:
@@ -66,13 +68,12 @@ workflows:
       - docker-build-run-image:
           requires:
             - docker-pull
-            - install-buildpacks
       - docker-build-build-image:
           requires:
             - docker-pull
-            - install-buildpacks
       - create-builder-image:
           requires:
+            - install-buildpacks
             - docker-build-run-image
             - docker-build-build-image
       - test-go:
