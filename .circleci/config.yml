@@ -31,7 +31,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker build -f Dockerfile.run -t heroku/pack:18-test .
+      - run: docker build -f Dockerfile.run -t heroku/pack:18 .
   docker-build-build-image:
     machine: true
     steps:
@@ -39,7 +39,7 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker build -f Dockerfile.build -t heroku/pack:18-build-test .
+      - run: docker build -f Dockerfile.build -t heroku/pack:18-build .
   create-builder-image:
     machine: true
     steps:
