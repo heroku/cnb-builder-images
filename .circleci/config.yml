@@ -7,7 +7,7 @@ jobs:
       - save-cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ~/repo
+            - ~/project
   docker-pull:
     machine: true
     steps:
@@ -22,7 +22,7 @@ jobs:
       - save-cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - ~/repo/buildpacks
+            - ~/project/buildpacks
   docker-build-run-image:
     machine: true
     steps:
