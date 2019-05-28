@@ -81,12 +81,13 @@ workflows:
     jobs:
       - clone
       - install-buildpacks:
-          requires: 
+          requires:
             - clone
       - docker-build-run-image:
           requires:
             - clone
       - docker-build-build-image:
+          requires:
             - clone
       - create-builder-image:
           requires:
@@ -94,5 +95,5 @@ workflows:
             - docker-build-run-image
             - docker-build-build-image
       - test-go:
-          requires: 
+          requires:
             - create-builder-image
