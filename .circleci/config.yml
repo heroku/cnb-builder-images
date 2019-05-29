@@ -76,7 +76,7 @@ jobs:
     docker:
       - image: circleci/golang:1.12.5
     steps:
-      - run: git clone git@github.com:heroku/go-getting-started
+      - run: git clone https://github.com/heroku/go-getting-started.git
       - run: pack build heroku/go-getting-started:test --path go-getting-started --builder heroku/buildpacks:18-test
 workflows:
   version: 2
