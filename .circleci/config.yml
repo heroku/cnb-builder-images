@@ -71,7 +71,7 @@ jobs:
       - run: echo {} > ~/.docker/config.json
       - run: docker load < docker_cache_build_base/pack-18-build.tar
       - run: docker load < docker_cache_run_base/pack-18.tar
-      - run: pack create-builder heroku/buildpacks:18-test --builder-config builder.toml --no-pull
+      - run: pack create-builder heroku/buildpacks:18 --builder-config builder.toml --no-pull
       - run: mkdir docker_cache_builder
       - run: docker save heroku/buildpacks:18 > docker_cache_builder/buildpacks-18.tar
       - save-cache:
