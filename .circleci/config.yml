@@ -96,7 +96,7 @@ jobs:
       - run: docker load < docker_cache_run_base/pack-18.tar
       - run: docker load < docker_cache_builder/buildpacks-18.tar
       - run: git clone https://github.com/heroku/go-getting-started.git
-      - run: pack build heroku/go-getting-started:test --path go-getting-started --builder heroku/buildpacks:18-test
+      - run: pack build heroku/go-getting-started:test --path go-getting-started --builder heroku/buildpacks:18
 workflows:
   version: 2
   test-languages:
