@@ -21,14 +21,3 @@ publish: build
 build-ci:
 	@docker build -f Dockerfile.ci -t heroku/pack-runner:latest .
 	@docker push heroku/pack-runner:latest
-
-test: install-buildpacks
-	@docker pull heroku/heroku:18-build
-	@docker build -f Dockerfile.build -t heroku/pack:18-build-test .
-	@docker build -f Dockerfile.run -t heroku/pack:18-test .
-	@pack create-builder heroku/buildpacks:18-test --builder-config builder.toml --no-pull
-	@rm -rf go-getting-started
-	@git clone git@github.com:heroku/go-getting-started
-	@pack build heroku/go-getting-started:test --path go-getting-started/ --builder heroku/buildpacks:18-test
-	@docker run --detach -p 3000:3000 --env PORT=3000 heroku/go-getting-started:test
-	@curl localhost:3000
