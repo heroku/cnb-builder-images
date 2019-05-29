@@ -138,3 +138,6 @@ workflows:
       - test-go:
           requires:
             - create-builder-image
+      - test-nodejs:
+          requires:
+            - create-builder-image
