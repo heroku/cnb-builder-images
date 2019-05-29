@@ -1,6 +1,4 @@
 version: 2.0
-aliases:
-  test-lang: &test_lang
 jobs:
   clone:
     docker:
