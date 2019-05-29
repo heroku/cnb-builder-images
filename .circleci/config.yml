@@ -88,6 +88,7 @@ jobs:
           key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+      - setup_remote_docker
       - run: go get github.com/buildpack/pack/cmd/pack
       - run: mkdir -p ~/.docker
       - run: echo {} > ~/.docker/config.json
