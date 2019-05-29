@@ -18,6 +18,10 @@ publish: build
 	@docker push heroku/buildpacks:18
 	@docker push heroku/buildpacks:latest
 
+build-ci:
+	@docker build -f Dockerfile.ci -t heroku/pack-runner:latest .
+	@docker push heroku/pack-runner:latest
+
 test: install-buildpacks
 	@docker pull heroku/heroku:18-build
 	@docker build -f Dockerfile.build -t heroku/pack:18-build-test .
