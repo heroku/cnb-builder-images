@@ -96,6 +96,26 @@ jobs:
       - run: docker load < docker_cache_builder/buildpacks-18.tar
       - run: git clone https://github.com/heroku/go-getting-started.git
       - run: pack build heroku/go-getting-started:test --path go-getting-started --builder heroku/buildpacks:18
+  test-nodejs:
+    docker:
+      - image: circleci/golang:1.12.5
+    steps:
+      - restore_cache:
+          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+      - setup_remote_docker
+      - run: go get github.com/buildpack/pack/cmd/pack
+      - run: mkdir -p ~/.docker
+      - run: echo {} > ~/.docker/config.json
+      - run: docker load < docker_cache_build_base/pack-18-build.tar
+      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: docker load < docker_cache_builder/buildpacks-18.tar
+      - run: git clone https://github.com/heroku/nodejs-getting-started.git
+      - run: pack build heroku/nodejs-getting-started:test --path go-getting-started --builder heroku/buildpacks:18
+
 workflows:
   version: 2
   test-languages:
