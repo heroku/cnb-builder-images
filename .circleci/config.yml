@@ -113,8 +113,8 @@ jobs:
       - run: docker load < docker_cache_build_base/pack-18-build.tar
       - run: docker load < docker_cache_run_base/pack-18.tar
       - run: docker load < docker_cache_builder/buildpacks-18.tar
-      - run: git clone https://github.com/heroku/nodejs-getting-started.git
-      - run: pack build heroku/nodejs-getting-started:test --path go-getting-started --builder heroku/buildpacks:18
+      - run: git clone https://github.com/heroku/node-js-getting-started.git
+      - run: pack build heroku/node-js-getting-started:test --path go-getting-started --builder heroku/buildpacks:18
 
 workflows:
   version: 2
