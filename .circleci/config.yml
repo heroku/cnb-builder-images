@@ -5,7 +5,7 @@ jobs:
       - image: heroku/pack-runner:latest
     steps:
       - checkout
-      - save-cache:
+      - save_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/project
@@ -16,7 +16,7 @@ jobs:
       - restore_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run: ./buildpacks/install.sh
-      - save-cache:
+      - save_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/project/buildpacks
@@ -32,7 +32,7 @@ jobs:
       - run: docker build -f Dockerfile.run -t heroku/pack:18 .
       - run: mkdir docker_cache_run_base
       - run: docker save heroku/pack:18 > docker_cache_run_base/pack-18.tar
-      - save-cache:
+      - save_cache:
           key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - docker_cache_run_base
@@ -48,7 +48,7 @@ jobs:
       - run: docker build -f Dockerfile.build -t heroku/pack:18-build .
       - run: mkdir docker_cache_build_base
       - run: docker save heroku/pack:18-build > docker_cache_build_base/pack-18-build.tar
-      - save-cache:
+      - save_cache:
           key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - docker_cache_build_base
@@ -70,7 +70,7 @@ jobs:
       - run: pack create-builder heroku/buildpacks:18 --builder-config builder.toml --no-pull
       - run: mkdir docker_cache_builder
       - run: docker save heroku/buildpacks:18 > docker_cache_builder/buildpacks-18.tar
-      - save-cache:
+      - save_cache:
           key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - docker_cache_builder
