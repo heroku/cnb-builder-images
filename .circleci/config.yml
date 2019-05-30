@@ -1,0 +1,209 @@
+version: 2.0
+jobs:
+  clone:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - checkout
+      - save-cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/project
+  install-buildpacks:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run: ./buildpacks/install.sh
+      - save-cache:
+          key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/project/buildpacks
+  docker-build-run-image:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
+      - setup_remote_docker
+      - run: docker build -f Dockerfile.run -t heroku/pack:18 .
+      - run: mkdir docker_cache_run_base
+      - run: docker save heroku/pack:18 > docker_cache_run_base/pack-18.tar
+      - save-cache:
+          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - docker_cache_run_base
+  docker-build-build-image:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
+      - setup_remote_docker
+      - run: docker build -f Dockerfile.build -t heroku/pack:18-build .
+      - run: mkdir docker_cache_build_base
+      - run: docker save heroku/pack:18-build > docker_cache_build_base/pack-18-build.tar
+      - save-cache:
+          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - docker_cache_build_base
+  create-builder-image:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+      - setup_remote_docker
+      - run: docker load < docker_cache_build_base/pack-18-build.tar
+      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: pack create-builder heroku/buildpacks:18 --builder-config builder.toml --no-pull
+      - run: mkdir docker_cache_builder
+      - run: docker save heroku/buildpacks:18 > docker_cache_builder/buildpacks-18.tar
+      - save-cache:
+          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - docker_cache_builder
+  test-go:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - run: git clone https://github.com/heroku/go-getting-started.git getting_started
+      - setup_remote_docker
+      - restore_cache:
+          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+      - run: docker load < docker_cache_build_base/pack-18-build.tar
+      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: docker load < docker_cache_builder/buildpacks-18.tar
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+  test-java:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - run: git clone https://github.com/heroku/java-getting-started.git getting_started
+      - setup_remote_docker
+      - restore_cache:
+          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+      - run: docker load < docker_cache_build_base/pack-18-build.tar
+      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: docker load < docker_cache_builder/buildpacks-18.tar
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+  test-nodejs:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - run: git clone https://github.com/heroku/node-js-getting-started.git getting_started
+      - setup_remote_docker
+      - restore_cache:
+          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+      - run: docker load < docker_cache_build_base/pack-18-build.tar
+      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: docker load < docker_cache_builder/buildpacks-18.tar
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+  test-php:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - run: git clone https://github.com/heroku/php-getting-started.git getting_started
+      - setup_remote_docker
+      - restore_cache:
+          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+      - run: docker load < docker_cache_build_base/pack-18-build.tar
+      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: docker load < docker_cache_builder/buildpacks-18.tar
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+  test-python:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - run: git clone https://github.com/heroku/python-getting-started.git getting_started
+      - setup_remote_docker
+      - restore_cache:
+          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+      - run: docker load < docker_cache_build_base/pack-18-build.tar
+      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: docker load < docker_cache_builder/buildpacks-18.tar
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+  test-ruby:
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - run: git clone https://github.com/heroku/ruby-getting-started.git getting_started
+      - setup_remote_docker
+      - restore_cache:
+          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+      - run: docker load < docker_cache_build_base/pack-18-build.tar
+      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: docker load < docker_cache_builder/buildpacks-18.tar
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+workflows:
+  version: 2
+  test-languages:
+    jobs:
+      - clone
+      - install-buildpacks:
+          requires:
+            - clone
+      - docker-build-run-image:
+          requires:
+            - clone
+      - docker-build-build-image:
+          requires:
+            - clone
+      - create-builder-image:
+          requires:
+            - install-buildpacks
+            - docker-build-run-image
+            - docker-build-build-image
+      - test-go:
+          requires:
+            - create-builder-image
+      - test-java:
+          requires:
+            - create-builder-image
+      - test-nodejs:
+          requires:
+            - create-builder-image
+      - test-php:
+          requires:
+            - create-builder-image
+      - test-python:
+          requires:
+            - create-builder-image
+      - test-ruby:
+          requires:
+            - create-builder-image

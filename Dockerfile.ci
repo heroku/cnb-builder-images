@@ -1,0 +1,4 @@
+FROM circleci/golang:1.12.5
+RUN mkdir ~/.docker
+RUN echo '{}' > ~/.docker/config.json
+RUN go get github.com/buildpack/pack/cmd/pack
