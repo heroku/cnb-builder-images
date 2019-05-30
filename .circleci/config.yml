@@ -94,7 +94,6 @@ jobs:
       - run: docker load < docker_cache_run_base/pack-18.tar
       - run: docker load < docker_cache_builder/buildpacks-18.tar
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
-
 workflows:
   version: 2
   test-languages:
@@ -125,7 +124,7 @@ workflows:
           requires:
             - create-builder-image
       - test-getting-started-guide:
-          language: nodejs
+          language: node-js
           name: Test Node.js
           requires:
             - create-builder-image
