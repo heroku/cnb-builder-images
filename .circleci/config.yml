@@ -1,4 +1,4 @@
-version: 2.0
+version: 2.1
 jobs:
   clone:
     docker:
@@ -74,11 +74,15 @@ jobs:
           key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - docker_cache_builder
-  test-go:
+  test-getting-started-guide:
+    parameters:
+      language:
+        description: "Language"
+        type: string
     docker:
       - image: heroku/pack-runner:latest
     steps:
-      - run: git clone https://github.com/heroku/go-getting-started.git getting_started
+      - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - setup_remote_docker
       - restore_cache:
           key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
@@ -90,86 +94,7 @@ jobs:
       - run: docker load < docker_cache_run_base/pack-18.tar
       - run: docker load < docker_cache_builder/buildpacks-18.tar
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
-  test-java:
-    docker:
-      - image: heroku/pack-runner:latest
-    steps:
-      - run: git clone https://github.com/heroku/java-getting-started.git getting_started
-      - setup_remote_docker
-      - restore_cache:
-          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker load < docker_cache_build_base/pack-18-build.tar
-      - run: docker load < docker_cache_run_base/pack-18.tar
-      - run: docker load < docker_cache_builder/buildpacks-18.tar
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
-  test-nodejs:
-    docker:
-      - image: heroku/pack-runner:latest
-    steps:
-      - run: git clone https://github.com/heroku/node-js-getting-started.git getting_started
-      - setup_remote_docker
-      - restore_cache:
-          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker load < docker_cache_build_base/pack-18-build.tar
-      - run: docker load < docker_cache_run_base/pack-18.tar
-      - run: docker load < docker_cache_builder/buildpacks-18.tar
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
-  test-php:
-    docker:
-      - image: heroku/pack-runner:latest
-    steps:
-      - run: git clone https://github.com/heroku/php-getting-started.git getting_started
-      - setup_remote_docker
-      - restore_cache:
-          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker load < docker_cache_build_base/pack-18-build.tar
-      - run: docker load < docker_cache_run_base/pack-18.tar
-      - run: docker load < docker_cache_builder/buildpacks-18.tar
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
-  test-python:
-    docker:
-      - image: heroku/pack-runner:latest
-    steps:
-      - run: git clone https://github.com/heroku/python-getting-started.git getting_started
-      - setup_remote_docker
-      - restore_cache:
-          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker load < docker_cache_build_base/pack-18-build.tar
-      - run: docker load < docker_cache_run_base/pack-18.tar
-      - run: docker load < docker_cache_builder/buildpacks-18.tar
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
-  test-ruby:
-    docker:
-      - image: heroku/pack-runner:latest
-    steps:
-      - run: git clone https://github.com/heroku/ruby-getting-started.git getting_started
-      - setup_remote_docker
-      - restore_cache:
-          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker load < docker_cache_build_base/pack-18-build.tar
-      - run: docker load < docker_cache_run_base/pack-18.tar
-      - run: docker load < docker_cache_builder/buildpacks-18.tar
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+
 workflows:
   version: 2
   test-languages:
@@ -189,21 +114,33 @@ workflows:
             - install-buildpacks
             - docker-build-run-image
             - docker-build-build-image
-      - test-go:
+      - test-getting-started-guide:
+          language: go
+          name: Test Go
+          requires:
+           - create-builder-image
+      - test-getting-started-guide:
+          language: java
+          name: Test Java
           requires:
             - create-builder-image
-      - test-java:
+      - test-getting-started-guide:
+          language: nodejs
+          name: Test Node.js
           requires:
             - create-builder-image
-      - test-nodejs:
+      - test-getting-started-guide:
+          language: php
+          name: Test PHP
           requires:
             - create-builder-image
-      - test-php:
+      - test-getting-started-guide:
+          language: Python
+          name: Test Python
           requires:
             - create-builder-image
-      - test-python:
-          requires:
-            - create-builder-image
-      - test-ruby:
+      - test-getting-started-guide:
+          language: Ruby
+          name: Test Ruby
           requires:
             - create-builder-image
