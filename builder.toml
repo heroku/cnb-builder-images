@@ -43,17 +43,6 @@ run-image = "heroku/pack:18"
   uri = "buildpacks/nodejs"
   latest = true
 
-[[buildpacks]]
-  id = "io.projectriff.node"
-  uri = "https://github.com/hone/node-function-buildpack/releases/download/0.1.1-BUILD-20190509.224625-1/io.projectriff.node-0.1.1-BUILD-20190509.234958-1.tgz"
-
-[[groups]]
-  # node functions
-  buildpacks = [
-    { id = "heroku/nodejs", version = "v0.0.5.0.1" },
-    { id = "io.projectriff.node", version = "0.1.1-BUILD-SNAPSHOT" },
-  ]
-
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/ruby"
