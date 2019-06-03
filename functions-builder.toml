@@ -45,7 +45,7 @@ run-image = "heroku/pack:18"
 
 [[buildpacks]]
   id = "io.projectriff.node"
-  uri = "https://github.com/hone/node-function-buildpack/releases/download/0.1.1-BUILD-20190509.224625-1/io.projectriff.node-0.1.1-BUILD-20190509.234958-1.tgz"
+  uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.1.1/node-function-buildpack-0.1.1.tgz"
 
 [[groups]]
   # node functions
