@@ -44,14 +44,14 @@ run-image = "heroku/pack:18"
   latest = true
 
 [[buildpacks]]
-  id = "io.projectriff.node"
+  id = "heroku/node-function"
   uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.1.1/node-function-buildpack-0.1.1.tgz"
 
 [[groups]]
   # node functions
   buildpacks = [
-    { id = "heroku/nodejs", version = "v0.0.5.0.1" },
-    { id = "io.projectriff.node", version = "0.1.1-BUILD-SNAPSHOT" },
+    { id = "heroku/nodejs", version = "latest" },
+    { id = "heroku/node-function", version = "0.1.1-BUILD-SNAPSHOT" },
   ]
 
 [[groups]]
