@@ -1,0 +1,110 @@
+[stack]
+id = "heroku-18"
+build-image = "heroku/pack:18-build"
+run-image = "heroku/pack:18"
+
+[[buildpacks]]
+  id = "heroku/java"
+  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.13/java-buildpack-v0.13.tgz"
+  latest = true
+
+[[buildpacks]]
+  id = "heroku/ruby"
+  uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/cnb-alpha/ruby-buildpack-vCNB-alpha.tgz"
+  latest = true
+
+[[buildpacks]]
+  id = "heroku/procfile"
+  uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.2/procfile-cnb-v0.2.tgz"
+  latest = true
+
+[[buildpacks]]
+  id = "heroku/python"
+  uri = "buildpacks/python"
+  latest = true
+
+[[buildpacks]]
+  id = "heroku/gradle"
+  uri = "buildpacks/gradle"
+  latest = true
+
+[[buildpacks]]
+  id = "heroku/php"
+  uri = "buildpacks/php"
+  latest = true
+
+[[buildpacks]]
+  id = "heroku/go"
+  uri = "buildpacks/go"
+  latest = true
+
+[[buildpacks]]
+  id = "heroku/nodejs"
+  uri = "buildpacks/nodejs"
+  latest = true
+
+[[buildpacks]]
+  id = "heroku/node-function"
+  uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.2.0/node-function-buildpack-0.2.0.tgz"
+
+[[groups]]
+  # node functions
+  buildpacks = [
+    { id = "heroku/nodejs", version = "latest" },
+    { id = "heroku/node-function", version = "0.2.0" },
+  ]
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/ruby"
+    version = "latest"
+
+  [[groups.buildpacks]]
+    id = "heroku/procfile"
+    version = "latest"
+    optional = true
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/python"
+    version = "latest"
+
+  [[groups.buildpacks]]
+    id = "heroku/procfile"
+    version = "latest"
+    optional = true
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/java"
+    version = "latest"
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/gradle"
+    version = "latest"
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/php"
+    version = "latest"
+
+  [[groups.buildpacks]]
+    id = "heroku/procfile"
+    version = "latest"
+    optional = true
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/go"
+    version = "latest"
+
+  [[groups.buildpacks]]
+    id = "heroku/procfile"
+    version = "latest"
+    optional = true
+
+[[groups]]
+  [[groups.buildpacks]]
+    id = "heroku/nodejs"
+    version = "latest"
