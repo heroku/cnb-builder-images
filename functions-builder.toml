@@ -10,11 +10,11 @@ run-image = "heroku/pack:18"
 
 [[buildpacks]]
   id = "heroku/node-function"
-  uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.4.0/node-function-buildpack-v0.4.0.tgz"
+  uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.4.1/node-function-buildpack-v0.4.1.tgz"
 
 [[groups]]
   # node functions
   buildpacks = [
     { id = "heroku/nodejs", version = "latest" },
-    { id = "heroku/node-function", version = "0.4.0" },
+    { id = "heroku/node-function", version = "0.4.1" },
   ]
