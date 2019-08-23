@@ -3,10 +3,11 @@ package main
 import (
 	"errors"
 	"flag"
+	"fmt"
 	"os"
 	"path/filepath"
-	"fmt"
 	"strings"
+
 	"github.com/BurntSushi/toml"
 )
 
@@ -115,7 +116,7 @@ func install() error {
 	}
 	defer f.Close()
 
-	groupTemplate :=`[[groups]]
+	groupTemplate := `[[groups]]
 buildpacks = [ { id = "%s", version = "%s" } ]
 `
 	_, err = f.WriteString(fmt.Sprintf(groupTemplate, metadata.ID, metadata.Version))
