@@ -6,7 +6,6 @@ run-image = "heroku/pack:18"
 [[buildpacks]]
   id = "heroku/nodejs"
   uri = "buildpacks/nodejs"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/node-function"
@@ -24,8 +23,8 @@ run-image = "heroku/pack:18"
 [[groups]]
   # node functions
   buildpacks = [
-    { id = "heroku/nodejs", version = "latest" },
-    { id = "heroku/node-function", version = "0.4.2" },
+    { id = "heroku/nodejs", version = "v0.0.5.0.1" },
+    { id = "heroku/node-function", version = "0.4.0" },
   ]
 
 [[groups]]
