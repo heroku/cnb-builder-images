@@ -12,9 +12,25 @@ run-image = "heroku/pack:18"
   id = "heroku/node-function"
   uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.4.2/node-function-buildpack-v0.4.2.tgz"
 
+[[buildpacks]]
+  id = "heroku/java"
+  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.13/java-buildpack-v0.13.tgz"
+  latest = true
+
+[[buildpacks]]
+  id = "heroku/java-function"
+  uri = "https://github.com/heroku/java-function-buildpack/releases/download/v0.2.0/java-function-buildpack-v0.2.0.tgz"
+
 [[groups]]
   # node functions
   buildpacks = [
     { id = "heroku/nodejs", version = "latest" },
     { id = "heroku/node-function", version = "0.4.2" },
+  ]
+
+[[groups]]
+  # java functions
+  buildpacks = [
+    { id = "heroku/java", version = "latest" },
+    { id = "heroku/java-function", version = "0.2.0" },
   ]
