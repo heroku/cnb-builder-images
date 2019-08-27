@@ -3,97 +3,92 @@ id = "heroku-18"
 build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
+[lifecycle]
+version = "0.3.0"
+
 [[buildpacks]]
   id = "heroku/java"
   uri = "https://github.com/heroku/java-buildpack/releases/download/v0.13/java-buildpack-v0.13.tgz"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/ruby"
   uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/cnb-alpha/ruby-buildpack-vCNB-alpha.tgz"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/procfile"
   uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.2/procfile-cnb-v0.2.tgz"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/python"
   uri = "buildpacks/python"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/gradle"
   uri = "buildpacks/gradle"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/php"
   uri = "buildpacks/php"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/go"
   uri = "buildpacks/go"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/nodejs"
   uri = "buildpacks/nodejs"
-  latest = true
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/ruby"
-    version = "latest"
+    version = "0.0.1"
 
   [[groups.buildpacks]]
     id = "heroku/procfile"
-    version = "latest"
+    version = "0.2"
     optional = true
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/python"
-    version = "latest"
+    version = "v0.0.5.0.1"
 
   [[groups.buildpacks]]
     id = "heroku/procfile"
-    version = "latest"
+    version = "0.2"
     optional = true
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/java"
-    version = "latest"
+    version = "0.13"
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/gradle"
-    version = "latest"
+    version = "v0.0.5.0.1"
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/php"
-    version = "latest"
+    version = "v0.0.5.0.1"
 
   [[groups.buildpacks]]
     id = "heroku/procfile"
-    version = "latest"
+    version = "0.2"
     optional = true
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/go"
-    version = "latest"
+    version = "v0.0.5.0.1"
 
   [[groups.buildpacks]]
     id = "heroku/procfile"
-    version = "latest"
+    version = "0.2"
     optional = true
 
 [[groups]]
   [[groups.buildpacks]]
     id = "heroku/nodejs"
-    version = "latest"
+    version = "v0.0.5.0.1"

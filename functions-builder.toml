@@ -3,10 +3,12 @@ id = "heroku-18"
 build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
+[lifecycle]
+version = "0.3.0"
+
 [[buildpacks]]
   id = "heroku/nodejs"
   uri = "buildpacks/nodejs"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/node-function"
@@ -15,7 +17,6 @@ run-image = "heroku/pack:18"
 [[buildpacks]]
   id = "heroku/java"
   uri = "https://github.com/heroku/java-buildpack/releases/download/v0.13/java-buildpack-v0.13.tgz"
-  latest = true
 
 [[buildpacks]]
   id = "heroku/java-function"
@@ -24,13 +25,13 @@ run-image = "heroku/pack:18"
 [[groups]]
   # node functions
   buildpacks = [
-    { id = "heroku/nodejs", version = "latest" },
+    { id = "heroku/nodejs", version = "v0.0.5.0.1" },
     { id = "heroku/node-function", version = "0.4.2" },
   ]
 
 [[groups]]
   # java functions
   buildpacks = [
-    { id = "heroku/java", version = "latest" },
+    { id = "heroku/java", version = "0.13" },
     { id = "heroku/java-function", version = "0.2.0" },
   ]
