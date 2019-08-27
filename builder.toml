@@ -3,6 +3,9 @@ id = "heroku-18"
 build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
+[lifecycle]
+version = "0.3.0"
+
 [[buildpacks]]
   id = "heroku/java"
   uri = "https://github.com/heroku/java-buildpack/releases/download/v0.13/java-buildpack-v0.13.tgz"
