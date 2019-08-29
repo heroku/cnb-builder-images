@@ -4,7 +4,7 @@ build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
 [lifecycle]
-version = "0.3.0"
+version = "0.4.0"
 
 [[buildpacks]]
   id = "heroku/java"
@@ -38,57 +38,57 @@ version = "0.3.0"
   id = "heroku/nodejs"
   uri = "buildpacks/nodejs"
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/ruby"
     version = "0.0.1"
 
-  [[groups.buildpacks]]
+  [[order.group]]
     id = "heroku/procfile"
     version = "0.2"
     optional = true
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/python"
     version = "v0.0.5.0.1"
 
-  [[groups.buildpacks]]
+  [[order.group]]
     id = "heroku/procfile"
     version = "0.2"
     optional = true
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/java"
     version = "0.13"
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/gradle"
     version = "v0.0.5.0.1"
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/php"
     version = "v0.0.5.0.1"
 
-  [[groups.buildpacks]]
+  [[order.group]]
     id = "heroku/procfile"
     version = "0.2"
     optional = true
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/go"
     version = "v0.0.5.0.1"
 
-  [[groups.buildpacks]]
+  [[order.group]]
     id = "heroku/procfile"
     version = "0.2"
     optional = true
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/nodejs"
     version = "v0.0.5.0.1"
