@@ -98,13 +98,13 @@ jobs:
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
   publish-image:
     parameters:
-      local_image:
+      image_file:
         description: "Name of the local image archive to publish"
         type: string
-      remote_image:
+      image_tag:
         description: "Name of the dockerhub image to publish"
         type: string
-      remote_image_alias:
+      image_tag_alias:
         description: "Name of dockerhub image alias to publish"
         type: string
     docker:
@@ -113,12 +113,11 @@ jobs:
       - setup_remote_docker
       - run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
       - restore_cache:
-          key: v1-docker-cache-<< parameters.local_image >>-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker load < docker_cache_<< parameters.local_image >>/<< parameters.local_image >>.tar
-      - run: docker tag << parameters.local_image >> << parameters.remote_image >>
-      - run: docker tag << parameters.local_image >> << parameters.remote_image_alias >>
-      - run: docker push << parameters.remote_image >>
-      - run: docker push << parameters.remote_image_alias >>
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.image_file >>
+      - run: docker load < << parameters.image_file >>
+      - run: docker push << parameters.image_tag >>
+      - run: docker tag << parameters.image_file >> << parameters.image_tag_alias >>
+      - run: docker push << parameters.image_tag_alias >>
 workflows:
   version: 2
   build-test-deploy:
@@ -190,10 +189,10 @@ workflows:
           requires:
             - create-service-builder
       - publish-image:
-          name: publish-service-builder
-          local_image: buildpacks-18
-          remote_image: heroku/buildpacks:18
-          remote_image_alias: heroku/buildpacks:latest
+          name: publish-build-stack
+          image_file: pack-18-build.tar
+          image_tag: heroku/pack:18-build
+          image_tag_alias: heroku/pack:18-build
           requires:
             - test-go
             - test-java
@@ -202,15 +201,30 @@ workflows:
             - test-python
             - test-ruby
       - publish-image:
-          name: publish-functions-builder
-          local_image: functions-buildpacks-18
-          remote_image: heroku/functions-buildpacks:18
-          remote_image_alias: heroku/functions-buildpacks:latest
+          name: publish-run-stack
+          image_file: pack-18-run.tar
+          image_tag: heroku/pack:18
+          image_tag_alias: heroku/pack:18
           requires:
-            - create-functions-builder
             - test-go
             - test-java
             - test-node-js
             - test-php
             - test-python
             - test-ruby
+      - publish-image:
+          name: publish-service-builder
+          image_file: buildpacks-18.tar
+          image_tag: heroku/buildpacks:18
+          image_tag_alias: heroku/buildpacks:latest
+          requires:
+            - publish-build-stack
+            - publish-run-stack
+      - publish-image:
+          name: publish-functions-builder
+          image_file: functions-buildpacks-18
+          image_file: heroku/functions-buildpacks:18
+          image_tag_alias: heroku/functions-buildpacks:latest
+          requires:
+            - publish-build-stack
+            - publish-run-stack
