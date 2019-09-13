@@ -20,7 +20,7 @@ jobs:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/project/buildpacks
-  docker-build-run-image:
+  create-run-image:
     docker:
       - image: heroku/pack-runner:latest
     steps:
@@ -36,7 +36,7 @@ jobs:
           key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - docker_cache_run_base
-  docker-build-build-image:
+  create-build-image:
     docker:
       - image: heroku/pack-runner:latest
     steps:
@@ -75,7 +75,7 @@ jobs:
       - run: docker load < docker_cache_build_base/pack-18-build.tar
       - run: docker load < docker_cache_run_base/pack-18.tar
       - run: pack create-builder << parameters.imagename >> --builder-config << parameters.buildertoml >> --no-pull
-      - run: mkdir docker_cache_builder
+      - run: mkdir docker_cache_<< parameters.imagename >>
       - run: docker save << parameters.imagename >> > docker_cache_<< parameters.imagename >>/<< parameters.imagename >>.tar
       - save_cache:
           key: v1-docker-cache-<< parameters.imagename >>-{{ .Environment.CIRCLE_SHA1 }}
@@ -103,61 +103,61 @@ jobs:
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
 workflows:
   version: 2
-  test-languages:
+  build-test-deploy:
     jobs:
       - clone
       - install-buildpacks:
           requires:
             - clone
-      - docker-build-run-image:
+      - create-run-image:
           requires:
             - clone
-      - docker-build-build-image:
+      - create-build-image:
           requires:
             - clone
       - create-pack-builder:
-          name: create-pack-builder-buildpacks
+          name: create-service-builder
           imagename: buildpacks-18
           buildertoml: builder.toml
           requires:
             - install-buildpacks
-            - docker-build-run-image
-            - docker-build-build-image
+            - create-run-image
+            - create-build-image
       - create-pack-builder:
-          name: create-pack-builder-functions-buildpacks
+          name: create-functions-builder
           imagename: functions-buildpacks-18
           buildertoml: functions-builder.toml
           requires:
             - install-buildpacks
-            - docker-build-run-image
-            - docker-build-build-image
+            - create-run-image
+            - create-build-image
       - test-getting-started-guide:
           language: go
           name: Test Go
           requires:
-            - create-pack-builder-buildpacks
+            - create-service-builder
       - test-getting-started-guide:
           language: java
           name: Test Java
           requires:
-            - create-pack-builder-buildpacks
+            - create-service-builder
       - test-getting-started-guide:
           language: node-js
           name: Test Node.js
           requires:
-            - create-pack-builder-buildpacks
+            - create-service-builder
       - test-getting-started-guide:
           language: php
           name: Test PHP
           requires:
-            - create-pack-builder-buildpacks
+            - create-service-builder
       - test-getting-started-guide:
           language: Python
           name: Test Python
           requires:
-            - create-pack-builder-buildpacks
+            - create-service-builder
       - test-getting-started-guide:
           language: Ruby
           name: Test Ruby
           requires:
-            - create-pack-builder-buildpacks
+            - create-service-builder
