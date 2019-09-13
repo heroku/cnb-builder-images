@@ -52,7 +52,7 @@ jobs:
           key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - docker_cache_build_base
-  create-builder-image:
+  create-pack-builder:
     parameters:
       buildertoml:
         description: "Builder toml"
@@ -115,16 +115,16 @@ workflows:
       - docker-build-build-image:
           requires:
             - clone
-      - create-builder-image:
-          name: create-pack-builder
+      - create-pack-builder:
+          name: create-pack-builder-buildpacks
           imagename: buildpacks-18
           buildertoml: builder.toml
           requires:
             - install-buildpacks
             - docker-build-run-image
             - docker-build-build-image
-      - create-builder-image:
-          name: create-pack-functions-builder
+      - create-pack-builder:
+          name: create-pack-builder-functions-buildpacks
           imagename: functions-buildpacks-18
           buildertoml: functions-builder.toml
           requires:
@@ -135,29 +135,29 @@ workflows:
           language: go
           name: Test Go
           requires:
-           - create-builder-image
+            - create-pack-builder-buildpacks
       - test-getting-started-guide:
           language: java
           name: Test Java
           requires:
-            - create-builder-image
+            - create-pack-builder-buildpacks
       - test-getting-started-guide:
           language: node-js
           name: Test Node.js
           requires:
-            - create-builder-image
+            - create-pack-builder-buildpacks
       - test-getting-started-guide:
           language: php
           name: Test PHP
           requires:
-            - create-builder-image
+            - create-pack-builder-buildpacks
       - test-getting-started-guide:
           language: Python
           name: Test Python
           requires:
-            - create-builder-image
+            - create-pack-builder-buildpacks
       - test-getting-started-guide:
           language: Ruby
           name: Test Ruby
           requires:
-            - create-builder-image
+            - create-pack-builder-buildpacks
