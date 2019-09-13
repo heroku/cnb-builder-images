@@ -223,7 +223,7 @@ workflows:
       - publish-image:
           name: publish-functions-builder
           image_file: functions-buildpacks-18
-          image_file: heroku/functions-buildpacks:18
+          image_tag: heroku/functions-buildpacks:18
           image_tag_alias: heroku/functions-buildpacks:latest
           requires:
             - publish-build-stack
