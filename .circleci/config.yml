@@ -115,6 +115,7 @@ jobs:
     docker:
       - image: heroku/pack-runner:latest
     steps:
+      - setup_remote_docker
       - restore_cache:
           key: v1-docker-cache-<< parameters.local_image >>-{{ .Environment.CIRCLE_SHA1 }}
       - run: docker load < docker_cache_<< parameters.local_image >>/<< parameters.local_image >>.tar
