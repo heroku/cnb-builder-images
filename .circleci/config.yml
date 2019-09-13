@@ -53,6 +53,13 @@ jobs:
           paths:
             - docker_cache_build_base
   create-builder-image:
+    parameters:
+      buildertoml:
+        description: "Builder toml"
+        type: string
+      imagename:
+        description: "Name of the image"
+        type: string
     docker:
       - image: heroku/pack-runner:latest
     steps:
@@ -67,9 +74,9 @@ jobs:
       - setup_remote_docker
       - run: docker load < docker_cache_build_base/pack-18-build.tar
       - run: docker load < docker_cache_run_base/pack-18.tar
-      - run: pack create-builder heroku/buildpacks:18 --builder-config builder.toml --no-pull
+      - run: pack create-builder << parameters.imagename >> --builder-config << parameters.buildertoml >> --no-pull
       - run: mkdir docker_cache_builder
-      - run: docker save heroku/buildpacks:18 > docker_cache_builder/buildpacks-18.tar
+      - run: docker save << parameters.imagename >> > docker_cache_builder/<< parameters.imagename >>.tar
       - save_cache:
           key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
           paths:
@@ -109,6 +116,17 @@ workflows:
           requires:
             - clone
       - create-builder-image:
+          name: create-pack-builder
+          imagename: buildpacks-18
+          buildertoml: builder.toml
+          requires:
+            - install-buildpacks
+            - docker-build-run-image
+            - docker-build-build-image
+      - create-builder-image:
+          name: create-pack-functions-builder
+          imagename: functions-buildpacks-18
+          buildertoml: functions-builder.toml
           requires:
             - install-buildpacks
             - docker-build-run-image
