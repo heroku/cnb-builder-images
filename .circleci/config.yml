@@ -154,32 +154,32 @@ workflows:
             - create-build-image
       - test-getting-started-guide:
           language: go
-          name: Test Go
+          name: test-go
           requires:
             - create-service-builder
       - test-getting-started-guide:
           language: java
-          name: Test Java
+          name: test-java
           requires:
             - create-service-builder
       - test-getting-started-guide:
           language: node-js
-          name: Test Node.js
+          name: test-nodejs
           requires:
             - create-service-builder
       - test-getting-started-guide:
           language: php
-          name: Test PHP
+          name: test-php
           requires:
             - create-service-builder
       - test-getting-started-guide:
           language: Python
-          name: Test Python
+          name: test-python
           requires:
             - create-service-builder
       - test-getting-started-guide:
           language: Ruby
-          name: Test Ruby
+          name: test-ruby
           requires:
             - create-service-builder
       - publish-image:
