@@ -87,19 +87,19 @@ jobs:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - setup_remote_docker
       - restore_cache:
-          key: v1-docker-cache-pack-18-build-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-build.tar
       - restore_cache:
-          key: v1-docker-cache-pack-18-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
       - restore_cache:
-          key: v1-docker-cache-buildpacks-18-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker load < docker_cache_build_pack-18-build/pack-18-build.tar
-      - run: docker load < docker_cache_run_pack-18/pack-18.tar
-      - run: docker load < docker_cache_buildpacks-18/buildpacks-18.tar
-      - run: pack build pack-getting-started --path getting_started --builder buildpacks-18 --no-pull
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-buildpacks-18.tar
+      - run: docker load < pack-18-build.tar
+      - run: docker load < pack-18-run.tar
+      - run: docker load < buildpacks-18.tar
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
   publish-image:
     parameters:
       local_image:
-        description: "Name of the local image to publish"
+        description: "Name of the local image archive to publish"
         type: string
       remote_image:
         description: "Name of the dockerhub image to publish"
@@ -130,14 +130,14 @@ workflows:
       - create-image:
           name: create-build-image
           dockerfile: Dockerfile.build
-          image_tag: pack:18-build
+          image_tag: heroku/pack:18-build
           image_file: pack-18-build.tar
           requires:
             - clone
       - create-image:
           name: create-run-image
           dockerfile: Dockerfile.run
-          image_tag: pack:18
+          image_tag: heroku/pack:18
           image_file: pack-18-run.tar
           requires:
             - clone
