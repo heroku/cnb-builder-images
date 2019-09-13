@@ -42,16 +42,19 @@ jobs:
       - run: docker build -f << parameters.dockerfile >> -t << parameters.image_tag >> .
       - run: docker save << parameters.image_tag >> > << parameters.image_file >>
       - save_cache:
-          key: v1-docker-cache-<< parameters.image_file >>-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.image_file >>
           paths:
             - << parameters.image_file >>
   create-pack-builder:
     parameters:
-      buildertoml:
+      builder_toml:
         description: "Builder toml"
         type: string
-      imagename:
-        description: "Name of the image"
+      image_file:
+        description: "Local builder image archive file name"
+        type: string
+      image_tag:
+        description: "Remote builder image name"
         type: string
     docker:
       - image: heroku/pack-runner:latest
@@ -61,19 +64,18 @@ jobs:
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-docker-cache-pack-18-build-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-build.tar
       - restore_cache:
-          key: v1-docker-cache-pack-18-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
       - setup_remote_docker
-      - run: docker load < docker_cache_pack-18-build/pack-18-build.tar
-      - run: docker load < docker_cache_pack-18/pack-18.tar
-      - run: pack create-builder << parameters.imagename >> --builder-config << parameters.buildertoml >> --no-pull
-      - run: mkdir docker_cache_<< parameters.imagename >>
-      - run: docker save << parameters.imagename >> > docker_cache_<< parameters.imagename >>/<< parameters.imagename >>.tar
+      - run: docker load < pack-18-build.tar
+      - run: docker load < pack-18-run.tar
+      - run: pack create-builder << parameters.image_tag >> --builder-config << parameters.builder_toml >> --no-pull
+      - run: docker save << parameters.image_tag >> > << parameters.image_file >>
       - save_cache:
-          key: v1-docker-cache-<< parameters.imagename >>-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.image_file >>
           paths:
-            - docker_cache_<< parameters.imagename >>
+            - << parameters.image_file >>
   test-getting-started-guide:
     parameters:
       language:
@@ -141,16 +143,18 @@ workflows:
             - clone
       - create-pack-builder:
           name: create-service-builder
-          imagename: buildpacks-18
-          buildertoml: builder.toml
+          image_tag: heroku/buildpacks:18
+          image_file: buildpacks-18.tar
+          builder_toml: builder.toml
           requires:
             - install-buildpacks
             - create-run-image
             - create-build-image
       - create-pack-builder:
           name: create-functions-builder
-          imagename: functions-buildpacks-18
-          buildertoml: functions-builder.toml
+          image_tag: heroku/functions-buildpacks:18
+          image_file: functions-buildpacks-18.tar
+          builder_toml: functions-builder.toml
           requires:
             - install-buildpacks
             - create-run-image
