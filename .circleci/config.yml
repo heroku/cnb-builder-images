@@ -116,7 +116,7 @@ jobs:
       - image: heroku/pack-runner:latest
     steps:
       - setup_remote_docker
-      - run: docker login -p $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+      - run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
       - restore_cache:
           key: v1-docker-cache-<< parameters.local_image >>-{{ .Environment.CIRCLE_SHA1 }}
       - run: docker load < docker_cache_<< parameters.local_image >>/<< parameters.local_image >>.tar
