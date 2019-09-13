@@ -20,7 +20,17 @@ jobs:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/project/buildpacks
-  create-run-image:
+  create-image:
+    parameters:
+      dockerfile:
+        description: "Dockerfile to build"
+        type: string
+      image_file:
+        description: "Local image archive file name"
+        type: string
+      image_tag:
+        description: "Remote image tag name"
+        type: string
     docker:
       - image: heroku/pack-runner:latest
     steps:
@@ -29,29 +39,12 @@ jobs:
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
       - setup_remote_docker
-      - run: docker build -f Dockerfile.run -t heroku/pack:18 .
-      - run: mkdir docker_cache_run_base
-      - run: docker save heroku/pack:18 > docker_cache_run_base/pack-18.tar
+      - run: docker build -f << parameters.dockerfile >> -t << parameters.image_tag >> .
+      - run: docker save << parameters.image_tag >> > << parameters.image_file >>
       - save_cache:
-          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-docker-cache-<< parameters.image_file >>-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - docker_cache_run_base
-  create-build-image:
-    docker:
-      - image: heroku/pack-runner:latest
-    steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
-      - setup_remote_docker
-      - run: docker build -f Dockerfile.build -t heroku/pack:18-build .
-      - run: mkdir docker_cache_build_base
-      - run: docker save heroku/pack:18-build > docker_cache_build_base/pack-18-build.tar
-      - save_cache:
-          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - docker_cache_build_base
+            - << parameters.image_file >>
   create-pack-builder:
     parameters:
       buildertoml:
@@ -68,12 +61,12 @@ jobs:
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-docker-cache-pack-18-build-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-docker-cache-pack-18-{{ .Environment.CIRCLE_SHA1 }}
       - setup_remote_docker
-      - run: docker load < docker_cache_build_base/pack-18-build.tar
-      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: docker load < docker_cache_pack-18-build/pack-18-build.tar
+      - run: docker load < docker_cache_pack-18/pack-18.tar
       - run: pack create-builder << parameters.imagename >> --builder-config << parameters.buildertoml >> --no-pull
       - run: mkdir docker_cache_<< parameters.imagename >>
       - run: docker save << parameters.imagename >> > docker_cache_<< parameters.imagename >>/<< parameters.imagename >>.tar
@@ -92,13 +85,13 @@ jobs:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - setup_remote_docker
       - restore_cache:
-          key: v1-docker-cache-build-base-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-docker-cache-pack-18-build-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-docker-cache-pack-18-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v1-docker-cache-buildpacks-18-{{ .Environment.CIRCLE_SHA1 }}
-      - run: docker load < docker_cache_build_base/pack-18-build.tar
-      - run: docker load < docker_cache_run_base/pack-18.tar
+      - run: docker load < docker_cache_build_pack-18-build/pack-18-build.tar
+      - run: docker load < docker_cache_run_pack-18/pack-18.tar
       - run: docker load < docker_cache_buildpacks-18/buildpacks-18.tar
       - run: pack build pack-getting-started --path getting_started --builder buildpacks-18 --no-pull
   publish-image:
@@ -132,10 +125,18 @@ workflows:
       - install-buildpacks:
           requires:
             - clone
-      - create-run-image:
+      - create-image:
+          name: create-build-image
+          dockerfile: Dockerfile.build
+          image_tag: pack:18-build
+          image_file: pack-18-build.tar
           requires:
             - clone
-      - create-build-image:
+      - create-image:
+          name: create-run-image
+          dockerfile: Dockerfile.run
+          image_tag: pack:18
+          image_file: pack-18-run.tar
           requires:
             - clone
       - create-pack-builder:
