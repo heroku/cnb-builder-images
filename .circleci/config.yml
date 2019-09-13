@@ -200,6 +200,7 @@ workflows:
             - test-php
             - test-python
             - test-ruby
+            - create-functions-builder
       - publish-image:
           name: publish-run-stack
           image_file: pack-18-run.tar
@@ -212,6 +213,7 @@ workflows:
             - test-php
             - test-python
             - test-ruby
+            - create-functions-builder
       - publish-image:
           name: publish-service-builder
           image_file: buildpacks-18.tar
