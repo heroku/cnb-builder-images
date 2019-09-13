@@ -164,7 +164,7 @@ workflows:
             - create-service-builder
       - test-getting-started-guide:
           language: node-js
-          name: test-nodejs
+          name: test-node-js
           requires:
             - create-service-builder
       - test-getting-started-guide:
