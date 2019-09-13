@@ -100,7 +100,7 @@ jobs:
       - run: docker load < docker_cache_build_base/pack-18-build.tar
       - run: docker load < docker_cache_run_base/pack-18.tar
       - run: docker load < docker_cache_buildpacks-18/buildpacks-18.tar
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+      - run: pack build pack-getting-started --path getting_started --builder buildpacks-18 --no-pull
 workflows:
   version: 2
   build-test-deploy:
