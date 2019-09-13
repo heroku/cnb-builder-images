@@ -116,11 +116,11 @@ jobs:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.image_file >>
       - run: docker load < << parameters.image_file >>
       - run: docker push << parameters.image_tag >>
-      - run: docker tag << parameters.image_file >> << parameters.image_tag_alias >>
+      - run: docker tag << parameters.image_tag >> << parameters.image_tag_alias >>
       - run: docker push << parameters.image_tag_alias >>
 workflows:
   version: 2
-  build-test-deploy:
+  build-test-publish:
     jobs:
       - clone
       - install-buildpacks:
