@@ -76,11 +76,11 @@ jobs:
       - run: docker load < docker_cache_run_base/pack-18.tar
       - run: pack create-builder << parameters.imagename >> --builder-config << parameters.buildertoml >> --no-pull
       - run: mkdir docker_cache_builder
-      - run: docker save << parameters.imagename >> > docker_cache_builder/<< parameters.imagename >>.tar
+      - run: docker save << parameters.imagename >> > docker_cache_<< parameters.imagename >>/<< parameters.imagename >>.tar
       - save_cache:
-          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-docker-cache-<< parameters.imagename >>-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - docker_cache_builder
+            - docker_cache_<< parameters.imagename >>
   test-getting-started-guide:
     parameters:
       language:
@@ -96,10 +96,10 @@ jobs:
       - restore_cache:
           key: v1-docker-cache-run-base-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
-          key: v1-docker-cache-builder-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-docker-cache-buildpacks-18-{{ .Environment.CIRCLE_SHA1 }}
       - run: docker load < docker_cache_build_base/pack-18-build.tar
       - run: docker load < docker_cache_run_base/pack-18.tar
-      - run: docker load < docker_cache_builder/buildpacks-18.tar
+      - run: docker load < docker_cache_buildpacks-18/buildpacks-18.tar
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
 workflows:
   version: 2
