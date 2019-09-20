@@ -10,9 +10,9 @@ uri = "lifecycle.tgz"
   id = "heroku/java"
   uri = "https://github.com/heroku/java-buildpack/releases/download/v0.14/java-buildpack-v0.14.tgz"
 
-# [[buildpacks]]
-#   id = "heroku/ruby"
-#   uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/cnb-alpha/ruby-buildpack-vCNB-alpha.tgz"
+ [[buildpacks]]
+   id = "heroku/ruby"
+   uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/cnb-alpha/ruby-buildpack-vCNB-alpha.tgz"
 
 [[buildpacks]]
   id = "heroku/procfile"
@@ -38,15 +38,15 @@ uri = "lifecycle.tgz"
   id = "heroku/nodejs"
   uri = "buildpacks/nodejs"
 
-# [[order]]
-#   [[order.group]]
-#     id = "heroku/ruby"
-#     version = "0.0.1"
-#
-#   [[order.group]]
-#     id = "heroku/procfile"
-#     version = "0.3"
-#     optional = true
+[[order]]
+  [[order.group]]
+    id = "heroku/ruby"
+    version = "0.0.1"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.3"
+    optional = true
 
 [[order]]
   [[order.group]]
