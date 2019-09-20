@@ -19,9 +19,11 @@ install_buildpack() {
 
   buildpack_toml="$(mktemp)"
   cat > "${buildpack_toml}" << TOML
+api = "0.2"
+
 [buildpack]
 id = "heroku/${buildpack}"
-version = "$cnb_shim_version.0.1"
+version = "$cnb_shim_version.0.2"
 name = "${buildpack_name}"
 
 [[stacks]]

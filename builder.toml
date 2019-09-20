@@ -4,19 +4,19 @@ build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
 [lifecycle]
-version = "0.3.0"
+uri = "lifecycle.tgz"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.13/java-buildpack-v0.13.tgz"
+  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.14/java-buildpack-v0.14.tgz"
 
-[[buildpacks]]
-  id = "heroku/ruby"
-  uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/cnb-alpha/ruby-buildpack-vCNB-alpha.tgz"
+# [[buildpacks]]
+#   id = "heroku/ruby"
+#   uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/cnb-alpha/ruby-buildpack-vCNB-alpha.tgz"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.2/procfile-cnb-v0.2.tgz"
+  uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.3/procfile-cnb-v0.3.tgz"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -38,57 +38,57 @@ version = "0.3.0"
   id = "heroku/nodejs"
   uri = "buildpacks/nodejs"
 
-[[groups]]
-  [[groups.buildpacks]]
-    id = "heroku/ruby"
-    version = "0.0.1"
+# [[order]]
+#   [[order.group]]
+#     id = "heroku/ruby"
+#     version = "0.0.1"
+#
+#   [[order.group]]
+#     id = "heroku/procfile"
+#     version = "0.3"
+#     optional = true
 
-  [[groups.buildpacks]]
-    id = "heroku/procfile"
-    version = "0.2"
-    optional = true
-
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/python"
-    version = "v0.0.5.0.1"
+    version = "v0.0.5.0.2"
 
-  [[groups.buildpacks]]
+  [[order.group]]
     id = "heroku/procfile"
-    version = "0.2"
+    version = "0.3"
     optional = true
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/java"
-    version = "0.13"
+    version = "0.14"
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/gradle"
-    version = "v0.0.5.0.1"
+    version = "v0.0.5.0.2"
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/php"
-    version = "v0.0.5.0.1"
+    version = "v0.0.5.0.2"
 
-  [[groups.buildpacks]]
+  [[order.group]]
     id = "heroku/procfile"
-    version = "0.2"
+    version = "0.3"
     optional = true
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/go"
-    version = "v0.0.5.0.1"
+    version = "v0.0.5.0.2"
 
-  [[groups.buildpacks]]
+  [[order.group]]
     id = "heroku/procfile"
-    version = "0.2"
+    version = "0.3"
     optional = true
 
-[[groups]]
-  [[groups.buildpacks]]
+[[order]]
+  [[order.group]]
     id = "heroku/nodejs"
-    version = "v0.0.5.0.1"
+    version = "v0.0.5.0.2"
