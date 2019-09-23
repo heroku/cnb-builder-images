@@ -20,7 +20,7 @@ version = "0.3.0"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "https://github.com/heroku/java-function-buildpack/releases/download/v0.2.0/java-function-buildpack-v0.2.0.tgz"
+  uri = "https://github.com/heroku/java-function-buildpack/releases/download/v0.2.1/java-function-buildpack-v0.2.1.tgz"
 
 [[groups]]
   # node functions
@@ -32,6 +32,6 @@ version = "0.3.0"
 [[groups]]
   # java functions
   buildpacks = [
-    { id = "heroku/java", version = "0.13" },
-    { id = "heroku/java-function", version = "0.2.0" },
+    { id = "heroku/java", version = "0.14" },
+    { id = "heroku/java-function", version = "0.2.1" },
   ]
