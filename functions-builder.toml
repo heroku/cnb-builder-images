@@ -12,7 +12,7 @@ version = "0.4.0"
 
 [[buildpacks]]
   id = "heroku/node-function"
-  uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.4.3/node-function-buildpack-v0.4.3.tgz"
+  uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.5.0/node-function-buildpack-v0.5.0.tgz"
 
 [[buildpacks]]
   id = "heroku/java"
@@ -20,18 +20,24 @@ version = "0.4.0"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "https://github.com/heroku/java-function-buildpack/releases/download/v0.2.1/java-function-buildpack-v0.2.1.tgz"
+  uri = "https://github.com/heroku/java-function-buildpack/releases/download/v0.3.0/java-function-buildpack-v0.3.0.tgz"
 
-[[groups]]
+[[order]]
   # node functions
-  buildpacks = [
-    { id = "heroku/nodejs", version = "v0.0.5.0.2" },
-    { id = "heroku/node-function", version = "0.4.3" },
-  ]
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "v0.0.5.0.2"
 
-[[groups]]
+  [[order.group]]
+    id = "heroku/node-function"
+    version = "0.5.0"
+
+[[order]]
   # java functions
-  buildpacks = [
-    { id = "heroku/java", version = "0.14" },
-    { id = "heroku/java-function", version = "0.2.1" },
-  ]
+  [[order.group]]
+    id = "heroku/java"
+    version = "0.14"
+
+  [[order.group]]
+    id = "heroku/java-function"
+    version = "0.3.0"
