@@ -19,6 +19,8 @@ github.com/buildpack/lifecycle v0.1.1-0.20190510142604-8612386b1cea h1:i6zTuXHb+
 github.com/buildpack/lifecycle v0.1.1-0.20190510142604-8612386b1cea/go.mod h1:y3A24c0w/CRkjJyVF6NX0cdugBCmBv7KZPGfV7y2O60=
 github.com/buildpack/pack v0.3.0 h1:B9+u6qWdFuVzCAQpiH2i5Cyu/v7EsIwcpkB1cD0jYEk=
 github.com/buildpack/pack v0.3.0/go.mod h1:1HrBd/hNAAuEX8LCdFo5oVj1SrlApH7+bC9ob3wOfSk=
+github.com/buildpack/pack v0.4.1 h1:+iZKxqMhqUDeIOuy6vfBe+o6R4mHjPycwFOMD5Z386g=
+github.com/buildpack/pack v0.4.1/go.mod h1:bUVHYGG2kJkTChe38h11GU7HwE/xzk1gEsRY11gFG2s=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/containerd/continuity v0.0.0-20181027224239-bea7585dbfac h1:PThQaO4yCvJzJBUW1XoFQxLotWRhvX2fgljJX8yrhFI=
 github.com/containerd/continuity v0.0.0-20181027224239-bea7585dbfac/go.mod h1:GL3xCUCBDV3CZiTSEKksMWbLE66hEyuu9qyDOOqM47Y=
@@ -53,6 +55,7 @@ github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b/go.mod h1:SBH7ygxi8pfU
 github.com/golang/lint v0.0.0-20180702182130-06c8688daad7/go.mod h1:tluoj9z5200jBnyusfRPU2LqT6J+DAorxEvtC7LHB+E=
 github.com/golang/mock v1.1.1/go.mod h1:oTYuIxOrZwtPieC+H1uAHpcLFnEyAGVDL/k47Jfbm0A=
 github.com/golang/mock v1.3.0/go.mod h1:c8YoAQJ7+qIz9IQm9G72MJ4uDcrPeLjkrQ4yYIHdhyw=
+github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFUx0Y=
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=
