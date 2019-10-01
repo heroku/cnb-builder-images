@@ -1,7 +1,5 @@
 FROM heroku/heroku:18
 
-RUN ln -s /workspace /app
-
 ARG pack_uid=1000
 ARG pack_gid=1000
 ENV CNB_USER_ID=${pack_uid}
