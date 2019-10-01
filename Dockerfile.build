@@ -1,9 +1,5 @@
 FROM heroku/heroku:18-build
 
-# Google Container Registry Authentication for Knative Support
-ARG docker_cred_helper_url=https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v1.5.0/docker-credential-gcr_linux_amd64-1.5.0.tar.gz
-RUN curl -sfL ${docker_cred_helper_url} | tar xz -C /usr/local/bin
-
 ARG pack_uid=1000
 ARG pack_gid=1000
 ENV CNB_USER_ID=${pack_uid}
