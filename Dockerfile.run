@@ -7,5 +7,5 @@ RUN groupadd heroku --gid ${pack_gid} && \
   useradd heroku -u ${pack_uid} -g ${pack_gid} -s /bin/bash -md /workspace && \
   ln -s /workspace /app
 
-USER heroku
 LABEL io.buildpacks.stack.id="heroku-18"
+USER heroku
