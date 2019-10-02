@@ -6,7 +6,8 @@ ENV CNB_USER_ID=${pack_uid}
 ENV CNB_GROUP_ID=${pack_gid}
 
 RUN groupadd heroku --gid ${pack_gid} && \
-    useradd heroku -u ${pack_uid} -g ${pack_gid} -md /app -s /bin/bash
+  useradd heroku -u ${pack_uid} -g ${pack_gid} -s /bin/bash -md /workspace && \
+  ln -s /workspace /app
 
 ENV STACK "heroku-18"
 ENV CNB_STACK_ID "heroku-18"

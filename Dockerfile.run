@@ -3,8 +3,9 @@ FROM heroku/heroku:18
 ARG pack_uid=1000
 ARG pack_gid=1000
 
-RUN groupadd pack --gid ${pack_gid} && \
-    useradd -u ${pack_uid} -g ${pack_gid} -ms /bin/bash -d /workspace heroku
+RUN groupadd heroku --gid ${pack_gid} && \
+  useradd heroku -u ${pack_uid} -g ${pack_gid} -s /bin/bash -md /workspace && \
+  ln -s /workspace /app
 
 USER heroku
 LABEL io.buildpacks.stack.id="heroku-18"
