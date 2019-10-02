@@ -3,7 +3,6 @@ FROM heroku/heroku:18
 ARG pack_uid=1000
 ARG pack_gid=1000
 
-RUN mkdir -p /workspace
 RUN groupadd pack --gid ${pack_gid} && \
     useradd -u ${pack_uid} -g ${pack_gid} -ms /bin/bash -d /workspace heroku
 
