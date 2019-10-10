@@ -95,8 +95,8 @@ version = "0.4.0"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-engine-buildpack"
-    version = "v0.1.0"
+    version = "0.1.0"
 
   [[order.group]]
     id = "heroku/nodejs-npm-buildpack"
-    version = "v0.0.1"
+    version = "0.0.1"
