@@ -8,11 +8,11 @@ version = "0.4.0"
 
 [[buildpacks]]
   id = "heroku/nodejs-engine-buildpack"
-  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.1.0/nodejs-engine-buildpack-v0.1.0.tgz"
+  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.2.0/nodejs-engine-buildpack-v0.2.0.tgz"
 
 [[buildpacks]]
   id = "heroku/nodejs-npm-buildpack"
-  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.0.1/nodejs-npm-buildpack-v0.0.1.tgz"
+  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.0.2/nodejs-npm-buildpack-v0.0.2.tgz"
 
 [[buildpacks]]
   id = "heroku/node-function"
@@ -30,11 +30,11 @@ version = "0.4.0"
   # node functions
   [[order.group]]
     id = "heroku/nodejs-engine-buildpack"
-    version = "0.1.0"
+    version = "0.2.0"
 
   [[order.group]]
     id = "heroku/nodejs-npm-buildpack"
-    version = "0.0.1"
+    version = "0.0.2"
 
   [[order.group]]
     id = "heroku/node-function"
