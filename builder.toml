@@ -35,8 +35,12 @@ version = "0.4.0"
   uri = "buildpacks/go"
 
 [[buildpacks]]
-  id = "heroku/nodejs"
-  uri = "buildpacks/nodejs"
+  id = "heroku/nodejs-engine-buildpack"
+  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.3.0/nodejs-engine-buildpack-v0.3.0.tgz"
+
+[[buildpacks]]
+  id = "heroku/nodejs-npm-buildpack"
+  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.0.2/nodejs-npm-buildpack-v0.0.2.tgz"
 
 [[order]]
   [[order.group]]
@@ -90,5 +94,9 @@ version = "0.4.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/nodejs"
-    version = "v0.0.5.0.2"
+    id = "heroku/nodejs-engine-buildpack"
+    version = "0.3.0"
+
+  [[order.group]]
+    id = "heroku/nodejs-npm-buildpack"
+    version = "0.0.2"
