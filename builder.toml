@@ -100,3 +100,8 @@ version = "0.4.0"
   [[order.group]]
     id = "heroku/nodejs-npm-buildpack"
     version = "0.0.2"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.3"
+    optional = true
