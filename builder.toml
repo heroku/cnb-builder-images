@@ -12,7 +12,7 @@ version = "0.5.0"
 
 [[buildpacks]]
   id = "heroku/jvm"
-  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/cnb/heroku-buildpack-jvm-common-cnb.tgz"
+  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/cnb/heroku-buildpack-jvm-common.tgz"
 
 [[buildpacks]]
   id = "heroku/ruby"
