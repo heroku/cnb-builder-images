@@ -12,7 +12,7 @@ version = "0.4.0"
 
 [[buildpacks]]
   id = "heroku/nodejs-npm-buildpack"
-  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.1.0/nodejs-npm-buildpack-v0.1.0.tgz"
+  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.1.1/nodejs-npm-buildpack-v0.1.1.tgz"
 
 [[buildpacks]]
   id = "heroku/node-function"
@@ -34,7 +34,7 @@ version = "0.4.0"
 
   [[order.group]]
     id = "heroku/nodejs-npm-buildpack"
-    version = "0.1.0"
+    version = "0.1.1"
 
   [[order.group]]
     id = "heroku/node-function"
