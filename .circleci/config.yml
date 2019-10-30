@@ -121,7 +121,7 @@ jobs:
 workflows:
   version: 2
   build-test-publish:
-    jobs:
+    jobs: &build-test-publish-jobs
       - clone
       - install-buildpacks:
           requires:
@@ -242,3 +242,11 @@ workflows:
           filters:
             branches:
               only: master
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only: master
+    jobs: *build-test-publish-jobs
