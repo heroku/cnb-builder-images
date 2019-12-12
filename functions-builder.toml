@@ -15,6 +15,10 @@ version = "0.4.0"
   uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.1.2/nodejs-npm-buildpack-v0.1.2.tgz"
 
 [[buildpacks]]
+  id = "salesforce/sf-fx-middleware"
+  uri = "https://github.com/forcedotcom/sf-fx-middleware/releases/download/v0.0.4/sf-fx-middleware-buildpack-v0.0.4.tgz"
+
+[[buildpacks]]
   id = "heroku/node-function"
   uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.5.0/node-function-buildpack-v0.5.0.tgz"
 
@@ -35,6 +39,11 @@ version = "0.4.0"
   [[order.group]]
     id = "heroku/nodejs-npm-buildpack"
     version = "0.1.2"
+
+  [[order.group]]
+    id = "salesforce/sf-fx-middleware"
+    version = "0.0.4"
+    optional = true
 
   [[order.group]]
     id = "heroku/node-function"
