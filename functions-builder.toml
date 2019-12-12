@@ -43,6 +43,7 @@ version = "0.4.0"
   [[order.group]]
     id = "salesforce/sf-fx-middleware"
     version = "0.0.4"
+    optional = true
 
   [[order.group]]
     id = "heroku/node-function"
