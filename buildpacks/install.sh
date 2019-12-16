@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 buildpacks_dir="$(cd $(dirname $0); pwd)" # absolute path
-cnb_shim_version="v0.0.5"
+cnb_shim_version="0.0.5"
 
 fetch_shim() {
   shim_dir="${1:?}"
-  curl -sfL "https://github.com/heroku/cnb-shim/releases/download/${cnb_shim_version}/cnb-shim-${cnb_shim_version}.tgz" | tar xz -C "${shim_dir}"
+  curl -sfL "https://github.com/heroku/cnb-shim/releases/download/v${cnb_shim_version}/cnb-shim-v${cnb_shim_version}.tgz" | tar xz -C "${shim_dir}"
 }
 
 install_buildpack() {
@@ -23,7 +23,7 @@ api = "0.2"
 
 [buildpack]
 id = "heroku/${buildpack}"
-version = "$cnb_shim_version.0.2"
+version = "${cnb_shim_version}.2"
 name = "${buildpack_name}"
 
 [[stacks]]
