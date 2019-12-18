@@ -15,8 +15,8 @@ version = "0.4.0"
   uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.1.2/nodejs-npm-buildpack-v0.1.2.tgz"
 
 [[buildpacks]]
-  id = "salesforce/nodejs-sf-fx-buildpack"
-  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v0.0.6/nodejs-sf-fx-buildpack-v0.0.6.tgz"
+  id = "salesforce/nodejs-fn"
+  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v0.0.7/nodejs-sf-fx-buildpack-v0.0.7.tgz"
 
 [[buildpacks]]
   id = "heroku/node-function"
@@ -41,8 +41,8 @@ version = "0.4.0"
     version = "0.1.2"
 
   [[order.group]]
-    id = "salesforce/nodejs-sf-fx-buildpack"
-    version = "0.0.6"
+    id = "salesforce/nodejs-fn"
+    version = "0.0.7"
     optional = true
 
   [[order.group]]
