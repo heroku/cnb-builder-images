@@ -50,6 +50,10 @@ version = "0.5.0"
   id = "heroku/nodejs-npm-buildpack"
   uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.1.2/nodejs-npm-buildpack-v0.1.2.tgz"
 
+[[buildpacks]]
+  id = "heroku/nodejs-yarn"
+  uri = "https://github.com/heroku/nodejs-yarn-buildpack/releases/download/v0.0.1/nodejs-yarn-buildpack-v0.0.1.tgz"
+
 [[order]]
   [[order.group]]
     id = "heroku/ruby"
@@ -113,6 +117,20 @@ version = "0.5.0"
   [[order.group]]
     id = "heroku/go"
     version = "0.0.5.2"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.3"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs-engine-buildpack"
+    version = "0.3.0"
+
+  [[order.group]]
+    id = "heroku/nodejs-yarn"
+    version = "0.0.1"
 
   [[order.group]]
     id = "heroku/procfile"
