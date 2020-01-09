@@ -36,7 +36,7 @@ create-builder-fn-local:
 deps:
 	@rm -rf .tools
 	@mkdir .tools
-	@go get -v github.com/buildpack/pack@latest
-	@go install github.com/buildpack/pack/cmd/pack
+	@go get -v github.com/buildpacks/pack@latest
+	@go install github.com/buildpacks/pack/cmd/pack
 
 .PHONY: install-buildpacks build publish build-ci create-builder-fn-local deps
