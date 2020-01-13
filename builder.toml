@@ -7,8 +7,8 @@ run-image = "heroku/pack:18"
 version = "0.5.0"
 
 [[buildpacks]]
-  id = "heroku/java"
-  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.14/java-buildpack-v0.14.tgz"
+  id = "heroku/maven"
+  uri = "https://github.com/heroku/heroku-buildpack-java/releases/download/cnb/heroku-buildpack-maven.tgz"
 
 [[buildpacks]]
   id = "heroku/jvm"
@@ -68,8 +68,17 @@ version = "0.5.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/java"
-    version = "0.14"
+    id = "heroku/jvm"
+    version = "0.1"
+
+  [[order.group]]
+    id = "heroku/maven"
+    version = "0.1"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.3"
+    optional = true
 
 [[order]]
   [[order.group]]
