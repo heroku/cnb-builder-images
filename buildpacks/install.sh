@@ -28,6 +28,9 @@ name = "${buildpack_name}"
 
 [[stacks]]
 id = "heroku-18"
+
+[[stacks]]
+id = "io.buildpacks.stacks.bionic"
 TOML
 
   bash "${buildpack_dir}"/bin/install "${buildpack_toml}" "https://buildpack-registry.s3.amazonaws.com/buildpacks/heroku/${buildpack}.tgz"
