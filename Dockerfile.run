@@ -8,5 +8,5 @@ ARG pack_gid=1000
 RUN groupadd heroku --gid ${pack_gid} && \
   useradd heroku -u ${pack_uid} -g ${pack_gid} -s /bin/bash -d /workspace -m
 
-LABEL io.buildpacks.stack.id="heroku-18"
+LABEL io.buildpacks.stack.id="io.buildpacks.stacks.bionic"
 USER heroku
