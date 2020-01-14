@@ -1,5 +1,5 @@
 [stack]
-id = "heroku-18"
+id = "io.buildpacks.stacks.bionic"
 build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
