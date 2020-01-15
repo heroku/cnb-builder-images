@@ -20,7 +20,7 @@ version = "0.5.0"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.3/procfile-cnb-v0.3.tgz"
+  uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.4/procfile-cnb-v0.4.tgz"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -53,7 +53,7 @@ version = "0.5.0"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.3"
+    version = "0.4"
     optional = true
 
 [[order]]
@@ -63,7 +63,7 @@ version = "0.5.0"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.3"
+    version = "0.4"
     optional = true
 
 [[order]]
@@ -77,7 +77,7 @@ version = "0.5.0"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.3"
+    version = "0.4"
     optional = true
 
 [[order]]
@@ -92,7 +92,7 @@ version = "0.5.0"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.3"
+    version = "0.4"
     optional = true
 
 [[order]]
@@ -102,7 +102,7 @@ version = "0.5.0"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.3"
+    version = "0.4"
     optional = true
 
 [[order]]
@@ -116,5 +116,5 @@ version = "0.5.0"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.3"
+    version = "0.4"
     optional = true
