@@ -4,57 +4,79 @@ build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
 [lifecycle]
-version = "0.4.0"
+version = "0.5.0"
 
 [[buildpacks]]
-  id = "heroku/nodejs-engine-buildpack"
-  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.3.0/nodejs-engine-buildpack-v0.3.0.tgz"
+  id = "heroku/nodejs-engine"
+  # TODO: release with https://github.com/heroku/nodejs-engine-buildpack/pull/31
+  uri = "/Users/jesse.brown/dev/nodejs-engine-buildpack/nodejs-engine-buildpack-v0.4.2.tgz"
 
 [[buildpacks]]
-  id = "heroku/nodejs-npm-buildpack"
-  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.1.2/nodejs-npm-buildpack-v0.1.2.tgz"
+  id = "heroku/nodejs-npm"
+  # TODO: release with https://github.com/heroku/nodejs-npm-buildpack/pull/18
+  uri = "/Users/jesse.brown/dev/nodejs-npm-buildpack/nodejs-npm-buildpack-v0.1.3.tgz"
 
 [[buildpacks]]
   id = "salesforce/nodejs-fn"
-  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v0.0.8/nodejs-sf-fx-buildpack-v0.0.8.tgz"
+  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v0.0.9/nodejs-sf-fx-buildpack-v0.0.9.tgz"
 
 [[buildpacks]]
-  id = "heroku/node-function"
-  uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.5.0/node-function-buildpack-v0.5.0.tgz"
+  id = "io.projectriff.node"
+  # TODO: Need vNext of riff, not a snapshot of master
+  uri = "https://storage.googleapis.com/projectriff/node-function-buildpack/io.projectriff.node-0.2.0-BUILD-SNAPSHOT-20200116161425-e2b48c6459db89db.tgz"
+
+[[buildpacks]]
+  id = "heroku/evergreen-node-system-function"
+  uri = "https://github.com/heroku/evergreen-node-system-function/releases/download/v0.0.1/evergreen-node-system-function-buildpack-v0.0.1.tgz"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "https://github.com/heroku/java-buildpack/releases/download/v0.14/java-buildpack-v0.14.tgz"
+  # TODO: release with https://github.com/heroku/java-buildpack/pull/9 and https://github.com/heroku/java-buildpack/pull/10
+  uri = "/Users/jesse.brown/dev/java-buildpack/java-buildpack-v0.15.tgz"
 
 [[buildpacks]]
-  id = "heroku/java-function"
-  uri = "https://github.com/heroku/java-function-buildpack/releases/download/v0.3.0/java-function-buildpack-v0.3.0.tgz"
+  id = "io.projectriff.java"
+  # TODO: Need vNext of riff, not a snapshot of master
+  uri = "https://storage.googleapis.com/projectriff/java-function-buildpack/io.projectriff.java-0.2.0-BUILD-SNAPSHOT-20200116165551-80d1532f85b1c3bb.tgz"
+
+[[buildpacks]]
+  id = "heroku/evergreen-java-system-function"
+  uri = "https://github.com/heroku/evergreen-java-system-function/releases/download/v0.0.1/evergreen-java-system-function-buildpack-v0.0.1.tgz"
+
 
 [[order]]
   # node functions
   [[order.group]]
-    id = "heroku/nodejs-engine-buildpack"
-    version = "0.3.0"
+    id = "heroku/nodejs-engine"
+    version = "0.4.2"
 
   [[order.group]]
-    id = "heroku/nodejs-npm-buildpack"
-    version = "0.1.2"
+    id = "heroku/nodejs-npm"
+    version = "0.1.3"
+
+  [[order.group]]
+    id = "io.projectriff.node"
+    version = "0.2.0-BUILD-SNAPSHOT"
+
+  [[order.group]]
+    id = "heroku/evergreen-node-system-function"
+    version = "0.0.1"
 
   [[order.group]]
     id = "salesforce/nodejs-fn"
-    version = "0.0.8"
+    version = "0.0.9"
     optional = true
-
-  [[order.group]]
-    id = "heroku/node-function"
-    version = "0.5.0"
 
 [[order]]
   # java functions
   [[order.group]]
     id = "heroku/java"
-    version = "0.14"
+    version = "0.15"
 
   [[order.group]]
-    id = "heroku/java-function"
-    version = "0.3.0"
+    id = "io.projectriff.java"
+    version = "0.2.0-BUILD-SNAPSHOT"
+
+  [[order.group]]
+    id = "heroku/evergreen-java-system-function"
+    version = "0.0.1"
