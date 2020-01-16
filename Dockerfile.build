@@ -10,7 +10,7 @@ RUN mkdir /app && \
 
 ENV CNB_USER_ID=${pack_uid}
 ENV CNB_GROUP_ID=${pack_gid}
-ENV STACK "io.buildpacks.stacks.bionic"
+ENV STACK "heroku-18"
 ENV CNB_STACK_ID "io.buildpacks.stacks.bionic"
 LABEL io.buildpacks.stack.id="io.buildpacks.stacks.bionic"
 USER heroku
