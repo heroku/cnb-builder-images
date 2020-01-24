@@ -47,6 +47,8 @@ github.com/buildpacks/lifecycle v0.5.1-0.20191217221752-3b74c943b7b3 h1:15zYyFmN
 github.com/buildpacks/lifecycle v0.5.1-0.20191217221752-3b74c943b7b3/go.mod h1:ZIuIs9B6tjAW4dthhltKVyEUlhRfFWWix9eqoInMGX4=
 github.com/buildpacks/pack v0.6.0 h1:hOnUrwmFQp5OxxrEp6qIxWVtqjXypJ0g31JuKRUGrLU=
 github.com/buildpacks/pack v0.6.0/go.mod h1:5YXVrPFdS9CAQWS5iOcMhk3ul5YCMw4EvZr2pIecO7A=
+github.com/buildpacks/pack v0.7.0 h1:6jgT1ROcfn+c72p2B6lka0djy2kfdvgD6l0sIekcDms=
+github.com/buildpacks/pack v0.7.0/go.mod h1:5YXVrPFdS9CAQWS5iOcMhk3ul5YCMw4EvZr2pIecO7A=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/containerd/containerd v1.3.0 h1:xjvXQWABwS2uiv3TWgQt5Uth60Gu86LTGZXMJkjc7rY=
 github.com/containerd/containerd v1.3.0/go.mod h1:bC6axHOhabU15QhwfG7w5PipXdVtMXFTttgp+kVtyUA=
