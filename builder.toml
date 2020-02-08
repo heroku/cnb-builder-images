@@ -89,6 +89,11 @@ version = "0.5.0"
     id = "heroku/gradle"
     version = "0.0.5.2"
 
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.3"
+    optional = true
+
 [[order]]
   [[order.group]]
     id = "heroku/scala"
