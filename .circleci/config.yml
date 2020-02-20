@@ -201,8 +201,6 @@ workflows:
             - test-go
             - test-java
             - test-node-js
-            - test-php
-            - test-python
             - test-ruby
             - create-functions-builder
           filters:
