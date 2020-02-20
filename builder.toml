@@ -139,7 +139,7 @@ version = "0.5.0"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.3"
+    version = "0.5"
     optional = true
 
 [[order]]
