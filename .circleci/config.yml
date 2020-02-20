@@ -174,16 +174,6 @@ workflows:
           requires:
             - create-service-builder
       - test-getting-started-guide:
-          language: php
-          name: test-php
-          requires:
-            - create-service-builder
-      - test-getting-started-guide:
-          language: Python
-          name: test-python
-          requires:
-            - create-service-builder
-      - test-getting-started-guide:
           language: Ruby
           name: test-ruby
           requires:
