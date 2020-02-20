@@ -1,4 +1,4 @@
-# Heroku Pack Base Images
+# Test Heroku Pack Base Images
 
 This repository contains the base images for using the Heroku stack with [`pack` CLI](https://github.com/buildpack/pack). As such it provides a base image containing:
 
