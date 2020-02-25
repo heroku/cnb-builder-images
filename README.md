@@ -1,5 +1,7 @@
 # Heroku Pack Base Images
 
+[![CircleCI](https://circleci.com/gh/heroku/pack-images.svg?style=svg)](https://circleci.com/gh/heroku/pack-images)
+
 This repository contains the base images for using the Heroku stack with [`pack` CLI](https://github.com/buildpack/pack). As such it provides a base image containing:
 
 * [Buildpack Lifecycle](https://github.com/buildpack/lifecycle)
