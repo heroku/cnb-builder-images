@@ -11,6 +11,5 @@ RUN mkdir /app && \
 ENV CNB_USER_ID=${pack_uid}
 ENV CNB_GROUP_ID=${pack_gid}
 ENV CNB_STACK_ID "heroku-18"
-RUN mkdir -p /platform/env/ && echo $CNB_STACK_ID > /platform/env/STACK
 LABEL io.buildpacks.stack.id="heroku-18"
 USER heroku
