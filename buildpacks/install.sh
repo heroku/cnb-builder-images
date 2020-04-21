@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 buildpacks_dir="$(cd $(dirname $0); pwd)" # absolute path
-cnb_shim_version="0.1"
+cnb_shim_version="0.2"
 
 fetch_shim() {
   shim_dir="${1:?}"
