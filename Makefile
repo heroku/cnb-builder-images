@@ -1,3 +1,5 @@
+export GO111MODULE=on
+export GOBIN=$(shell pwd)/.tools
 export PATH:=$(GOBIN):$(PATH)
 
 .EXPORT_ALL_VARIABLES:
@@ -7,7 +9,7 @@ SHELL=/bin/bash -o pipefail
 install-buildpacks:
 	@bash buildpacks/install.sh
 
-build: install-buildpacks
+build: install-buildpacks deps
 	@docker pull heroku/heroku:18-build
 	@docker build -f Dockerfile.build -t heroku/pack:18-build .
 	@docker build -f Dockerfile.run -t heroku/pack:18 .
@@ -31,4 +33,10 @@ build-ci:
 create-builder-fn-local:
 	@pack create-builder pack-images-local --builder-config functions-builder.toml --no-pull
 
-.PHONY: install-buildpacks build publish build-ci create-builder-fn-local
+deps:
+	@rm -rf .tools
+	@mkdir .tools
+	@go get -v github.com/buildpacks/pack@latest
+	@go install github.com/buildpacks/pack/cmd/pack
+
+.PHONY: install-buildpacks build publish build-ci create-builder-fn-local deps
