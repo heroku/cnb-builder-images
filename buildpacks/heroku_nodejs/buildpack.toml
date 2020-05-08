@@ -1,0 +1,35 @@
+api = "0.2"
+
+[buildpack]
+id = "heroku/nodejs"
+version = "0.1"
+name = "Node.js"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs-engine"
+    version = "0.4.3"
+
+  [[order.group]]
+    id = "heroku/nodejs-yarn"
+    version = "0.0.1"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.5"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs-engine"
+    version = "0.4.3"
+
+  [[order.group]]
+    id = "heroku/nodejs-npm"
+    version = "0.1.4"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.5"
+    optional = true
+
