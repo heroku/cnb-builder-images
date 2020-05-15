@@ -9,17 +9,6 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/project
-  install-buildpacks:
-    docker:
-      - image: heroku/pack-runner:latest
-    steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - run: ./buildpacks/install.sh
-      - save_cache:
-          key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ~/project/buildpacks
   create-image:
     parameters:
       dockerfile:
@@ -123,9 +112,6 @@ workflows:
   build-test-publish:
     jobs: &build-test-publish-jobs
       - clone
-      - install-buildpacks:
-          requires:
-            - clone
       - create-image:
           name: create-build-image
           dockerfile: Dockerfile.build
@@ -146,7 +132,6 @@ workflows:
           image_file: buildpacks-18.tar
           builder_toml: builder.toml
           requires:
-            - install-buildpacks
             - create-run-image
             - create-build-image
       - create-pack-builder:
@@ -155,7 +140,6 @@ workflows:
           image_file: functions-buildpacks-18.tar
           builder_toml: functions-builder.toml
           requires:
-            - install-buildpacks
             - create-run-image
             - create-build-image
       - test-getting-started-guide:

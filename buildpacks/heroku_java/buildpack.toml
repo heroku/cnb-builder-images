@@ -1,0 +1,31 @@
+api = "0.2"
+
+[buildpack]
+id = "heroku/java"
+version = "0.1"
+name = "Java"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/jvm"
+    version = "0.1"
+
+  [[order.group]]
+    id = "heroku/maven"
+    version = "0.1"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.5"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/gradle"
+    version = "0.2"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.5"
+    optional = true
+
