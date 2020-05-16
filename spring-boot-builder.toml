@@ -1,0 +1,22 @@
+[stack]
+id = "heroku-18"
+build-image = "heroku/pack:18-build"
+run-image = "heroku/pack:18"
+
+[lifecycle]
+version = "0.7.4"
+
+[[buildpacks]]
+  id = "heroku/jvm"
+  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v104/heroku-jvm-cnb.tgz"
+
+[[buildpacks]]
+  id = "heroku/spring-boot"
+  uri = "https://github.com/jkutner/spring-boot-buildpack/releases/download/v0.1/heroku-spring-boot-buildpack.tgz"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/jvm"
+
+  [[order.group]]
+    id = "heroku/spring-boot"
