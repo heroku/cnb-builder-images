@@ -15,12 +15,16 @@ version = "0.6.1"
   uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.1.4/nodejs-npm-buildpack-v0.1.4.tgz"
 
 [[buildpacks]]
+  id = "heroku/evergreen-node-system-function"
+  uri = "https://github.com/heroku/evergreen-node-system-function/releases/download/v0.1.0/evergreen-node-system-function-v0.1.0.tgz"
+
+[[buildpacks]]
   id = "salesforce/nodejs-fn"
-  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.1.2/nodejs-sf-fx-buildpack-v1.1.2.tgz"
+  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.2.0/nodejs-sf-fx-buildpack-v1.2.0.tgz"
 
 [[buildpacks]]
   id = "heroku/node-function"
-  uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.6.5/node-function-buildpack-v0.6.5.tgz"
+  uri = "https://github.com/heroku/node-function-buildpack/releases/download/v0.7.0/node-function-buildpack-v0.7.0.tgz"
 
 [[buildpacks]]
   id = "heroku/maven"
@@ -45,13 +49,17 @@ version = "0.6.1"
     version = "0.1.4"
 
   [[order.group]]
+    id = "heroku/evergreen-node-system-function"
+    version = "0.1.0"
+
+  [[order.group]]
     id = "salesforce/nodejs-fn"
-    version = "1.1.2"
+    version = "1.2.0"
     optional = true
 
   [[order.group]]
     id = "heroku/node-function"
-    version = "0.6.5"
+    version = "0.7.0"
 
 [[order]]
   # java functions
