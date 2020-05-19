@@ -12,7 +12,7 @@ version = "0.6.1"
 
 [[buildpacks]]
   id = "heroku/nodejs-npm"
-  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.1.4/nodejs-npm-buildpack-v0.1.4.tgz"
+  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.2.0/nodejs-npm-buildpack-v0.2.0.tgz"
 
 [[buildpacks]]
   id = "heroku/evergreen-node-system-function"
@@ -46,7 +46,7 @@ version = "0.6.1"
 
   [[order.group]]
     id = "heroku/nodejs-npm"
-    version = "0.1.4"
+    version = "0.2.0"
 
   [[order.group]]
     id = "heroku/evergreen-node-system-function"
