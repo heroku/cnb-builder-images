@@ -1,0 +1,4 @@
+FROM heroku/pack:18-build
+
+USER root
+RUN mkdir -p /platform/env && echo "1" > /platform/env/RIFF

@@ -1,6 +1,6 @@
 [stack]
 id = "heroku-18"
-build-image = "heroku/pack:18-build"
+build-image = "heroku/pack:18-riff-build"
 run-image = "heroku/pack:18"
 
 [lifecycle]
@@ -34,6 +34,10 @@ version = "0.6.1"
   id = "heroku/java-function"
   uri = "https://github.com/heroku/java-function-buildpack/releases/download/v0.3.0/java-function-buildpack-v0.3.0.tgz"
 
+[[buildpacks]]
+  id = "io.projectriff.node"
+  uri = "https://storage.googleapis.com/projectriff/node-function-buildpack/io.projectriff.node-0.3.1-BUILD-SNAPSHOT-20200518152928-50737265933ec6fd.tgz"
+
 [[order]]
   # node functions
   [[order.group]]
@@ -45,12 +49,12 @@ version = "0.6.1"
     version = "0.2.0"
 
   [[order.group]]
-    id = "salesforce/nodejs-fn"
-    version = "1.4.1"
+    id = "io.projectriff.node"
+    version = "0.3.1-BUILD-SNAPSHOT"
 
   [[order.group]]
-    id = "heroku/node-function"
-    version = "0.7.0"
+    id = "salesforce/nodejs-fn"
+    version = "1.5.0"
 
 [[order]]
   # java functions
