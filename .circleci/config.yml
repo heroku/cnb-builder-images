@@ -130,7 +130,7 @@ workflows:
       - create-image:
           name: create-riff-build-image
           dockerfile: Dockerfile.build
-          image_tag: heroku/pack:18-build
+          image_tag: heroku/pack:18-riff-build
           image_file: pack-18-riff-build.tar
           target: riff-build
           requires:
