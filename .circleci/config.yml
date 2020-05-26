@@ -32,7 +32,7 @@ jobs:
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
       - setup_remote_docker
-      - run: docker build -f << parameters.dockerfile >> --target << parameters.target >> -t << parameters.image_tag >> .
+      - run: docker build -f << parameters.dockerfile >> --target "<< parameters.target >>" -t << parameters.image_tag >> .
       - run: docker save << parameters.image_tag >> > << parameters.image_file >>
       - save_cache:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.image_file >>
