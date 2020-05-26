@@ -4,8 +4,8 @@ SHELL=/bin/bash -o pipefail
 
 build:
 	@docker pull heroku/heroku:18-build
-	@docker build -f Dockerfile.build -t heroku/pack:18-build .
-	@docker build -f Dockerfile.riff.build -t heroku/pack:18-riff-build .
+	@docker build -f Dockerfile.build --target build -t heroku/pack:18-build .
+	@docker build -f Dockerfile.build --target riff-build -t heroku/pack:18-riff-build .
 	@docker build -f Dockerfile.run -t heroku/pack:18 .
 	@pack create-builder heroku/buildpacks:18 --builder-config builder.toml --no-pull
 	@pack create-builder heroku/functions-buildpacks:18 --builder-config functions-builder.toml --no-pull
