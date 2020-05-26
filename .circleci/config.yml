@@ -120,6 +120,14 @@ workflows:
           requires:
             - clone
       - create-image:
+          name: create-riff-build-image
+          dockerfile: Dockerfile.riff.build
+          image_tag: heroku/pack:18-riff-build
+          image_file: pack-18-riff-build.tar
+          requires:
+            - clone
+            - create-build-image
+      - create-image:
           name: create-run-image
           dockerfile: Dockerfile.run
           image_tag: heroku/pack:18
@@ -141,7 +149,7 @@ workflows:
           builder_toml: functions-builder.toml
           requires:
             - create-run-image
-            - create-build-image
+            - create-riff-build-image
       - test-getting-started-guide:
           language: go
           name: test-go
@@ -189,6 +197,22 @@ workflows:
             branches:
               only: master
       - publish-image:
+          name: publish-build-riff-stack
+          image_file: pack-18-riff-build.tar
+          image_tag: heroku/pack:18-riff-build
+          image_tag_alias: heroku/pack:18-riff-build
+          requires:
+            - test-go
+            - test-java
+            - test-node-js
+            - test-ruby
+            - test-php
+            - test-python
+            - create-functions-builder
+          filters:
+            branches:
+              only: master
+      - publish-image:
           name: publish-run-stack
           image_file: pack-18-run.tar
           image_tag: heroku/pack:18
@@ -221,7 +245,7 @@ workflows:
           image_tag: heroku/functions-buildpacks:18
           image_tag_alias: heroku/functions-buildpacks:latest
           requires:
-            - publish-build-stack
+            - publish-build-riff-stack
             - publish-run-stack
           filters:
             branches:
