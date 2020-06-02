@@ -1,9 +1,9 @@
 api = "0.2"
 
 [buildpack]
-id = "evergreen/node-function"
+id = "evergreen/fn"
 version = "0.1"
-name = "Evergreen Node Function"
+name = "Evergreen Function"
 
 [[order]]
   [[order.group]]
@@ -21,4 +21,3 @@ name = "Evergreen Node Function"
   [[order.group]]
     id = "salesforce/nodejs-fn"
     version = "1.5.1"
-
