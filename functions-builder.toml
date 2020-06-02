@@ -36,7 +36,7 @@ version = "0.6.1"
 
 [[buildpacks]]
   id = "evergreen/fn"
-  uri = "buildpacks/evergreen_function"
+  uri = "buildpacks/evergreen_fn"
 
 [[order]]
   [[order.group]]
