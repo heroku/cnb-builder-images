@@ -34,34 +34,10 @@ version = "0.6.1"
   id = "io.projectriff.node"
   uri = "https://storage.googleapis.com/projectriff/node-function-buildpack/io.projectriff.node-0.3.1-BUILD-SNAPSHOT-20200518152928-50737265933ec6fd.tgz"
 
-[[order]]
-  # node functions
-  [[order.group]]
-    id = "heroku/nodejs-engine"
-    version = "0.4.3"
-
-  [[order.group]]
-    id = "heroku/nodejs-npm"
-    version = "0.2.0"
-
-  [[order.group]]
-    id = "io.projectriff.node"
-    version = "0.3.1-BUILD-SNAPSHOT"
-
-  [[order.group]]
-    id = "salesforce/nodejs-fn"
-    version = "1.5.1"
+[[buildpacks]]
+  id = "evergreen/fn"
+  uri = "buildpacks/evergreen_fn"
 
 [[order]]
-  # java functions
   [[order.group]]
-    id = "heroku/jvm"
-    version = "0.1"
-
-  [[order.group]]
-    id = "heroku/maven"
-    version = "0.1"
-
-  [[order.group]]
-    id = "heroku/java-function"
-    version = "0.3.0"
+    id = "evergreen/fn"
