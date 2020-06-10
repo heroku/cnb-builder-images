@@ -1,9 +1,9 @@
 FROM circleci/golang:1.13.7
 RUN mkdir ~/.docker
 RUN echo '{}' > ~/.docker/config.json
-RUN wget https://github.com/buildpacks/pack/releases/download/v0.8.1/pack-v0.8.1-linux.tgz
-RUN tar xvf pack-v0.8.1-linux.tgz
-RUN rm pack-v0.8.1-linux.tgz
+RUN wget https://github.com/buildpacks/pack/releases/download/v0.11.1/pack-v0.11.1-linux.tgz
+RUN tar xvf pack-v0.11.1-linux.tgz
+RUN rm pack-v0.11.1-linux.tgz
 RUN mkdir -p $HOME/bin/
 RUN mv pack $HOME/bin/
 RUN pack --help
