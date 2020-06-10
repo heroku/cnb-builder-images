@@ -63,8 +63,14 @@ jobs:
       - restore_cache:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
       - setup_remote_docker
-      - run: docker load < pack-18-build.tar
-      - run: docker load < pack-18-riff-build.tar
+      - run: |
+          if [ -f "pack-18-build.tar" ]; then
+              docker load < pack-18-build.tar
+          fi
+      - run: |
+          if [ -f "pack-18-riff-build.tar" ]; then
+              docker load < pack-18-riff-build.tar
+          fi
       - run: docker load < pack-18-run.tar
       - run: pack create-builder << parameters.image_tag >> --builder-config << parameters.builder_toml >> --no-pull
       - run: docker save << parameters.image_tag >> > << parameters.image_file >>
