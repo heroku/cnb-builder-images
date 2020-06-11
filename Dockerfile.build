@@ -1,4 +1,4 @@
-FROM heroku/heroku:18-build AS build
+FROM heroku/heroku:18-build
 
 ARG pack_uid=1000
 ARG pack_gid=1000
@@ -17,10 +17,4 @@ LABEL io.buildpacks.stack.id="heroku-18"
 ADD https://s3.amazonaws.com/heroku-fn-devex-staging/develop/latest/develop /cnb/lifecycle/develop
 RUN chmod +x /cnb/lifecycle/develop
 
-USER heroku
-
-FROM build AS riff-build
-
-USER root
-RUN mkdir -p /platform/env && echo "1" > /platform/env/RIFF
 USER heroku

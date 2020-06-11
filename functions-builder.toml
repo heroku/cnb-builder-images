@@ -1,6 +1,6 @@
 [stack]
 id = "heroku-18"
-build-image = "heroku/pack:18-riff-build"
+build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
 [lifecycle]
@@ -16,7 +16,7 @@ version = "0.6.1"
 
 [[buildpacks]]
   id = "salesforce/nodejs-fn"
-  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.5.2/nodejs-sf-fx-buildpack-v1.5.2.tgz"
+  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.5.3/nodejs-sf-fx-buildpack-v1.5.3.tgz"
 
 [[buildpacks]]
   id = "heroku/maven"
@@ -31,8 +31,12 @@ version = "0.6.1"
   uri = "https://github.com/heroku/java-function-buildpack/releases/download/v0.3.0/java-function-buildpack-v0.3.0.tgz"
 
 [[buildpacks]]
-  id = "io.projectriff.node"
-  uri = "https://storage.googleapis.com/projectriff/node-function-buildpack/io.projectriff.node-0.3.1-BUILD-SNAPSHOT-20200518152928-50737265933ec6fd.tgz"
+  id = "projectriff/streaming-http-adapter"
+  image = "gcr.io/projectriff/streaming-http-adapter:0.1.3"
+
+[[buildpacks]]
+  id = "projectriff/node-function"
+  image = "gcr.io/projectriff/node-function:0.6.1"
 
 [[buildpacks]]
   id = "evergreen/fn"
