@@ -13,4 +13,8 @@ ENV CNB_GROUP_ID=${pack_gid}
 ENV STACK "heroku-18"
 ENV CNB_STACK_ID "heroku-18"
 LABEL io.buildpacks.stack.id="heroku-18"
+
+ADD https://s3.amazonaws.com/heroku-fn-devex-staging/develop/latest/develop /cnb/lifecycle/develop
+RUN chmod +x /cnb/lifecycle/develop
+
 USER heroku

@@ -20,6 +20,10 @@ jobs:
       image_tag:
         description: "Remote image tag name"
         type: string
+      target:
+        description: "Docker build target"
+        type: string
+        default: ""
     docker:
       - image: heroku/pack-runner:latest
     steps:
@@ -28,7 +32,7 @@ jobs:
       - restore_cache:
           key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
       - setup_remote_docker
-      - run: docker build -f << parameters.dockerfile >> -t << parameters.image_tag >> .
+      - run: docker build -f << parameters.dockerfile >> --target "<< parameters.target >>" -t << parameters.image_tag >> .
       - run: docker save << parameters.image_tag >> > << parameters.image_file >>
       - save_cache:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.image_file >>
@@ -57,6 +61,8 @@ jobs:
       - restore_cache:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
       - setup_remote_docker
+      - run: docker pull gcr.io/projectriff/streaming-http-adapter:0.1.3
+      - run: docker pull gcr.io/projectriff/node-function:0.6.1
       - run: docker load < pack-18-build.tar
       - run: docker load < pack-18-run.tar
       - run: pack create-builder << parameters.image_tag >> --builder-config << parameters.builder_toml >> --no-pull

@@ -1,0 +1,27 @@
+api = "0.2"
+
+[buildpack]
+id = "evergreen/fn"
+version = "0.2"
+name = "Evergreen Function"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs-engine"
+    version = "0.4.3"
+
+  [[order.group]]
+    id = "heroku/nodejs-npm"
+    version = "0.2.0"
+
+  [[order.group]]
+    id = "projectriff/streaming-http-adapter"
+    version = "0.1.3"
+
+  [[order.group]]
+    id = "projectriff/node-function"
+    version = "0.6.1"
+
+  [[order.group]]
+    id = "salesforce/nodejs-fn"
+    version = "1.5.5"
