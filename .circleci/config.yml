@@ -63,7 +63,6 @@ jobs:
       - setup_remote_docker
       - run: docker pull gcr.io/projectriff/streaming-http-adapter:0.1.3
       - run: docker pull gcr.io/projectriff/node-function:0.6.1
-      - run: docker pull buildpacksio/lifecycle:0.7.5
       - run: docker load < pack-18-build.tar
       - run: docker load < pack-18-run.tar
       - run: pack create-builder << parameters.image_tag >> --builder-config << parameters.builder_toml >> --no-pull
@@ -118,10 +117,11 @@ jobs:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
       - restore_cache:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-functions-buildpacks-18.tar
+      # - run: docker pull buildpacksio/lifecycle:0.6.1
       - run: docker load < pack-18-build.tar
       - run: docker load < pack-18-run.tar
       - run: docker load < functions-buildpacks-18.tar
-      - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder heroku/functions-buildpacks:18 --no-pull
+      - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --trust_builder --builder heroku/functions-buildpacks:18 --trust-builder --no-pull
   publish-image:
     parameters:
       image_file:
