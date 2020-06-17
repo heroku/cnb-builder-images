@@ -217,6 +217,7 @@ workflows:
           path: sms-ticket-function
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
           requires: 
+            - create-service-builder
             - create-functions-builder
       - test-evergreen-canary:
           name: test-hilltop-contact
@@ -224,13 +225,15 @@ workflows:
           path: contact-update-function
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
           requires: 
+            - create-service-builder
             - create-functions-builder
       - test-evergreen-canary:
           name: test-hilltop-notification
           url: hilltop-theatre-terraform
           path: notification-function
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
-          requires: 
+          requires:
+            - create-service-builder
             - create-functions-builder
       - test-evergreen-canary:
           name: test-hilltop-update
@@ -238,14 +241,16 @@ workflows:
           path: update-seating-diagram-function
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
           requires: 
+            - create-service-builder
             - create-functions-builder
-      - test-evergreen-canary:
-          name: test-canary-hello
-          url: canary-https-invocation
-          path: hello-function
-          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"  # should be another fingerprint
-          requires: 
-            - create-functions-builder
+      # - test-evergreen-canary:
+      #     name: test-canary-hello
+      #     url: canary-https-invocation
+      #     path: hello-function
+      #     fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"  # should be another fingerprint
+      #     requires: 
+      #       - create-service-builder
+      #       - create-functions-builder
       - publish-image:
           name: publish-build-stack
           image_file: pack-18-build.tar
@@ -262,7 +267,7 @@ workflows:
             - test-hilltop-contact
             - test-hilltop-notification
             - test-hilltop-update
-            - test-canary-hello
+            # - test-canary-hello
           filters:
             branches:
               only: master
@@ -282,7 +287,7 @@ workflows:
             - test-hilltop-contact
             - test-hilltop-notification
             - test-hilltop-update
-            - test-canary-hello
+            # - test-canary-hello
           filters:
             branches:
               only: master
