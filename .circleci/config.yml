@@ -91,6 +91,36 @@ jobs:
       - run: docker load < pack-18-run.tar
       - run: docker load < buildpacks-18.tar
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+  test-evergreen-canary:
+    parameters:
+      url:
+        description: "Evergreen canaries github repo"
+        type: string
+      path:
+        description: "Build path"
+        type: string
+      fingerprint:
+        description: "Github private repo SSH key"
+        type: string
+    docker:
+      - image: heroku/pack-runner:latest
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - << parameters.fingerprint >>
+      - run: git clone https://github.com/heroku/evergreen-<< parameters.url >>.git evergreen-canary
+      - setup_remote_docker
+      - restore_cache:
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-build.tar
+      - restore_cache:
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
+      - restore_cache:
+          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-functions-buildpacks-18.tar
+      - run: docker load < pack-18-build.tar
+      - run: docker load < pack-18-run.tar
+      - run: docker load < functions-buildpacks-18.tar
+      - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder heroku/functions-buildpacks:18 --trust-builder --no-pull
   publish-image:
     parameters:
       image_file:
@@ -178,6 +208,34 @@ workflows:
           name: test-ruby
           requires:
             - create-service-builder
+      - test-evergreen-canary:
+          name: test-hilltop-sms
+          url: hilltop-theatre-terraform
+          path: sms-ticket-function
+          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
+          requires: 
+            - create-functions-builder
+      - test-evergreen-canary:
+          name: test-hilltop-contact
+          url: hilltop-theatre-terraform
+          path: contact-update-function
+          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
+          requires: 
+            - create-functions-builder
+      - test-evergreen-canary:
+          name: test-hilltop-notification
+          url: hilltop-theatre-terraform
+          path: notification-function
+          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
+          requires:
+            - create-functions-builder
+      - test-evergreen-canary:
+          name: test-hilltop-update
+          url: hilltop-theatre-terraform
+          path: update-seating-diagram-function
+          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
+          requires: 
+            - create-functions-builder
       - publish-image:
           name: publish-build-stack
           image_file: pack-18-build.tar
@@ -190,7 +248,10 @@ workflows:
             - test-ruby
             - test-php
             - test-python
-            - create-functions-builder
+            - test-hilltop-sms
+            - test-hilltop-contact
+            - test-hilltop-notification
+            - test-hilltop-update
           filters:
             branches:
               only: master
@@ -206,7 +267,10 @@ workflows:
             - test-ruby
             - test-php
             - test-python
-            - create-functions-builder
+            - test-hilltop-sms
+            - test-hilltop-contact
+            - test-hilltop-notification
+            - test-hilltop-update
           filters:
             branches:
               only: master
