@@ -119,6 +119,7 @@ jobs:
       #     key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-buildpacks-18.tar
       - restore_cache:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-functions-buildpacks-18.tar
+      - run: docker pull buildpacksio/lifecycle:0.7.5
       - run: docker load < pack-18-build.tar
       - run: docker load < pack-18-run.tar
       # - run: docker load < buildpacks-18.tar
