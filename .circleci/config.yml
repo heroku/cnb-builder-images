@@ -115,13 +115,13 @@ jobs:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-build.tar
       - restore_cache:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-buildpacks-18.tar
+      # - restore_cache:
+      #     key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-buildpacks-18.tar
       - restore_cache:
           key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-functions-buildpacks-18.tar
       - run: docker load < pack-18-build.tar
       - run: docker load < pack-18-run.tar
-      - run: docker load < buildpacks-18.tar
+      # - run: docker load < buildpacks-18.tar
       - run: docker load < functions-buildpacks-18.tar
       - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder heroku/functions-buildpacks:18 --no-pull
   publish-image:
@@ -217,7 +217,7 @@ workflows:
           path: sms-ticket-function
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
           requires: 
-            - create-service-builder
+            # - create-service-builder
             - create-functions-builder
       - test-evergreen-canary:
           name: test-hilltop-contact
@@ -225,7 +225,7 @@ workflows:
           path: contact-update-function
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
           requires: 
-            - create-service-builder
+            # - create-service-builder
             - create-functions-builder
       - test-evergreen-canary:
           name: test-hilltop-notification
@@ -233,7 +233,7 @@ workflows:
           path: notification-function
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
           requires:
-            - create-service-builder
+            # - create-service-builder
             - create-functions-builder
       - test-evergreen-canary:
           name: test-hilltop-update
@@ -241,7 +241,7 @@ workflows:
           path: update-seating-diagram-function
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
           requires: 
-            - create-service-builder
+            # - create-service-builder
             - create-functions-builder
       # - test-evergreen-canary:
       #     name: test-canary-hello
