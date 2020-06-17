@@ -104,8 +104,8 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-        fingerprints:
-          - "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
+          fingerprints:
+            - "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
       - run: git clone https://github.com/heroku/evergreen-<< parameters.url >>.git evergreen-canary
       - setup_remote_docker
       - restore_cache:
