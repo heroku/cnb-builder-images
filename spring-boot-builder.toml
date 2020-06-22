@@ -4,7 +4,7 @@ build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
 [lifecycle]
-version = "0.7.4"
+version = "0.8.0"
 
 [[buildpacks]]
   id = "heroku/jvm"
