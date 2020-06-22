@@ -12,7 +12,7 @@ version = "0.7.4"
 
 [[buildpacks]]
   id = "heroku/spring-boot"
-  uri = "https://github.com/jkutner/spring-boot-buildpack/releases/download/v0.1/heroku-spring-boot-buildpack.tgz"
+  uri = "https://github.com/heroku-examples/spring-boot-buildpack/releases/download/v0.1/heroku-spring-boot-buildpack.tgz"
 
 [[order]]
   [[order.group]]
