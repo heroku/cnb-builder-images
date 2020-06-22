@@ -24,4 +24,4 @@ name = "Evergreen Function"
 
   [[order.group]]
     id = "salesforce/nodejs-fn"
-    version = "1.5.5"
+    version = "1.5.6"
