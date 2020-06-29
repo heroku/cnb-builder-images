@@ -8,7 +8,7 @@ version = "0.6.1"
 
 [[buildpacks]]
   id = "heroku/nodejs-engine"
-  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.4.3/nodejs-engine-buildpack-v0.4.3.tgz"
+  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.4.4/nodejs-engine-buildpack-v0.4.4.tgz"
 
 [[buildpacks]]
   id = "heroku/nodejs-npm"
