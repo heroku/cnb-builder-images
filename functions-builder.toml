@@ -16,7 +16,7 @@ version = "0.6.1"
 
 [[buildpacks]]
   id = "salesforce/nodejs-fn"
-  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.5.6/nodejs-sf-fx-buildpack-v1.5.6.tgz"
+  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.5.7/nodejs-sf-fx-buildpack-v1.5.7.tgz"
 
 [[buildpacks]]
   id = "heroku/maven"
