@@ -59,6 +59,10 @@ version = "0.8.0"
   uri = "https://github.com/heroku/nodejs-yarn-buildpack/releases/download/v0.0.1/nodejs-yarn-buildpack-v0.0.1.tgz"
 
 [[buildpacks]]
+  id = "heroku/nodejs-typescript"
+  uri = "https://github.com/heroku/nodejs-typescript-buildpack/releases/download/v0.0.2/nodejs-typescript-buildpack-v0.0.2.tgz"
+
+[[buildpacks]]
   id = "heroku/nodejs"
   uri = "buildpacks/heroku_nodejs"
 

@@ -15,6 +15,11 @@ name = "Node.js"
     version = "0.0.1"
 
   [[order.group]]
+    id = "heroku/nodejs-typescript"
+    version = "0.0.2"
+    optional = true
+
+  [[order.group]]
     id = "heroku/procfile"
     version = "0.5"
     optional = true
@@ -27,6 +32,11 @@ name = "Node.js"
   [[order.group]]
     id = "heroku/nodejs-npm"
     version = "0.2.0"
+
+  [[order.group]]
+    id = "heroku/nodejs-typescript"
+    version = "0.0.2"
+    optional = true
 
   [[order.group]]
     id = "heroku/procfile"
