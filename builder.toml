@@ -20,7 +20,7 @@ version = "0.8.0"
 
 [[buildpacks]]
   id = "heroku/ruby"
-  uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/cnb-alpha/ruby-buildpack-vCNB-alpha.tgz"
+  uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/v218/heroku-buildpack-ruby-v218.tgz"
 
 [[buildpacks]]
   id = "heroku/procfile"
