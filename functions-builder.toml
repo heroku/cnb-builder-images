@@ -24,7 +24,7 @@ version = "0.6.1"
 
 [[buildpacks]]
   id = "heroku/jvm"
-  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v96/heroku-jvm-cnb.tgz"
+  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v106/heroku-jvm-common-cnb-v106.tgz"
 
 [[buildpacks]]
   id = "heroku/java-function"
