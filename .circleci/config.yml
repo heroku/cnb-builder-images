@@ -231,15 +231,15 @@ workflows:
       - test-evergreen-canary:
           name: test-canary-https-invocation-hello
           url: canary-https-invocation
-          path: hello
-          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
+          path: hello-function
+          fingerprint: "5f:51:54:de:aa:c6:91:98:3e:e9:b2:a3:94:e7:05:6d"
           requires: 
             - create-functions-builder
       - test-evergreen-canary:
           name: test-canary-logs-cli-example-function
           url: canary-logs-cli
           path: salesforce/functions/ExampleFunction
-          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
+          fingerprint: "5f:51:54:de:aa:c6:91:98:3e:e9:b2:a3:94:e7:05:6d"
           requires: 
             - create-functions-builder
       - publish-image:
