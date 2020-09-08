@@ -229,31 +229,17 @@ workflows:
           requires:
             - create-service-builder
       - test-evergreen-canary:
-          name: test-hilltop-sms
-          url: hilltop-theatre-terraform
-          path: sms-ticket-function
-          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
+          name: test-canary-https-invocation-hello
+          url: canary-https-invocation
+          path: hello-function
+          fingerprint: "5f:51:54:de:aa:c6:91:98:3e:e9:b2:a3:94:e7:05:6d"
           requires: 
             - create-functions-builder
       - test-evergreen-canary:
-          name: test-hilltop-contact
-          url: hilltop-theatre-terraform
-          path: contact-update-function
-          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
-          requires: 
-            - create-functions-builder
-      - test-evergreen-canary:
-          name: test-hilltop-notification
-          url: hilltop-theatre-terraform
-          path: notification-function
-          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
-          requires:
-            - create-functions-builder
-      - test-evergreen-canary:
-          name: test-hilltop-update
-          url: hilltop-theatre-terraform
-          path: update-seating-diagram-function
-          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
+          name: test-canary-logs-cli-example-function
+          url: canary-logs-cli
+          path: salesforce/functions/ExampleFunction
+          fingerprint: "c1:1d:be:7b:33:56:47:56:8a:84:55:15:9f:7c:5e:1c"
           requires: 
             - create-functions-builder
       - publish-image:
@@ -268,10 +254,8 @@ workflows:
             - test-ruby
             - test-php
             - test-python
-            - test-hilltop-sms
-            - test-hilltop-contact
-            - test-hilltop-notification
-            - test-hilltop-update
+            - test-canary-https-invocation-hello
+            - test-canary-logs-cli-example-function
           filters:
             branches:
               only: master
@@ -287,10 +271,8 @@ workflows:
             - test-ruby
             - test-php
             - test-python
-            - test-hilltop-sms
-            - test-hilltop-contact
-            - test-hilltop-notification
-            - test-hilltop-update
+            - test-canary-https-invocation-hello
+            - test-canary-logs-cli-example-function
           filters:
             branches:
               only: master
