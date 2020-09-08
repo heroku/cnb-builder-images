@@ -229,30 +229,16 @@ workflows:
           requires:
             - create-service-builder
       - test-evergreen-canary:
-          name: test-hilltop-sms
-          url: hilltop-theatre-terraform
-          path: sms-ticket-function
+          name: test-canary-https-invocation-hello
+          url: canary-https-invocation
+          path: hello
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
           requires: 
             - create-functions-builder
       - test-evergreen-canary:
-          name: test-hilltop-contact
-          url: hilltop-theatre-terraform
-          path: contact-update-function
-          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
-          requires: 
-            - create-functions-builder
-      - test-evergreen-canary:
-          name: test-hilltop-notification
-          url: hilltop-theatre-terraform
-          path: notification-function
-          fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
-          requires:
-            - create-functions-builder
-      - test-evergreen-canary:
-          name: test-hilltop-update
-          url: hilltop-theatre-terraform
-          path: update-seating-diagram-function
+          name: test-canary-logs-cli-example-function
+          url: canary-logs-cli
+          path: salesforce/functions/ExampleFunction
           fingerprint: "d4:04:b8:b2:2d:24:f3:6e:b2:5d:5b:da:c1:82:65:00"
           requires: 
             - create-functions-builder
