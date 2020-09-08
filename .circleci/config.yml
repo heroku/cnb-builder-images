@@ -254,10 +254,8 @@ workflows:
             - test-ruby
             - test-php
             - test-python
-            - test-hilltop-sms
-            - test-hilltop-contact
-            - test-hilltop-notification
-            - test-hilltop-update
+            - test-canary-https-invocation-hello
+            - test-canary-logs-cli-example-function
           filters:
             branches:
               only: master
@@ -273,10 +271,8 @@ workflows:
             - test-ruby
             - test-php
             - test-python
-            - test-hilltop-sms
-            - test-hilltop-contact
-            - test-hilltop-notification
-            - test-hilltop-update
+            - test-canary-https-invocation-hello
+            - test-canary-logs-cli-example-function
           filters:
             branches:
               only: master
