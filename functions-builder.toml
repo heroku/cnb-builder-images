@@ -19,18 +19,6 @@ version = "0.6.1"
   uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.9.3/nodejs-sf-fx-buildpack-v1.9.3.tgz"
 
 [[buildpacks]]
-  id = "heroku/maven"
-  uri = "https://github.com/heroku/heroku-buildpack-java/releases/download/cnb/heroku-buildpack-maven.tgz"
-
-[[buildpacks]]
-  id = "heroku/jvm"
-  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v106/heroku-jvm-common-cnb-v106.tgz"
-
-[[buildpacks]]
-  id = "heroku/java-function"
-  uri = "https://github.com/heroku/java-function-buildpack/releases/download/v0.3.0/java-function-buildpack-v0.3.0.tgz"
-
-[[buildpacks]]
   id = "projectriff/streaming-http-adapter"
   image = "gcr.io/projectriff/streaming-http-adapter:0.1.3"
 
