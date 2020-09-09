@@ -251,7 +251,7 @@ workflows:
           builder_image_tag: "heroku/buildpacks:18"
           builder_file_name: functions-buildpacks-18.tar
           requires: 
-            - create-functions-builder
+            - create-builder
       - test-evergreen-canary:
           name: test-canary-logs-cli-functions-builder
           url: canary-logs-cli
@@ -269,7 +269,7 @@ workflows:
           builder_image_tag: "heroku/buildpacks:18"
           builder_file_name: functions-buildpacks-18.tar
           requires: 
-            - create-functions-builder
+            - create-builder
       - publish-image:
           name: publish-build-stack
           image_file: pack-18-build.tar
