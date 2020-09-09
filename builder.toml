@@ -66,6 +66,22 @@ version = "0.9.1"
   id = "heroku/nodejs"
   uri = "buildpacks/heroku_nodejs"
 
+[[buildpacks]]
+  id = "salesforce/nodejs-fn"
+  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.9.3/nodejs-sf-fx-buildpack-v1.9.3.tgz"
+
+[[buildpacks]]
+  id = "projectriff/streaming-http-adapter"
+  image = "gcr.io/projectriff/streaming-http-adapter:0.1.3"
+
+[[buildpacks]]
+  id = "projectriff/node-function"
+  image = "gcr.io/projectriff/node-function:0.6.1"
+
+[[buildpacks]]
+  id = "evergreen/fn"
+  uri = "buildpacks/evergreen_fn"
+
 [[order]]
   [[order.group]]
     id = "heroku/ruby"
@@ -109,6 +125,10 @@ version = "0.9.1"
   [[order.group]]
     id = "heroku/procfile"
     optional = true
+
+[[order]]
+  [[order.group]]
+    id = "evergreen/fn"
 
 [[order]]
   [[order.group]]
