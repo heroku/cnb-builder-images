@@ -91,22 +91,6 @@ jobs:
       - run: docker load < pack-18-run.tar
       - run: docker load < buildpacks-18.tar
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
-  test-typescript-getting-started-guide:
-    docker:
-      - image: heroku/pack-runner:latest
-    steps:
-      - run: git clone https://github.com/danielleadams/typescript-getting-started.git getting_started
-      - setup_remote_docker
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-build.tar
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-buildpacks-18.tar
-      - run: docker load < pack-18-build.tar
-      - run: docker load < pack-18-run.tar
-      - run: docker load < buildpacks-18.tar
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
   test-evergreen-canary:
     parameters:
       url:
@@ -215,7 +199,8 @@ workflows:
           name: test-node-js
           requires:
             - create-service-builder
-      - test-typescript-getting-started-guide:
+      - test-getting-started-guide:
+          language: typescript
           name: test-typescript
           requires:
             - create-service-builder
