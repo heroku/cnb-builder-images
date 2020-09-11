@@ -16,7 +16,7 @@ version = "0.6.1"
 
 [[buildpacks]]
   id = "salesforce/nodejs-fn"
-  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.9.3/nodejs-sf-fx-buildpack-v1.9.3.tgz"
+  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v1.9.4/nodejs-sf-fx-buildpack-v1.9.4.tgz"
 
 [[buildpacks]]
   id = "projectriff/streaming-http-adapter"
