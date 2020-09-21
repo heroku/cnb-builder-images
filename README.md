@@ -2,12 +2,18 @@
 
 [![CircleCI](https://circleci.com/gh/heroku/pack-images.svg?style=svg)](https://circleci.com/gh/heroku/pack-images)
 
-This repository contains the base images for using the Heroku stack with [`pack` CLI](https://github.com/buildpack/pack). As such it provides a base image containing:
+This repository is responsible for building and publishing images that enable
+Heroku-like builds with [Cloud Native Buildpacks'](https://buildpacks.io)
+[`pack`](https://github.com/buildpacks/pack) command.
 
-* [Buildpack Lifecycle](https://github.com/buildpack/lifecycle)
-* Buildpack installer script (not used by `pack`)
+* [heroku/pack:18](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
+  compatible run image based on heroku:18
+* [heroku/pack:18-build](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
+  compatible build image based on heroku:18-build
+* [heroku/buildpacks:18](https://hub.docker.com/r/heroku/buildpacks/tags/) - A
+  CNB Builder that features the heroku-18 stack, heroku buildpacks, and
+  Salesforce Function buildpacks
 
-## Published Images
+## Usage
 
-* [heroku/pack:18](https://hub.docker.com/r/heroku/pack/tags/)
-* [heroku/pack:18-build](https://hub.docker.com/r/heroku/pack/tags/)
+`pack build myapp --builder heroku/buildpacks:18`
