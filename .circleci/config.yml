@@ -1,14 +1,5 @@
 version: 2.1
 jobs:
-  clone:
-    docker:
-      - image: heroku/pack-runner:latest
-    steps:
-      - checkout
-      - save_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ~/project
   create-image:
     parameters:
       dockerfile:
@@ -27,15 +18,14 @@ jobs:
     docker:
       - image: heroku/pack-runner:latest
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
       - setup_remote_docker
       - run: docker build -f << parameters.dockerfile >> --target "<< parameters.target >>" -t << parameters.image_tag >> .
-      - run: docker save << parameters.image_tag >> > << parameters.image_file >>
-      - save_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.image_file >>
+      - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
+      - persist_to_workspace:
+          root: /tmp/workspace
           paths:
             - << parameters.image_file >>
   create-pack-builder:
@@ -52,23 +42,18 @@ jobs:
     docker:
       - image: heroku/pack-runner:latest
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-buildpacks-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-build.tar
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
       - setup_remote_docker
       - run: docker pull gcr.io/projectriff/streaming-http-adapter:0.1.3
       - run: docker pull gcr.io/projectriff/node-function:0.6.1
-      - run: docker load < pack-18-build.tar
-      - run: docker load < pack-18-run.tar
+      - run: docker load < /tmp/workspace/pack-18-build.tar
+      - run: docker load < /tmp/workspace/pack-18-run.tar
       - run: pack create-builder << parameters.image_tag >> --builder-config << parameters.builder_toml >> --no-pull
-      - run: docker save << parameters.image_tag >> > << parameters.image_file >>
-      - save_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.image_file >>
+      - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
+      - persist_to_workspace:
+          root: /tmp/workspace
           paths:
             - << parameters.image_file >>
   test-getting-started-guide:
@@ -81,15 +66,11 @@ jobs:
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - setup_remote_docker
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-build.tar
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-buildpacks-18.tar
-      - run: docker load < pack-18-build.tar
-      - run: docker load < pack-18-run.tar
-      - run: docker load < buildpacks-18.tar
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: docker load < /tmp/workspace/pack-18-build.tar
+      - run: docker load < /tmp/workspace/pack-18-run.tar
+      - run: docker load < /tmp/workspace/buildpacks-18.tar
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
   test-evergreen-canary:
     parameters:
@@ -117,15 +98,11 @@ jobs:
             - << parameters.fingerprint >>
       - run: git clone https://github.com/heroku/evergreen-<< parameters.url >>.git evergreen-canary
       - setup_remote_docker
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-build.tar
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-pack-18-run.tar
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.builder_file_name >>
-      - run: docker load < pack-18-build.tar
-      - run: docker load < pack-18-run.tar
-      - run: docker load < << parameters.builder_file_name >>
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: docker load < /tmp/workspace/pack-18-build.tar
+      - run: docker load < /tmp/workspace/pack-18-run.tar
+      - run: docker load < /tmp/workspace/<< parameters.builder_file_name >>
       - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder << parameters.builder_image_tag >> --trust-builder --no-pull
   publish-image:
     parameters:
@@ -143,9 +120,9 @@ jobs:
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-      - restore_cache:
-          key: v1-image-{{ .Environment.CIRCLE_SHA1 }}-<< parameters.image_file >>
-      - run: docker load < << parameters.image_file >>
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: docker load < /tmp/workspace/<< parameters.image_file >>
       - run: docker push << parameters.image_tag >>
       - run: docker tag << parameters.image_tag >> << parameters.image_tag_alias >>
       - run: docker push << parameters.image_tag_alias >>
@@ -153,21 +130,16 @@ workflows:
   version: 2
   build-test-publish:
     jobs: &build-test-publish-jobs
-      - clone
       - create-image:
           name: create-build-image
           dockerfile: Dockerfile.build
           image_tag: heroku/pack:18-build
           image_file: pack-18-build.tar
-          requires:
-            - clone
       - create-image:
           name: create-run-image
           dockerfile: Dockerfile.run
           image_tag: heroku/pack:18
           image_file: pack-18-run.tar
-          requires:
-            - clone
       - create-pack-builder:
           name: create-service-builder
           image_tag: heroku/buildpacks:18
@@ -218,7 +190,7 @@ workflows:
           fingerprint: "5f:51:54:de:aa:c6:91:98:3e:e9:b2:a3:94:e7:05:6d"
           builder_image_tag: "heroku/buildpacks:18"
           builder_file_name: buildpacks-18.tar
-          requires: 
+          requires:
             - create-service-builder
       - test-evergreen-canary:
           name: test-canary-logs-cli-builder
@@ -227,7 +199,7 @@ workflows:
           fingerprint: "c1:1d:be:7b:33:56:47:56:8a:84:55:15:9f:7c:5e:1c"
           builder_image_tag: "heroku/buildpacks:18"
           builder_file_name: buildpacks-18.tar
-          requires: 
+          requires:
             - create-service-builder
       - publish-image:
           name: publish-build-stack
