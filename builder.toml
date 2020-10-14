@@ -48,11 +48,11 @@ version = "0.9.1"
 
 [[buildpacks]]
   id = "heroku/nodejs-engine"
-  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.4.4/nodejs-engine-buildpack-v0.4.4.tgz"
+  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.5.0/nodejs-engine-buildpack-v0.5.0.tgz"
 
 [[buildpacks]]
   id = "heroku/nodejs-npm"
-  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.2.0/nodejs-npm-buildpack-v0.2.0.tgz"
+  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.3.0/nodejs-npm-buildpack-v0.3.0.tgz"
 
 [[buildpacks]]
   id = "heroku/nodejs-yarn"
