@@ -5,16 +5,18 @@ jobs:
       dockerfile:
         description: "Dockerfile to build"
         type: string
+      base_image:
+        description: "The Docker image to be used in the FROM line of the Dockerfile"
+        type: string
+      stack_name:
+        description: "The name of the stack"
+        type: string
       image_file:
         description: "Local image archive file name"
         type: string
       image_tag:
         description: "Remote image tag name"
         type: string
-      target:
-        description: "Docker build target"
-        type: string
-        default: ""
     docker:
       - image: heroku/pack-runner:latest
     steps:
@@ -22,7 +24,7 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - setup_remote_docker
-      - run: docker build -f << parameters.dockerfile >> --target "<< parameters.target >>" -t << parameters.image_tag >> .
+      - run: docker build -f << parameters.dockerfile >> --build-arg STACK=<< parameters.stack_name >> --build-arg BASE_IMAGE=<< parameters.base_image >> -t << parameters.image_tag >> .
       - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
       - persist_to_workspace:
           root: /tmp/workspace
@@ -131,23 +133,41 @@ workflows:
   build-test-publish:
     jobs: &build-test-publish-jobs
       - create-image:
-          name: create-build-image
+          name: create-18-build-image
           dockerfile: Dockerfile.build
+          base_image: heroku/heroku:18-build
+          stack_name: heroku-18
           image_tag: heroku/pack:18-build
           image_file: pack-18-build.tar
       - create-image:
-          name: create-run-image
+          name: create-18-run-image
           dockerfile: Dockerfile.run
+          base_image: heroku/heroku:18
+          stack_name: heroku-18
           image_tag: heroku/pack:18
           image_file: pack-18-run.tar
+      - create-image:
+          name: create-20-build-image
+          dockerfile: Dockerfile.build
+          base_image: heroku/heroku:20-build
+          stack_name: heroku-20
+          image_tag: heroku/pack:20-build
+          image_file: pack-20-build.tar
+      - create-image:
+          name: create-20-run-image
+          dockerfile: Dockerfile.run
+          base_image: heroku/heroku:20
+          stack_name: heroku-20
+          image_tag: heroku/pack:20
+          image_file: pack-20-run.tar
       - create-pack-builder:
           name: create-service-builder
           image_tag: heroku/buildpacks:18
           image_file: buildpacks-18.tar
           builder_toml: builder.toml
           requires:
-            - create-run-image
-            - create-build-image
+            - create-18-run-image
+            - create-18-build-image
       - test-getting-started-guide:
           language: go
           name: test-go
@@ -202,7 +222,7 @@ workflows:
           requires:
             - create-service-builder
       - publish-image:
-          name: publish-build-stack
+          name: publish-18-build-stack
           image_file: pack-18-build.tar
           image_tag: heroku/pack:18-build
           image_tag_alias: heroku/pack:18-build
@@ -219,7 +239,7 @@ workflows:
             branches:
               only: master
       - publish-image:
-          name: publish-run-stack
+          name: publish-18-run-stack
           image_file: pack-18-run.tar
           image_tag: heroku/pack:18
           image_tag_alias: heroku/pack:18
@@ -241,8 +261,28 @@ workflows:
           image_tag: heroku/buildpacks:18
           image_tag_alias: heroku/buildpacks:latest
           requires:
-            - publish-build-stack
-            - publish-run-stack
+            - publish-18-build-stack
+            - publish-18-run-stack
+          filters:
+            branches:
+              only: master
+      - publish-image:
+          name: publish-20-build-stack
+          image_file: pack-20-build.tar
+          image_tag: heroku/pack:20-build
+          image_tag_alias: heroku/pack:20-build
+          requires:
+            - create-20-build-image
+          filters:
+            branches:
+              only: master
+      - publish-image:
+          name: publish-20-run-stack
+          image_file: pack-20-run.tar
+          image_tag: heroku/pack:20
+          image_tag_alias: heroku/pack:20
+          requires:
+            - create-20-run-image
           filters:
             branches:
               only: master
