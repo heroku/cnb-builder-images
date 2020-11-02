@@ -50,8 +50,8 @@ jobs:
       - setup_remote_docker
       - run: docker pull gcr.io/projectriff/streaming-http-adapter:0.1.3
       - run: docker pull gcr.io/projectriff/node-function:0.6.1
-      - run: docker load < /tmp/workspace/pack-18-build.tar
-      - run: docker load < /tmp/workspace/pack-18-run.tar
+      - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
+      - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
       - run: pack create-builder << parameters.image_tag >> --builder-config << parameters.builder_toml >> --no-pull
       - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
       - persist_to_workspace:
@@ -63,6 +63,9 @@ jobs:
       language:
         description: "Language"
         type: string
+      stack-tag:
+        description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
+        type: string
     docker:
       - image: heroku/pack-runner:latest
     steps:
@@ -70,10 +73,11 @@ jobs:
       - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
-      - run: docker load < /tmp/workspace/pack-18-build.tar
-      - run: docker load < /tmp/workspace/pack-18-run.tar
-      - run: docker load < /tmp/workspace/buildpacks-18.tar
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:18 --no-pull
+      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
+      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
+      - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
+      - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --no-pull
   test-evergreen-canary:
     parameters:
       url:
@@ -161,48 +165,87 @@ workflows:
           image_tag: heroku/pack:20
           image_file: pack-20-run.tar
       - create-pack-builder:
-          name: create-service-builder
+          name: create-service-builder-18
           image_tag: heroku/buildpacks:18
           image_file: buildpacks-18.tar
-          builder_toml: builder.toml
+          builder_toml: builder-18.toml
           requires:
             - create-18-run-image
             - create-18-build-image
+      - create-pack-builder:
+          name: create-service-builder-20
+          image_tag: heroku/buildpacks:20
+          image_file: buildpacks-20.tar
+          builder_toml: builder-20.toml
+          requires:
+            - create-20-run-image
+            - create-20-build-image
       - test-getting-started-guide:
           language: go
-          name: test-go
+          stack-tag: "18"
+          name: test-go-18
           requires:
-            - create-service-builder
+            - create-service-builder-18
+      - test-getting-started-guide:
+          language: go
+          stack-tag: "20"
+          name: test-go-20
+          requires:
+            - create-service-builder-20
       - test-getting-started-guide:
           language: java
-          name: test-java
+          stack-tag: "18"
+          name: test-java-18
           requires:
-            - create-service-builder
+            - create-service-builder-18
+      - test-getting-started-guide:
+          language: java
+          stack-tag: "20"
+          name: test-java-20
+          requires:
+            - create-service-builder-20
       - test-getting-started-guide:
           language: node-js
-          name: test-node-js
+          stack-tag: "18"
+          name: test-node-js-18
           requires:
-            - create-service-builder
+            - create-service-builder-18
       - test-getting-started-guide:
           language: typescript
-          name: test-typescript
+          stack-tag: "18"
+          name: test-typescript-18
           requires:
-            - create-service-builder
+            - create-service-builder-18
       - test-getting-started-guide:
           language: php
-          name: test-php
+          stack-tag: "18"
+          name: test-php-18
           requires:
-            - create-service-builder
+            - create-service-builder-18
+      - test-getting-started-guide:
+          language: php
+          stack-tag: "20"
+          name: test-php-20
+          requires:
+            - create-service-builder-20
       - test-getting-started-guide:
           language: Python
-          name: test-python
+          stack-tag: "18"
+          name: test-python-18
           requires:
-            - create-service-builder
+            - create-service-builder-18
+      - test-getting-started-guide:
+          language: Python
+          stack-tag: "20"
+          name: test-python-20
+          requires:
+            - create-service-builder-20
       - test-getting-started-guide:
           language: Ruby
-          name: test-ruby
+          stack-tag: "18"
+          name: test-ruby-18
           requires:
-            - create-service-builder
+            - create-service-builder-18
       - test-evergreen-canary:
           name: test-canary-https-invocation-builder
           url: canary-https-invocation
@@ -211,7 +254,7 @@ workflows:
           builder_image_tag: "heroku/buildpacks:18"
           builder_file_name: buildpacks-18.tar
           requires:
-            - create-service-builder
+            - create-service-builder-18
       - test-evergreen-canary:
           name: test-canary-logs-cli-builder
           url: canary-logs-cli
@@ -220,19 +263,19 @@ workflows:
           builder_image_tag: "heroku/buildpacks:18"
           builder_file_name: buildpacks-18.tar
           requires:
-            - create-service-builder
+            - create-service-builder-18
       - publish-image:
           name: publish-18-build-stack
           image_file: pack-18-build.tar
           image_tag: heroku/pack:18-build
           image_tag_alias: heroku/pack:18-build
           requires:
-            - test-go
-            - test-java
-            - test-node-js
-            - test-ruby
-            - test-php
-            - test-python
+            - test-go-18
+            - test-java-18
+            - test-node-js-18
+            - test-ruby-18
+            - test-php-18
+            - test-python-18
             - test-canary-https-invocation-builder
             - test-canary-logs-cli-builder
           filters:
@@ -244,19 +287,19 @@ workflows:
           image_tag: heroku/pack:18
           image_tag_alias: heroku/pack:18
           requires:
-            - test-go
-            - test-java
-            - test-node-js
-            - test-ruby
-            - test-php
-            - test-python
+            - test-go-18
+            - test-java-18
+            - test-node-js-18
+            - test-ruby-18
+            - test-php-18
+            - test-python-18
             - test-canary-https-invocation-builder
             - test-canary-logs-cli-builder
           filters:
             branches:
               only: master
       - publish-image:
-          name: publish-service-builder
+          name: publish-service-builder-18
           image_file: buildpacks-18.tar
           image_tag: heroku/buildpacks:18
           image_tag_alias: heroku/buildpacks:latest
@@ -272,6 +315,10 @@ workflows:
           image_tag: heroku/pack:20-build
           image_tag_alias: heroku/pack:20-build
           requires:
+            - test-go-20
+            - test-java-20
+            - test-php-20
+            - test-python-20
             - create-20-build-image
           filters:
             branches:
@@ -282,7 +329,22 @@ workflows:
           image_tag: heroku/pack:20
           image_tag_alias: heroku/pack:20
           requires:
+            - test-go-20
+            - test-java-20
+            - test-php-20
+            - test-python-20
             - create-20-run-image
+          filters:
+            branches:
+              only: master
+      - publish-image:
+          name: publish-service-builder-20
+          image_file: buildpacks-20.tar
+          image_tag: heroku/buildpacks:20
+          image_tag_alias: heroku/buildpacks:20
+          requires:
+            - publish-20-build-stack
+            - publish-20-run-stack
           filters:
             branches:
               only: master

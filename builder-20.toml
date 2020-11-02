@@ -1,0 +1,79 @@
+[stack]
+id = "heroku-20"
+build-image = "heroku/pack:20-build"
+run-image = "heroku/pack:20"
+
+[lifecycle]
+version = "0.9.2"
+
+[[buildpacks]]
+  id = "heroku/maven"
+  uri = "https://github.com/heroku/heroku-buildpack-java/releases/download/cnb-0.1/heroku-buildpack-maven.tgz"
+
+[[buildpacks]]
+  id = "heroku/jvm"
+  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v110-cnb/heroku-jvm-common-cnb-v110-cnb.tgz"
+
+[[buildpacks]]
+  id = "heroku/java"
+  uri = "buildpacks/heroku_java"
+
+[[buildpacks]]
+  id = "heroku/procfile"
+  uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.6/procfile-cnb-v0.6.tgz"
+
+[[buildpacks]]
+  id = "heroku/python"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.3&name=Python"
+
+[[buildpacks]]
+  id = "heroku/gradle"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.3&name=Gradle"
+
+[[buildpacks]]
+  id = "heroku/scala"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.3&name=Scala"
+
+[[buildpacks]]
+  id = "heroku/php"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.3&name=PHP"
+
+[[buildpacks]]
+  id = "heroku/go"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3&name=Go"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/python"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/java"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/scala"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/php"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/go"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    optional = true

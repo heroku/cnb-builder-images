@@ -4,15 +4,15 @@ build-image = "heroku/pack:18-build"
 run-image = "heroku/pack:18"
 
 [lifecycle]
-version = "0.8.0"
+version = "0.9.2"
 
 [[buildpacks]]
   id = "heroku/jvm"
-  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v104/heroku-jvm-cnb.tgz"
+  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v110-cnb/heroku-jvm-common-cnb-v110-cnb.tgz"
 
 [[buildpacks]]
   id = "heroku/spring-boot"
-  uri = "https://github.com/heroku-examples/spring-boot-buildpack/releases/download/v0.1/heroku-spring-boot-buildpack.tgz"
+  uri = "urn:cnb:registry:heroku/spring-boot@0.2.2"
 
 [[order]]
   [[order.group]]
