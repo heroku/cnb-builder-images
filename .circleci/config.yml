@@ -319,7 +319,6 @@ workflows:
             - test-java-20
             - test-php-20
             - test-python-20
-            - create-20-build-image
           filters:
             branches:
               only: master
