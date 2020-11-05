@@ -1,7 +1,7 @@
 [stack]
-id = "heroku-18"
-build-image = "heroku/pack:18-build"
-run-image = "heroku/pack:18"
+id = "heroku-20"
+build-image = "heroku/pack:20-build"
+run-image = "heroku/pack:20"
 
 [lifecycle]
 version = "0.9.2"
