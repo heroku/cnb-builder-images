@@ -16,16 +16,16 @@ name = "Java"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.5"
+    version = "0.6"
     optional = true
 
 [[order]]
   [[order.group]]
     id = "heroku/gradle"
-    version = "0.2"
+    version = "0.3"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.5"
+    version = "0.6"
     optional = true
 
