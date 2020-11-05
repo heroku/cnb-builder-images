@@ -8,7 +8,7 @@ name = "Node.js"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-engine"
-    version = "0.5.0"
+    version = "0.6.0"
 
   [[order.group]]
     id = "heroku/nodejs-yarn"
@@ -16,7 +16,7 @@ name = "Node.js"
 
   [[order.group]]
     id = "heroku/nodejs-typescript"
-    version = "0.0.2"
+    version = "0.1.0"
     optional = true
 
   [[order.group]]
@@ -27,7 +27,7 @@ name = "Node.js"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-engine"
-    version = "0.5.0"
+    version = "0.6.0"
 
   [[order.group]]
     id = "heroku/nodejs-npm"
@@ -35,7 +35,7 @@ name = "Node.js"
 
   [[order.group]]
     id = "heroku/nodejs-typescript"
-    version = "0.0.2"
+    version = "0.1.0"
     optional = true
 
   [[order.group]]

@@ -48,7 +48,7 @@ version = "0.9.2"
 
 [[buildpacks]]
   id = "heroku/nodejs-engine"
-  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.5.0/nodejs-engine-buildpack-v0.5.0.tgz"
+  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.6.0/nodejs-engine-buildpack-v0.6.0.tgz"
 
 [[buildpacks]]
   id = "heroku/nodejs-npm"
@@ -60,7 +60,7 @@ version = "0.9.2"
 
 [[buildpacks]]
   id = "heroku/nodejs-typescript"
-  uri = "https://github.com/heroku/nodejs-typescript-buildpack/releases/download/v0.0.2/nodejs-typescript-buildpack-v0.0.2.tgz"
+  uri = "https://github.com/heroku/nodejs-typescript-buildpack/releases/download/v0.1.0/nodejs-typescript-buildpack-v0.1.0.tgz"
 
 [[buildpacks]]
   id = "heroku/nodejs"
