@@ -19,6 +19,10 @@ version = "0.9.2"
   uri = "buildpacks/heroku_java"
 
 [[buildpacks]]
+  id = "heroku/ruby"
+  uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/v222/heroku-buildpack-ruby-v222.tgz"
+
+[[buildpacks]]
   id = "heroku/procfile"
   uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.6/procfile-cnb-v0.6.tgz"
 
@@ -41,6 +45,14 @@ version = "0.9.2"
 [[buildpacks]]
   id = "heroku/go"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3&name=Go"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/ruby"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    optional = true
 
 [[order]]
   [[order.group]]

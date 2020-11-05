@@ -246,6 +246,12 @@ workflows:
           name: test-ruby-18
           requires:
             - create-service-builder-18
+      - test-getting-started-guide:
+          language: Ruby
+          stack-tag: "20"
+          name: test-ruby-20
+          requires:
+            - create-service-builder-20
       - test-evergreen-canary:
           name: test-canary-https-invocation-builder
           url: canary-https-invocation
@@ -316,6 +322,7 @@ workflows:
           image_tag_alias: heroku/pack:20-build
           requires:
             - test-go-20
+            - test-ruby-20
             - test-java-20
             - test-php-20
             - test-python-20
@@ -329,10 +336,10 @@ workflows:
           image_tag_alias: heroku/pack:20
           requires:
             - test-go-20
+            - test-ruby-20
             - test-java-20
             - test-php-20
             - test-python-20
-            - create-20-run-image
           filters:
             branches:
               only: master
