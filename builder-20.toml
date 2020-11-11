@@ -46,6 +46,26 @@ version = "0.9.2"
   id = "heroku/go"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3&name=Go"
 
+[[buildpacks]]
+  id = "heroku/nodejs-engine"
+  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.7.0/nodejs-engine-buildpack-v0.7.0.tgz"
+
+[[buildpacks]]
+  id = "heroku/nodejs-npm"
+  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.4.0/nodejs-npm-buildpack-v0.4.0.tgz"
+
+[[buildpacks]]
+  id = "heroku/nodejs-yarn"
+  uri = "https://github.com/heroku/nodejs-yarn-buildpack/releases/download/v0.1.0/nodejs-yarn-buildpack-v0.1.0.tgz"
+
+[[buildpacks]]
+  id = "heroku/nodejs-typescript"
+  uri = "https://github.com/heroku/nodejs-typescript-buildpack/releases/download/v0.2.0/nodejs-typescript-buildpack-v0.2.0.tgz"
+
+[[buildpacks]]
+  id = "heroku/nodejs"
+  uri = "buildpacks/heroku_nodejs"
+
 [[order]]
   [[order.group]]
     id = "heroku/ruby"
@@ -89,3 +109,7 @@ version = "0.9.2"
   [[order.group]]
     id = "heroku/procfile"
     optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs"
