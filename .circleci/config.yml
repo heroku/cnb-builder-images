@@ -65,7 +65,7 @@ jobs:
       - run: docker pull gcr.io/projectriff/node-function:0.6.1
       - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
       - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
-      - run: pack create-builder << parameters.image_tag >> --builder-config << parameters.builder_toml >> --no-pull
+      - run: pack create-builder << parameters.image_tag >> --config << parameters.builder_toml >> --no-pull
       - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
       - persist_to_workspace:
           root: /tmp/workspace
