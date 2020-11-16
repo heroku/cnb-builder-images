@@ -65,7 +65,7 @@ jobs:
       - run: docker pull gcr.io/projectriff/node-function:0.6.1
       - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
       - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
-      - run: pack create-builder << parameters.image_tag >> --config << parameters.builder_toml >> --no-pull
+      - run: pack create-builder << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy never
       - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
       - persist_to_workspace:
           root: /tmp/workspace
@@ -92,7 +92,7 @@ jobs:
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --no-pull
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
   test-evergreen-canary:
     parameters:
       url:
@@ -126,7 +126,7 @@ jobs:
       - run: docker load < /tmp/workspace/pack-18-build.tar
       - run: docker load < /tmp/workspace/pack-18-run.tar
       - run: docker load < /tmp/workspace/<< parameters.builder_file_name >>
-      - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder << parameters.builder_image_tag >> --trust-builder --no-pull
+      - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder << parameters.builder_image_tag >> --trust-builder --pull-policy never
   publish-image:
     parameters:
       image_file:
