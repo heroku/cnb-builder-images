@@ -18,7 +18,7 @@ jobs:
         description: "Remote image tag name"
         type: string
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - checkout
       - attach_workspace:
@@ -42,9 +42,22 @@ jobs:
         description: "Remote builder image name"
         type: string
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - checkout
+      - run: &create-docker-config
+          name: "Create docker config"
+          command: |
+            mkdir -p ~/.docker
+            echo '{}' > ~/.docker/config.json
+      - run: &install-pack
+          name: "Install pack"
+          command: |
+            wget https://github.com/buildpacks/pack/releases/download/v0.15.0/pack-v0.15.0-linux.tgz
+            tar xvf pack-v0.15.0-linux.tgz
+            rm pack-v0.15.0-linux.tgz
+            mkdir -p ~/bin/
+            mv pack $HOME/bin/
       - attach_workspace:
           at: /tmp/workspace
       - setup_remote_docker
@@ -67,9 +80,11 @@ jobs:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
         type: string
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
+      - run: *create-docker-config
+      - run: *install-pack
       - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
@@ -96,9 +111,11 @@ jobs:
         description: "Builder cached image name"
         type: "string"
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - checkout
+      - run: *create-docker-config
+      - run: *install-pack
       - add_ssh_keys:
           fingerprints:
             - << parameters.fingerprint >>
@@ -122,7 +139,7 @@ jobs:
         description: "Name of dockerhub image alias to publish"
         type: string
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
