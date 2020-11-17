@@ -18,7 +18,7 @@ jobs:
         description: "Remote image tag name"
         type: string
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - checkout
       - attach_workspace:
@@ -42,9 +42,22 @@ jobs:
         description: "Remote builder image name"
         type: string
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - checkout
+      - run: &create-docker-config
+          name: "Create docker config"
+          command: |
+            mkdir -p ~/.docker
+            echo '{}' > ~/.docker/config.json
+      - run: &install-pack
+          name: "Install pack"
+          command: |
+            wget https://github.com/buildpacks/pack/releases/download/v0.15.0/pack-v0.15.0-linux.tgz
+            tar xvf pack-v0.15.0-linux.tgz
+            rm pack-v0.15.0-linux.tgz
+            mkdir -p ~/bin/
+            mv pack $HOME/bin/
       - attach_workspace:
           at: /tmp/workspace
       - setup_remote_docker
@@ -52,7 +65,7 @@ jobs:
       - run: docker pull gcr.io/projectriff/node-function:0.6.1
       - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
       - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
-      - run: pack create-builder << parameters.image_tag >> --builder-config << parameters.builder_toml >> --no-pull
+      - run: pack create-builder << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy never
       - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
       - persist_to_workspace:
           root: /tmp/workspace
@@ -67,9 +80,11 @@ jobs:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
         type: string
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
+      - run: *create-docker-config
+      - run: *install-pack
       - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
@@ -77,7 +92,7 @@ jobs:
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --no-pull
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
   test-evergreen-canary:
     parameters:
       url:
@@ -96,9 +111,11 @@ jobs:
         description: "Builder cached image name"
         type: "string"
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - checkout
+      - run: *create-docker-config
+      - run: *install-pack
       - add_ssh_keys:
           fingerprints:
             - << parameters.fingerprint >>
@@ -109,7 +126,7 @@ jobs:
       - run: docker load < /tmp/workspace/pack-18-build.tar
       - run: docker load < /tmp/workspace/pack-18-run.tar
       - run: docker load < /tmp/workspace/<< parameters.builder_file_name >>
-      - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder << parameters.builder_image_tag >> --trust-builder --no-pull
+      - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder << parameters.builder_image_tag >> --trust-builder --pull-policy never
   publish-image:
     parameters:
       image_file:
@@ -122,7 +139,7 @@ jobs:
         description: "Name of dockerhub image alias to publish"
         type: string
     docker:
-      - image: heroku/pack-runner:latest
+      - image: circleci/golang:1.15
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
