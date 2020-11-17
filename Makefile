@@ -26,8 +26,4 @@ publish: build
 	@docker push heroku/spring-boot-buildpacks:20
 	@docker push heroku/spring-boot-buildpacks:latest
 
-build-ci:
-	@docker build -f Dockerfile.ci -t heroku/pack-runner:latest .
-	@docker push heroku/pack-runner:latest
-
-.PHONY: install-buildpacks build publish build-ci create-builder-fn-local deps
+.PHONY: install-buildpacks build publish create-builder-fn-local deps
