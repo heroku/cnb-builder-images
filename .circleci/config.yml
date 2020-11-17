@@ -91,7 +91,7 @@ jobs:
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: docker pull buildpacksio/pack:0.15.0
       - run: docker run buildpacksio/pack:0.15.0 trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: docker run -v ~/project:/workspace buildpacksio/pack:0.15.0 build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
+      - run: docker run -v ~/project/getting_started:/workspace buildpacksio/pack:0.15.0 build pack-getting-started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
   test-evergreen-canary:
     parameters:
       url:
