@@ -8,11 +8,11 @@ version = "0.9.3"
 
 [[buildpacks]]
   id = "heroku/maven"
-  uri = "https://github.com/heroku/heroku-buildpack-java/releases/download/cnb-0.1/heroku-buildpack-maven.tgz"
+  uri = "https://github.com/heroku/heroku-buildpack-java/releases/download/v68/heroku-java-cnb-v68.tgz"
 
 [[buildpacks]]
   id = "heroku/jvm"
-  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v110-cnb/heroku-jvm-common-cnb-v110-cnb.tgz"
+  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v111/heroku-jvm-common-cnb-v111.tgz"
 
 [[buildpacks]]
   id = "heroku/java"
