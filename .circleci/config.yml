@@ -83,15 +83,16 @@ jobs:
       - image: circleci/golang:1.15
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
+      - run: *create-docker-config
+      - run: *install-pack
       - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
-      - run: docker pull buildpacksio/pack:0.15.0
-      - run: docker run buildpacksio/pack:0.15.0 trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: docker run -v /var/run/docker.sock -v ~/project/getting_started:/workspace buildpacksio/pack:0.15.0 build pack-getting-started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
+      - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
+      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
   test-evergreen-canary:
     parameters:
       url:
