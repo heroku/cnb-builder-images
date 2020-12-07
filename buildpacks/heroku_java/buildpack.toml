@@ -8,7 +8,7 @@ name = "Java"
 [[order]]
   [[order.group]]
     id = "heroku/jvm"
-    version = "0.1"
+    version = "0.1.0"
 
   [[order.group]]
     id = "heroku/maven"

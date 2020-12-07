@@ -12,7 +12,7 @@ version = "0.9.3"
 
 [[buildpacks]]
   id = "heroku/jvm"
-  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v111/heroku-jvm-common-cnb-v111.tgz"
+  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v113/heroku-jvm-common-cnb-v113.tgz"
 
 [[buildpacks]]
   id = "heroku/java"
