@@ -53,9 +53,9 @@ jobs:
       - run: &install-pack
           name: "Install pack"
           command: |
-            wget https://github.com/buildpacks/pack/releases/download/v0.15.0/pack-v0.15.0-linux.tgz
-            tar xvf pack-v0.15.0-linux.tgz
-            rm pack-v0.15.0-linux.tgz
+            wget https://github.com/buildpacks/pack/releases/download/v0.15.1/pack-v0.15.1-linux.tgz
+            tar xvf pack-v0.15.1-linux.tgz
+            rm pack-v0.15.1-linux.tgz
             mkdir -p ~/bin/
             mv pack $HOME/bin/
       - attach_workspace:
