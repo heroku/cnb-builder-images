@@ -93,6 +93,9 @@ jobs:
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
+      - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
+      - run: sleep 5
+      - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
   test-evergreen-canary:
     parameters:
       url:
@@ -127,6 +130,9 @@ jobs:
       - run: docker load < /tmp/workspace/pack-18-run.tar
       - run: docker load < /tmp/workspace/<< parameters.builder_file_name >>
       - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder << parameters.builder_image_tag >> --trust-builder --pull-policy never
+      - run: docker run --name evergreen-canary -d pack-evergreen-canary
+      - run: sleep 5
+      - run: docker exec evergreen-canary true 2>/dev/null || (echo not running && docker logs evergreen-canary && exit 1)
   publish-image:
     parameters:
       image_file:
