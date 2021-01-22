@@ -25,5 +25,3 @@ publish: build
 	@docker push heroku/spring-boot-buildpacks:18
 	@docker push heroku/spring-boot-buildpacks:20
 	@docker push heroku/spring-boot-buildpacks:latest
-
-.PHONY: install-buildpacks build publish create-builder-fn-local deps
