@@ -32,7 +32,7 @@ version = "0.10.1"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.6/procfile-cnb-v0.6.tgz"
+  uri = "docker://docker.io/heroku/procfile-cnb:0.6.1"
 
 [[buildpacks]]
   id = "heroku/python"
