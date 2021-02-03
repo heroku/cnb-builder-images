@@ -27,6 +27,10 @@ version = "0.10.1"
   uri = "docker://public.ecr.aws/r2f9u0w4/heroku-scala-buildpack:0.0.88"
 
 [[buildpacks]]
+  id = "heroku/java-function"
+  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-java-function-buildpack:0.2.1"
+
+[[buildpacks]]
   id = "heroku/ruby"
   uri = "https://github.com/heroku/heroku-buildpack-ruby/releases/download/v222/heroku-buildpack-ruby-v222.tgz"
 
