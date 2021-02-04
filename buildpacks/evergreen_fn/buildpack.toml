@@ -2,7 +2,7 @@ api = "0.2"
 
 [buildpack]
 id = "evergreen/fn"
-version = "0.2"
+version = "0.3.0"
 name = "Evergreen Function"
 
 [[order]]
@@ -29,4 +29,4 @@ name = "Evergreen Function"
 [[order]]
   [[order.group]]
     id = "heroku/java-function"
-    version = "0.2.1"
+    version = "0.3.2"
