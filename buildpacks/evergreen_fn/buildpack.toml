@@ -2,7 +2,7 @@ api = "0.2"
 
 [buildpack]
 id = "evergreen/fn"
-version = "0.2"
+version = "0.3.0"
 name = "Evergreen Function"
 
 [[order]]
@@ -25,3 +25,8 @@ name = "Evergreen Function"
   [[order.group]]
     id = "salesforce/nodejs-fn"
     version = "2.0.5"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/java-function"
+    version = "0.3.2"

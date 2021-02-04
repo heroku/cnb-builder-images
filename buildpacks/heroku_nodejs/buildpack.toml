@@ -2,7 +2,7 @@ api = "0.2"
 
 [buildpack]
 id = "heroku/nodejs"
-version = "0.1"
+version = "0.2.0"
 name = "Node.js"
 
 [[order]]
@@ -21,7 +21,7 @@ name = "Node.js"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.6"
+    version = "0.6.1"
     optional = true
 
 [[order]]
@@ -40,6 +40,5 @@ name = "Node.js"
 
   [[order.group]]
     id = "heroku/procfile"
-    version = "0.6"
+    version = "0.6.1"
     optional = true
-
