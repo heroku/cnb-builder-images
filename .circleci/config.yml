@@ -63,7 +63,16 @@ jobs:
       - setup_remote_docker
       - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
       - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
-      - run: pack create-builder << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy if-not-present
+      - run:
+          name: Create builder with retries
+          command: |
+            n=1
+            until [ "$n" -ge 5 ]
+            do
+              pack create-builder << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy if-not-present && break
+              n=$((n + 1))
+              sleep $(($n * 2))
+            done
       - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
       - persist_to_workspace:
           root: /tmp/workspace
