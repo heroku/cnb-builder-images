@@ -1,3 +1,5 @@
+description = "Base builder for Heroku-20 stack, based on ubuntu:20.04 base image"
+
 [stack]
 id = "heroku-20"
 build-image = "heroku/pack:20-build"
