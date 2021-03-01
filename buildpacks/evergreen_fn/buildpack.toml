@@ -7,12 +7,8 @@ name = "Evergreen Function"
 
 [[order]]
   [[order.group]]
-    id = "heroku/nodejs-engine"
-    version = "0.7.0"
-
-  [[order.group]]
-    id = "heroku/nodejs-npm"
-    version = "0.4.0"
+    id = "heroku/nodejs"
+    version = "0.3.0"
 
   [[order.group]]
     id = "projectriff/streaming-http-adapter"
