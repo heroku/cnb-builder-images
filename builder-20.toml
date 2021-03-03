@@ -1,3 +1,5 @@
+description = "Base builder for Heroku-20 stack, based on ubuntu:20.04 base image"
+
 [stack]
 id = "heroku-20"
 build-image = "heroku/pack:20-build"
@@ -8,15 +10,27 @@ version = "0.10.1"
 
 [[buildpacks]]
   id = "heroku/maven"
-  uri = "https://github.com/heroku/heroku-buildpack-java/releases/download/v68/heroku-java-cnb-v68.tgz"
+  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-maven-buildpack@sha256:7bff54457286a9a36dbcaec77ab041d61c2e1a47741d459c3457e429f6d2f268"
 
 [[buildpacks]]
   id = "heroku/jvm"
-  uri = "https://github.com/heroku/heroku-buildpack-jvm-common/releases/download/v111/heroku-jvm-common-cnb-v111.tgz"
+  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-jvm-buildpack@sha256:fd4da69a6f34bce57e7280e290dd741d4059fcf8f5e60c6c6eb66258956dcb3c"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "buildpacks/heroku_java"
+  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-java-buildpack@sha256:b047016825aef50813d1077bf2d541362390d2018ea8485d622a9e0fa381a25d"
+
+[[buildpacks]]
+  id = "heroku/gradle"
+  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-gradle-buildpack@sha256:7163f393470de8255fe03e06d55d3ae7bf59bf683f4ff2651ed92b6538eed0ad"
+
+[[buildpacks]]
+  id = "heroku/scala"
+  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-scala-buildpack@sha256:7a58fd9774925a6e23ce638cc4c7b57fdb9a14092632bc00c10081bb226f19b3"
+
+[[buildpacks]]
+  id = "heroku/java-function"
+  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-java-function-buildpack@sha256:cfd50018c361e17e06b7d8cbf14cd6bc916f99c4d4d647f68e5238367abf5449"
 
 [[buildpacks]]
   id = "heroku/ruby"
@@ -24,92 +38,118 @@ version = "0.10.1"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "https://github.com/heroku/procfile-cnb/releases/download/v0.6/procfile-cnb-v0.6.tgz"
+  uri = "docker://docker.io/heroku/procfile-cnb:0.6.1"
 
 [[buildpacks]]
   id = "heroku/python"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.3&name=Python"
-
-[[buildpacks]]
-  id = "heroku/gradle"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.3&name=Gradle"
-
-[[buildpacks]]
-  id = "heroku/scala"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.3&name=Scala"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.3.1&name=Python"
 
 [[buildpacks]]
   id = "heroku/php"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.3&name=PHP"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.3.1&name=PHP"
 
 [[buildpacks]]
   id = "heroku/go"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3&name=Go"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3.1&name=Go"
+
 
 [[buildpacks]]
   id = "heroku/nodejs-engine"
-  uri = "https://github.com/heroku/nodejs-engine-buildpack/releases/download/v0.7.0/nodejs-engine-buildpack-v0.7.0.tgz"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-engine-buildpack@sha256:811fc2e1ee82b8bbf186e2a7f1ffd5d3e0191d14790f473cdb30403ecaa9a076"
 
 [[buildpacks]]
   id = "heroku/nodejs-npm"
-  uri = "https://github.com/heroku/nodejs-npm-buildpack/releases/download/v0.4.0/nodejs-npm-buildpack-v0.4.0.tgz"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-npm-buildpack@sha256:b55bc7270643271658fa65aac6b7ce87f73c3a7d94be1e136e9f62a736cc025f"
 
 [[buildpacks]]
   id = "heroku/nodejs-yarn"
-  uri = "https://github.com/heroku/nodejs-yarn-buildpack/releases/download/v0.1.0/nodejs-yarn-buildpack-v0.1.0.tgz"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-yarn-buildpack@sha256:18d6283e3d16614946f743ad7db0bfd987c2062c9e16d6eeb1ce9e2a26f6c876"
 
 [[buildpacks]]
   id = "heroku/nodejs-typescript"
-  uri = "https://github.com/heroku/nodejs-typescript-buildpack/releases/download/v0.2.0/nodejs-typescript-buildpack-v0.2.0.tgz"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-typescript-buildpack@sha256:4e4fa2f7b2c45ee135e0c4b0ffb5dcebf9b43ea24d490699f82f95fa64229cee"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "buildpacks/heroku_nodejs"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:c8932c038e3b380824f97af7105b8e592fa6a115ca955709469a31b2617817a7"
+
+[[buildpacks]]
+  id = "salesforce/nodejs-fn"
+  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v2.0.6/nodejs-sf-fx-buildpack-v2.0.6.tgz"
+
+[[buildpacks]]
+  id = "projectriff/streaming-http-adapter"
+  uri = "docker://gcr.io/projectriff/streaming-http-adapter:1.4.0"
+
+[[buildpacks]]
+  id = "projectriff/node-function"
+  uri = "docker://gcr.io/projectriff/node-function:1.5.0"
+
+[[buildpacks]]
+  id = "evergreen/fn"
+  uri = "buildpacks/evergreen_fn"
 
 [[order]]
   [[order.group]]
     id = "heroku/ruby"
+    version = "0.0.1"
 
   [[order.group]]
     id = "heroku/procfile"
+    version = "0.6.1"
     optional = true
 
 [[order]]
   [[order.group]]
     id = "heroku/python"
+    version = "0.3.1"
 
   [[order.group]]
     id = "heroku/procfile"
+    version = "0.6.1"
     optional = true
 
 [[order]]
   [[order.group]]
-    id = "heroku/java"
-
-[[order]]
-  [[order.group]]
     id = "heroku/scala"
+    version = "0.0.88"
 
   [[order.group]]
     id = "heroku/procfile"
+    version = "0.6.1"
     optional = true
 
 [[order]]
   [[order.group]]
     id = "heroku/php"
+    version = "0.3.1"
 
   [[order.group]]
     id = "heroku/procfile"
+    version = "0.6.1"
     optional = true
 
 [[order]]
   [[order.group]]
     id = "heroku/go"
+    version = "0.3.1"
 
   [[order.group]]
     id = "heroku/procfile"
+    version = "0.6.1"
     optional = true
 
 [[order]]
   [[order.group]]
+    id = "evergreen/fn"
+    version = "0.3.0"
+
+[[order]]
+  [[order.group]]
     id = "heroku/nodejs"
+    version = "0.3.0"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/java"
+    version = "0.3.2"
