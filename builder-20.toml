@@ -52,26 +52,9 @@ version = "0.10.1"
   id = "heroku/go"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3.1&name=Go"
 
-
-[[buildpacks]]
-  id = "heroku/nodejs-engine"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-engine-buildpack@sha256:811fc2e1ee82b8bbf186e2a7f1ffd5d3e0191d14790f473cdb30403ecaa9a076"
-
-[[buildpacks]]
-  id = "heroku/nodejs-npm"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-npm-buildpack@sha256:b55bc7270643271658fa65aac6b7ce87f73c3a7d94be1e136e9f62a736cc025f"
-
-[[buildpacks]]
-  id = "heroku/nodejs-yarn"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-yarn-buildpack@sha256:18d6283e3d16614946f743ad7db0bfd987c2062c9e16d6eeb1ce9e2a26f6c876"
-
-[[buildpacks]]
-  id = "heroku/nodejs-typescript"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-typescript-buildpack@sha256:4e4fa2f7b2c45ee135e0c4b0ffb5dcebf9b43ea24d490699f82f95fa64229cee"
-
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:c8932c038e3b380824f97af7105b8e592fa6a115ca955709469a31b2617817a7"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:33925c80a23b9592b4217fc5e8a6deea0fd412b7d2541a11610604cad131e8b4"
 
 [[buildpacks]]
   id = "salesforce/nodejs-fn"
@@ -147,7 +130,7 @@ version = "0.10.1"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
-    version = "0.3.0"
+    version = "0.3.3"
 
 [[order]]
   [[order.group]]
