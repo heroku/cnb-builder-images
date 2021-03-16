@@ -61,13 +61,12 @@ version = "0.10.1"
   uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v2.0.6/nodejs-sf-fx-buildpack-v2.0.6.tgz"
 
 [[buildpacks]]
-  id = "projectriff/streaming-http-adapter"
-  uri = "docker://gcr.io/projectriff/streaming-http-adapter:1.4.0"
+  id = "heroku/streaming-http-adapter-buildpack"
+  uri = "docker://docker.io/heroku/streaming-http-adapter-buildpack:1.4.0"
 
 [[buildpacks]]
-  id = "projectriff/node-function"
-  uri = "docker://gcr.io/projectriff/node-function:1.5.0"
-
+  id = "heroku/node-function-buildpack"
+  uri = "docker://docker.io/heroku/node-function-buildpack:1.5.0"
 [[buildpacks]]
   id = "evergreen/fn"
   uri = "buildpacks/evergreen_fn"
