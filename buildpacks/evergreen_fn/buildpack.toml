@@ -11,11 +11,11 @@ name = "Evergreen Function"
     version = "0.3.3"
 
   [[order.group]]
-    id = "projectriff/streaming-http-adapter"
+    id = "heroku/streaming-http-adapter-buildpack"
     version = "1.4.0"
 
   [[order.group]]
-    id = "projectriff/node-function"
+    id = "heroku/node-function-buildpack"
     version = "1.5.0"
 
   [[order.group]]
