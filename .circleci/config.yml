@@ -149,17 +149,36 @@ jobs:
       image_tag_alias:
         description: "Name of dockerhub image alias to publish"
         type: string
+        default: ""
+      image_tag_alias2:
+        description: "Name of dockerhub image alias to publish"
+        type: string
+        default: ""
     docker:
       - image: circleci/golang:1.15
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+      - run:
+          name: Log into additional registry
+          command: |
+            REGISTRY_TOKEN=$(curl -f -X POST $SERVICE_TOKEN_ENDPOINT -d "{\"username\":\"$SERVICE_TOKEN_USER_NAME\", \"password\":\"$SERVICE_TOKEN_PASSWORD\"}" -s --retry 3 | jq -r ".raw_id_token")
+            echo "$REGISTRY_TOKEN" | docker login $REGISTRY_HOST -u "$REGISTRY_USER" --password-stdin
       - attach_workspace:
           at: /tmp/workspace
       - run: docker load < /tmp/workspace/<< parameters.image_file >>
       - run: docker push << parameters.image_tag >>
-      - run: docker tag << parameters.image_tag >> << parameters.image_tag_alias >>
-      - run: docker push << parameters.image_tag_alias >>
+      - when:
+          condition: << parameters.image_tag_alias >>
+          steps:
+            - run: docker tag << parameters.image_tag >> << parameters.image_tag_alias >>
+            - run: docker push << parameters.image_tag_alias >>
+      - when:
+          condition: << parameters.image_tag_alias2 >>
+          steps:
+            - run: docker tag << parameters.image_tag >> << parameters.image_tag_alias2 >>
+            - run: docker push << parameters.image_tag_alias2 >>
+
 workflows:
   version: 2
   build-test-publish:
@@ -316,7 +335,7 @@ workflows:
           name: publish-18-build-stack
           image_file: pack-18-build.tar
           image_tag: heroku/pack:18-build
-          image_tag_alias: heroku/pack:18-build
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku:18-build
           requires:
             - test-go-18
             - test-java-18
@@ -333,7 +352,7 @@ workflows:
           name: publish-18-run-stack
           image_file: pack-18-run.tar
           image_tag: heroku/pack:18
-          image_tag_alias: heroku/pack:18
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku:18
           requires:
             - test-go-18
             - test-java-18
@@ -351,6 +370,7 @@ workflows:
           image_file: buildpacks-18.tar
           image_tag: heroku/buildpacks:18
           image_tag_alias: heroku/buildpacks:latest
+          image_tag_alias2: $REGISTRY_HOST/s/heroku/cnb/buildpacks:18
           requires:
             - publish-18-build-stack
             - publish-18-run-stack
@@ -361,7 +381,7 @@ workflows:
           name: publish-20-build-stack
           image_file: pack-20-build.tar
           image_tag: heroku/pack:20-build
-          image_tag_alias: heroku/pack:20-build
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku:20-build
           requires:
             - test-go-20
             - test-ruby-20
@@ -377,7 +397,7 @@ workflows:
           name: publish-20-run-stack
           image_file: pack-20-run.tar
           image_tag: heroku/pack:20
-          image_tag_alias: heroku/pack:20
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku:20
           requires:
             - test-go-20
             - test-ruby-20
@@ -393,7 +413,7 @@ workflows:
           name: publish-service-builder-20
           image_file: buildpacks-20.tar
           image_tag: heroku/buildpacks:20
-          image_tag_alias: heroku/buildpacks:20
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/buildpacks:20
           requires:
             - publish-20-build-stack
             - publish-20-run-stack
