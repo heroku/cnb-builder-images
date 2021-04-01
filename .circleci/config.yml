@@ -335,7 +335,7 @@ workflows:
           name: publish-18-build-stack
           image_file: pack-18-build.tar
           image_tag: heroku/pack:18-build
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/bionic:build
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:build
           requires:
             - test-go-18
             - test-java-18
@@ -352,7 +352,7 @@ workflows:
           name: publish-18-run-stack
           image_file: pack-18-run.tar
           image_tag: heroku/pack:18
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/bionic:run
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:run
           requires:
             - test-go-18
             - test-java-18
@@ -370,7 +370,7 @@ workflows:
           image_file: buildpacks-18.tar
           image_tag: heroku/buildpacks:18
           image_tag_alias: heroku/buildpacks:latest
-          image_tag_alias2: $REGISTRY_HOST/s/heroku/cnb/buildpacks:18
+          image_tag_alias2: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
           requires:
             - publish-18-build-stack
             - publish-18-run-stack
@@ -381,7 +381,7 @@ workflows:
           name: publish-20-build-stack
           image_file: pack-20-build.tar
           image_tag: heroku/pack:20-build
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/focal:build
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:build
           requires:
             - test-go-20
             - test-ruby-20
@@ -397,7 +397,7 @@ workflows:
           name: publish-20-run-stack
           image_file: pack-20-run.tar
           image_tag: heroku/pack:20
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/focal:run
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:run
           requires:
             - test-go-20
             - test-ruby-20
@@ -413,7 +413,7 @@ workflows:
           name: publish-service-builder-20
           image_file: buildpacks-20.tar
           image_tag: heroku/buildpacks:20
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/buildpacks:20
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
           requires:
             - publish-20-build-stack
             - publish-20-run-stack
