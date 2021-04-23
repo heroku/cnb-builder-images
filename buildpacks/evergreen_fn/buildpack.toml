@@ -7,20 +7,8 @@ name = "Evergreen Function"
 
 [[order]]
   [[order.group]]
-    id = "heroku/nodejs"
-    version = "0.3.3"
-
-  [[order.group]]
-    id = "heroku/streaming-http-adapter-buildpack"
-    version = "1.4.0"
-
-  [[order.group]]
-    id = "heroku/node-function-buildpack"
-    version = "1.5.0"
-
-  [[order.group]]
-    id = "salesforce/nodejs-fn"
-    version = "2.0.6"
+    id = "heroku/nodejs-function"
+    version = "0.4.0"
 
 [[order]]
   [[order.group]]
