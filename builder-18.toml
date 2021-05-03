@@ -53,20 +53,8 @@ version = "0.11.1"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3.1&name=Go"
 
 [[buildpacks]]
-  id = "heroku/nodejs"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:33925c80a23b9592b4217fc5e8a6deea0fd412b7d2541a11610604cad131e8b4"
-
-[[buildpacks]]
-  id = "salesforce/nodejs-fn"
-  uri = "https://github.com/forcedotcom/nodejs-sf-fx-buildpack/releases/download/v2.0.6/nodejs-sf-fx-buildpack-v2.0.6.tgz"
-
-[[buildpacks]]
-  id = "heroku/streaming-http-adapter-buildpack"
-  uri = "docker://docker.io/heroku/streaming-http-adapter-buildpack:1.4.0"
-
-[[buildpacks]]
-  id = "heroku/node-function-buildpack"
-  uri = "docker://docker.io/heroku/node-function-buildpack:1.5.0"
+  id = "heroku/nodejs-function"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:795ebc8f5e0749399aceb6f656668ad8eaccdfd8888f243cfad9ad99f3237abf"
 
 [[buildpacks]]
   id = "evergreen/fn"
