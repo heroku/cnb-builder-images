@@ -53,6 +53,10 @@ version = "0.11.1"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3.1&name=Go"
 
 [[buildpacks]]
+  id = "heroku/nodejs"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:33925c80a23b9592b4217fc5e8a6deea0fd412b7d2541a11610604cad131e8b4"
+
+[[buildpacks]]
   id = "heroku/nodejs-function"
   uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:1884dafde6d8fc5e40e4348f8d466a05700a374fad577ac5e187261243d0dd03"
 
