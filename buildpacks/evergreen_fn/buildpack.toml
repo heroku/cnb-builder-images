@@ -8,7 +8,7 @@ name = "Evergreen Function"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-function"
-    version = "0.5.1"
+    version = "0.5.2"
 
 [[order]]
   [[order.group]]
