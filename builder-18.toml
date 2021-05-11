@@ -58,7 +58,7 @@ version = "0.11.1"
 
 [[buildpacks]]
   id = "heroku/nodejs-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:2fb076f0b5f66599e8f0b3b7630767c6dd516c72482cde244b71a857535b3c5e"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:99a68ede08880f6ba6223c985bdf555386c0cc1a5501baee1f2663f19df6ef84"
 
 [[buildpacks]]
   id = "evergreen/fn"
