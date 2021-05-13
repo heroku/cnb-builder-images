@@ -17,7 +17,4 @@ ENV STACK "${STACK}"
 ENV CNB_STACK_ID "${STACK}"
 LABEL io.buildpacks.stack.id="${STACK}"
 
-ADD https://s3.amazonaws.com/heroku-fn-devex-staging/develop/latest/develop /cnb/lifecycle/develop
-RUN chmod +x /cnb/lifecycle/develop
-
 USER heroku
