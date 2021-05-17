@@ -13,4 +13,4 @@ name = "Evergreen Function"
 [[order]]
   [[order.group]]
     id = "heroku/java-function"
-    version = "0.3.8"
+    version = "0.3.9"
