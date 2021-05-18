@@ -30,7 +30,7 @@ version = "0.11.3"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-java-function-buildpack@sha256:8d747d45eab8923edb42394cd5aa2e2888b0d86c4105db4876e1ce928ce3811b"
+  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-java-function-buildpack@sha256:3c03f0b960e84fefb267757e4ae247aeabfe3255a8777c3b039c0671a95a8b9c"
 
 [[buildpacks]]
   id = "heroku/ruby"
