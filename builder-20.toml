@@ -54,11 +54,11 @@ version = "0.11.3"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:33925c80a23b9592b4217fc5e8a6deea0fd412b7d2541a11610604cad131e8b4"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:c6e6ac7d7b33eff017318c9b19a57df73e923d9643be8e6cddf9be013a14e4a0"
 
 [[buildpacks]]
   id = "heroku/nodejs-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:7a9dd3bd8b684139d32c948579332732e73341617bc3c02f74f5607dab29ddda"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:52be2525d715cb105c8e9e5ad06fe8713fddc7f05f6c5cfeeb2f6a49289fad81"
 
 [[buildpacks]]
   id = "evergreen/fn"
@@ -117,12 +117,12 @@ version = "0.11.3"
 [[order]]
   [[order.group]]
     id = "evergreen/fn"
-    version = "0.3.0"
+    version = "0.3.1"
 
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
-    version = "0.3.3"
+    version = "0.3.5"
 
 [[order]]
   [[order.group]]
