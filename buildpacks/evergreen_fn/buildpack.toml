@@ -2,13 +2,13 @@ api = "0.2"
 
 [buildpack]
 id = "evergreen/fn"
-version = "0.3.1"
+version = "0.3.2"
 name = "Evergreen Function"
 
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-function"
-    version = "0.5.7"
+    version = "0.5.9"
 
 [[order]]
   [[order.group]]
