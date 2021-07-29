@@ -9,20 +9,8 @@ run-image = "heroku/pack:18"
 version = "0.11.4"
 
 [[buildpacks]]
-  id = "heroku/maven"
-  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-maven-buildpack@sha256:de5997ef358f4b490df3b24386f00665c20c31aeab600856e144fdd62a4c50fb"
-
-[[buildpacks]]
-  id = "heroku/jvm"
-  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-jvm-buildpack@sha256:b46824bb8a037c459d7544fe0ea88b313694c55f194feb0ec1c27b9144768070"
-
-[[buildpacks]]
   id = "heroku/java"
   uri = "docker://public.ecr.aws/r2f9u0w4/heroku-java-buildpack@sha256:3e3282fafbd80aeee8c6a847b0ae25619983086951d9b6179bd8ba348fd4f89c"
-
-[[buildpacks]]
-  id = "heroku/gradle"
-  uri = "docker://public.ecr.aws/r2f9u0w4/heroku-gradle-buildpack@sha256:7163f393470de8255fe03e06d55d3ae7bf59bf683f4ff2651ed92b6538eed0ad"
 
 [[buildpacks]]
   id = "heroku/scala"
