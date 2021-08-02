@@ -18,7 +18,7 @@ jobs:
         description: "Remote image tag name"
         type: string
     docker:
-      - image: circleci/golang:1.15
+      - image: cimg/base:stable-20.04
     steps:
       - checkout
       - attach_workspace:
@@ -42,7 +42,7 @@ jobs:
         description: "Remote builder image name"
         type: string
     docker:
-      - image: circleci/golang:1.15
+      - image: cimg/base:stable-20.04
     steps:
       - checkout
       - run: &create-docker-config
@@ -87,7 +87,7 @@ jobs:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
         type: string
     docker:
-      - image: circleci/golang:1.15
+      - image: cimg/base:stable-20.04
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - run: *create-docker-config
@@ -118,7 +118,7 @@ jobs:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
         type: string
     docker:
-      - image: circleci/golang:1.15
+      - image: cimg/base:stable-20.04
     steps:
       - checkout
       - run: *create-docker-config
@@ -155,7 +155,7 @@ jobs:
         type: string
         default: ""
     docker:
-      - image: circleci/golang:1.15
+      - image: cimg/base:stable-20.04
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
