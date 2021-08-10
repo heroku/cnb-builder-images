@@ -48,10 +48,6 @@ version = "0.11.4"
   id = "heroku/nodejs-function"
   uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:167d16263e1c37a0405f23ece261800ccda15e17a5fbe2f7f4408b588b4ec726"
 
-[[buildpacks]]
-  id = "evergreen/fn"
-  uri = "buildpacks/evergreen_fn"
-
 [[order]]
   [[order.group]]
     id = "heroku/ruby"
@@ -104,8 +100,13 @@ version = "0.11.4"
 
 [[order]]
   [[order.group]]
-    id = "evergreen/fn"
-    version = "0.3.4"
+    id = "heroku/nodejs-function"
+    version = "0.5.9"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/java-function"
+    version = "0.3.15"
 
 [[order]]
   [[order.group]]
