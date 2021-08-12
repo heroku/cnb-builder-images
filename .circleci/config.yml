@@ -255,9 +255,21 @@ workflows:
           requires:
             - create-service-builder-18
       - test-getting-started-guide:
+          language: node-js
+          stack-tag: "20"
+          name: test-node-js-20
+          requires:
+            - create-service-builder-20
+      - test-getting-started-guide:
           language: typescript
           stack-tag: "18"
           name: test-typescript-18
+          requires:
+            - create-service-builder-18
+      - test-getting-started-guide:
+          language: typescript
+          stack-tag: "20"
+          name: test-typescript-20
           requires:
             - create-service-builder-18
       - test-getting-started-guide:
@@ -338,6 +350,7 @@ workflows:
             - test-java-18
             - test-node-js-18
             - test-ruby-18
+            - test-typescript-18
             - test-php-18
             - test-python-18
             - test-canary-https-invocation-builder-18
@@ -354,6 +367,7 @@ workflows:
             - test-go-18
             - test-java-18
             - test-node-js-18
+            - test-typescript-18
             - test-ruby-18
             - test-php-18
             - test-python-18
@@ -385,6 +399,8 @@ workflows:
             - test-java-20
             - test-php-20
             - test-python-20
+            - test-node-js-20
+            - test-typescript-20
             - test-canary-https-invocation-builder-20
             - test-canary-logs-cli-builder-20
           filters:
@@ -401,6 +417,8 @@ workflows:
             - test-java-20
             - test-php-20
             - test-python-20
+            - test-node-js-20
+            - test-typescript-20
             - test-canary-https-invocation-builder-20
             - test-canary-logs-cli-builder-20
           filters:
