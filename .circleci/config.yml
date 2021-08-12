@@ -271,7 +271,7 @@ workflows:
           stack-tag: "20"
           name: test-typescript-20
           requires:
-            - create-service-builder-18
+            - create-service-builder-20
       - test-getting-started-guide:
           language: php
           stack-tag: "18"
