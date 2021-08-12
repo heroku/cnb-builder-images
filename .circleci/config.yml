@@ -255,11 +255,23 @@ workflows:
           requires:
             - create-service-builder-18
       - test-getting-started-guide:
+          language: node-js
+          stack-tag: "20"
+          name: test-node-js-20
+          requires:
+            - create-service-builder-20
+      - test-getting-started-guide:
           language: typescript
           stack-tag: "18"
           name: test-typescript-18
           requires:
             - create-service-builder-18
+      - test-getting-started-guide:
+          language: typescript
+          stack-tag: "20"
+          name: test-typescript-20
+          requires:
+            - create-service-builder-20
       - test-getting-started-guide:
           language: php
           stack-tag: "18"
@@ -334,14 +346,15 @@ workflows:
           image_tag: heroku/pack:18-build
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:build
           requires:
+            - test-canary-https-invocation-builder-18
+            - test-canary-logs-cli-builder-18
             - test-go-18
             - test-java-18
             - test-node-js-18
-            - test-ruby-18
             - test-php-18
             - test-python-18
-            - test-canary-https-invocation-builder-18
-            - test-canary-logs-cli-builder-18
+            - test-ruby-18
+            - test-typescript-18
           filters:
             branches:
               only: master
@@ -351,14 +364,15 @@ workflows:
           image_tag: heroku/pack:18
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:run
           requires:
+            - test-canary-https-invocation-builder-18
+            - test-canary-logs-cli-builder-18
             - test-go-18
             - test-java-18
             - test-node-js-18
-            - test-ruby-18
             - test-php-18
             - test-python-18
-            - test-canary-https-invocation-builder-18
-            - test-canary-logs-cli-builder-18
+            - test-ruby-18
+            - test-typescript-18
           filters:
             branches:
               only: master
@@ -380,13 +394,15 @@ workflows:
           image_tag: heroku/pack:20-build
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:build
           requires:
-            - test-go-20
-            - test-ruby-20
-            - test-java-20
-            - test-php-20
-            - test-python-20
             - test-canary-https-invocation-builder-20
             - test-canary-logs-cli-builder-20
+            - test-go-20
+            - test-java-20
+            - test-node-js-20
+            - test-php-20
+            - test-python-20
+            - test-ruby-20
+            - test-typescript-20
           filters:
             branches:
               only: master
@@ -396,13 +412,15 @@ workflows:
           image_tag: heroku/pack:20
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:run
           requires:
-            - test-go-20
-            - test-ruby-20
-            - test-java-20
-            - test-php-20
-            - test-python-20
             - test-canary-https-invocation-builder-20
             - test-canary-logs-cli-builder-20
+            - test-go-20
+            - test-java-20
+            - test-node-js-20
+            - test-php-20
+            - test-python-20
+            - test-ruby-20
+            - test-typescript-20
           filters:
             branches:
               only: master
