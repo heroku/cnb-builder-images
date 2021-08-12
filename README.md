@@ -17,6 +17,9 @@ Heroku-like builds with [Cloud Native Buildpacks'](https://buildpacks.io)
 * [heroku/buildpacks:18](https://hub.docker.com/r/heroku/buildpacks/tags/) - A
   CNB Builder that features the heroku-18 stack, heroku buildpacks, and
   Salesforce Function buildpacks
+* [heroku/buildpacks:20](https://hub.docker.com/r/heroku/buildpacks/tags/) - A
+  CNB Builder that features the heroku-20 stack, heroku buildpacks, and
+  Salesforce Function buildpacks
 
 ## Usage
 
