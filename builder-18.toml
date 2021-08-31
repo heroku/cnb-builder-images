@@ -18,7 +18,7 @@ version = "0.11.4"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:25f7d21d285daf15d15a135ab79f5e313d23c5589161aa4e54e7ce6ffec29658"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:cb0509796286c89ea3c078c36af66ca7e73949dd133a06544c7c7adb2da5d7fc"
 
 [[buildpacks]]
   id = "heroku/ruby"
@@ -106,7 +106,7 @@ version = "0.11.4"
 [[order]]
   [[order.group]]
     id = "heroku/java-function"
-    version = "0.3.16"
+    version = "0.3.17"
 
 [[order]]
   [[order.group]]
