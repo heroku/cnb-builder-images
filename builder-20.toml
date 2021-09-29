@@ -106,7 +106,7 @@ version = "0.11.4"
 [[order]]
   [[order.group]]
     id = "heroku/java-function"
-    version = "0.3.21"
+    version = "0.3.20"
 
 [[order]]
   [[order.group]]
