@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    citrus (3.0.2)
+    excon (0.87.0)
+    rake (13.0.6)
+    toml-rb (2.0.1)
+      citrus (~> 3.0, > 3.0)
+
+PLATFORMS
+  x86_64-darwin-20
+
+DEPENDENCIES
+  excon
+  rake
+  toml-rb
+
+BUNDLED WITH
+   2.2.27
