@@ -380,8 +380,7 @@ workflows:
           name: publish-service-builder-18
           image_file: buildpacks-18.tar
           image_tag: heroku/buildpacks:18
-          image_tag_alias: heroku/buildpacks:latest
-          image_tag_alias2: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
           requires:
             - publish-18-build-stack
             - publish-18-run-stack
@@ -429,6 +428,7 @@ workflows:
           image_file: buildpacks-20.tar
           image_tag: heroku/buildpacks:20
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
+          image_tag_alias2: heroku/buildpacks:latest
           requires:
             - publish-20-build-stack
             - publish-20-run-stack
