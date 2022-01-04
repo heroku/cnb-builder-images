@@ -9,7 +9,7 @@ build:
 	@docker build --pull -f Dockerfile.run --build-arg STACK=heroku-20 --build-arg BASE_IMAGE=heroku/heroku:20 -t heroku/pack:20 .
 	@pack create-builder heroku/buildpacks:18 --config builder-18.toml --pull-policy if-not-present
 	@pack create-builder heroku/buildpacks:20 --config builder-20.toml --pull-policy if-not-present
-	@docker tag heroku/buildpacks:18 heroku/buildpacks:latest
+	@docker tag heroku/buildpacks:20 heroku/buildpacks:latest
 
 publish: build
 	@docker push heroku/pack:18-build
