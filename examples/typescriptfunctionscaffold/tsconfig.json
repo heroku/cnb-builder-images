@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "es2020",
+        "outDir": "./dist",
+        "rootDir": "./",
+        "target": "es2017",
+        "lib": [
+            "es2017"
+        ],
+        "types": ["node"],
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "alwaysStrict": true,
+        "pretty": true
+    },
+    "include": [
+        "index.ts"
+    ]
+}
