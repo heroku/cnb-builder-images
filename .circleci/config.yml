@@ -124,7 +124,7 @@ jobs:
       - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder heroku/buildpacks:<< parameters.stack-tag >> --trust-builder --pull-policy never
       - run: docker run --name pack-example -d << parameters.example >>
       - run: sleep 5
-      - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logspack-example && exit 1)
+      - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logs pack-example && exit 1)
   publish-image:
     parameters:
       image_file:
