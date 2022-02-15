@@ -340,8 +340,9 @@ workflows:
           image_tag: heroku/pack:18-build
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:build
           requires:
-            - test-canary-https-invocation-builder-18
-            - test-canary-logs-cli-builder-18
+            - test-java-function-example-18
+            - test-javascript-function-example-18
+            - test-typescript-function-example-18
             - test-go-18
             - test-java-18
             - test-node-js-18
@@ -358,8 +359,9 @@ workflows:
           image_tag: heroku/pack:18
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:run
           requires:
-            - test-canary-https-invocation-builder-18
-            - test-canary-logs-cli-builder-18
+            - test-java-function-example-18
+            - test-javascript-function-example-18
+            - test-typescript-function-example-18
             - test-go-18
             - test-java-18
             - test-node-js-18
@@ -387,8 +389,9 @@ workflows:
           image_tag: heroku/pack:20-build
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:build
           requires:
-            - test-canary-https-invocation-builder-20
-            - test-canary-logs-cli-builder-20
+            - test-java-function-example-20
+            - test-javascript-function-example-20
+            - test-typescript-function-example-20
             - test-go-20
             - test-java-20
             - test-node-js-20
@@ -405,8 +408,9 @@ workflows:
           image_tag: heroku/pack:20
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:run
           requires:
-            - test-canary-https-invocation-builder-20
-            - test-canary-logs-cli-builder-20
+            - test-java-function-example-20
+            - test-javascript-function-example-20
+            - test-typescript-function-example-20
             - test-go-20
             - test-java-20
             - test-node-js-20
