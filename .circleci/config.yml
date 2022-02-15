@@ -100,16 +100,10 @@ jobs:
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
       - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
-  test-evergreen-canary:
+  test-example:
     parameters:
-      canary:
-        description: "Evergreen canary name"
-        type: string
-      path:
-        description: "Build path"
-        type: string
-      fingerprint:
-        description: "Github private repo SSH key"
+      example:
+        description: "Example repo directory"
         type: string
       stack-tag:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
@@ -120,10 +114,6 @@ jobs:
       - checkout
       - run: *create-docker-config
       - run: *install-pack
-      - add_ssh_keys:
-          fingerprints:
-            - << parameters.fingerprint >>
-      - run: git clone https://github.com/heroku/evergreen-<< parameters.canary >>.git evergreen-canary
       - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
@@ -131,10 +121,10 @@ jobs:
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: pack build pack-evergreen-canary --path evergreen-canary/src/<< parameters.path >> --builder heroku/buildpacks:<< parameters.stack-tag >> --trust-builder --pull-policy never
-      - run: docker run --name evergreen-canary -d pack-evergreen-canary
+      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder heroku/buildpacks:<< parameters.stack-tag >> --trust-builder --pull-policy never
+      - run: docker run --name pack-example -d << parameters.example >>
       - run: sleep 5
-      - run: docker exec evergreen-canary true 2>/dev/null || (echo not running && docker logs evergreen-canary && exit 1)
+      - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logspack-example && exit 1)
   publish-image:
     parameters:
       image_file:
@@ -308,35 +298,39 @@ workflows:
           name: test-ruby-20
           requires:
             - create-service-builder-20
-      - test-evergreen-canary:
-          name: test-canary-https-invocation-builder-18
-          canary: canary-https-invocation
-          path: hello-function
-          fingerprint: "5f:51:54:de:aa:c6:91:98:3e:e9:b2:a3:94:e7:05:6d"
+      - test-example:
+          name: test-java-function-example-18
+          example: javafunctionscaffold
           stack-tag: "18"
           requires:
             - create-service-builder-18
-      - test-evergreen-canary:
-          name: test-canary-https-invocation-builder-20
-          canary: canary-https-invocation
-          path: hello-function
-          fingerprint: "5f:51:54:de:aa:c6:91:98:3e:e9:b2:a3:94:e7:05:6d"
+      - test-example:
+          name: test-java-function-example-20
+          example: javafunctionscaffold
           stack-tag: "20"
           requires:
             - create-service-builder-20
-      - test-evergreen-canary:
-          name: test-canary-logs-cli-builder-18
-          canary: canary-logs-cli
-          path: salesforce/functions/ExampleFunction
-          fingerprint: "c1:1d:be:7b:33:56:47:56:8a:84:55:15:9f:7c:5e:1c"
+      - test-example:
+          name: test-javascript-function-example-18
+          example: javascriptfunctionscaffold
           stack-tag: "18"
           requires:
             - create-service-builder-18
-      - test-evergreen-canary:
-          name: test-canary-logs-cli-builder-20
-          canary: canary-logs-cli
-          path: salesforce/functions/ExampleFunction
-          fingerprint: "c1:1d:be:7b:33:56:47:56:8a:84:55:15:9f:7c:5e:1c"
+      - test-example:
+          name: test-javascript-function-example-20
+          example: javascriptfunctionscaffold
+          stack-tag: "20"
+          requires:
+            - create-service-builder-20
+      - test-example:
+          name: test-typescript-function-example-18
+          example: typescriptfunctionscaffold
+          stack-tag: "18"
+          requires:
+            - create-service-builder-18
+      - test-example:
+          name: test-typescript-function-example-20
+          example: typescriptfunctionscaffold
           stack-tag: "20"
           requires:
             - create-service-builder-20
