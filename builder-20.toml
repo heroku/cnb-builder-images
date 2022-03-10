@@ -101,7 +101,7 @@ version = "0.13.1"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-function"
-    version = "0.7.3"
+    version = "0.8.0"
 
 [[order]]
   [[order.group]]
@@ -111,7 +111,7 @@ version = "0.13.1"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
-    version = "0.4.1"
+    version = "0.5.0"
 
 [[order]]
   [[order.group]]
