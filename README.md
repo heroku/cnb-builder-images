@@ -10,15 +10,22 @@ Heroku-like builds with [Cloud Native Buildpacks'](https://buildpacks.io)
   compatible run image based on heroku:18
 * [heroku/pack:20](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
   compatible run image based on heroku:20
+* [heroku/pack:22](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
+  compatible run image based on heroku:22
 * [heroku/pack:18-build](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
   compatible build image based on heroku:18-build
 * [heroku/pack:20-build](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
   compatible build image based on heroku:20-build
+* [heroku/pack:22-build](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
+  compatible build image based on heroku:22-build
 * [heroku/buildpacks:18](https://hub.docker.com/r/heroku/buildpacks/tags/) - A
   CNB Builder that features the heroku-18 stack, heroku buildpacks, and
   Salesforce Function buildpacks
 * [heroku/buildpacks:20](https://hub.docker.com/r/heroku/buildpacks/tags/) - A
   CNB Builder that features the heroku-20 stack, heroku buildpacks, and
+  Salesforce Function buildpacks
+* [heroku/buildpacks:22](https://hub.docker.com/r/heroku/buildpacks/tags/) - A
+  CNB Builder that features the heroku-22 stack, heroku buildpacks, and
   Salesforce Function buildpacks
 
 ## Usage
