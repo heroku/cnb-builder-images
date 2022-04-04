@@ -1,4 +1,7 @@
 version: 2.1
+orbs:
+    pack: buildpacks/pack@0.2.4
+
 jobs:
   create-image:
     parameters:
@@ -50,11 +53,8 @@ jobs:
           command: |
             mkdir -p ~/.docker
             echo '{}' > ~/.docker/config.json
-      - run: &install-pack
-          name: "Install pack"
-          command: |
-            mkdir -p ~/bin
-            curl -sSfL https://github.com/buildpacks/pack/releases/download/v0.23.0/pack-v0.23.0-linux.tgz | tar -xzC ~/bin pack
+      - pack/install-pack:
+          version: 0.24.1
       - attach_workspace:
           at: /tmp/workspace
       - setup_remote_docker
@@ -88,7 +88,8 @@ jobs:
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - run: *create-docker-config
-      - run: *install-pack
+      - pack/install-pack:
+          version: 0.24.1
       - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
@@ -113,7 +114,8 @@ jobs:
     steps:
       - checkout
       - run: *create-docker-config
-      - run: *install-pack
+      - pack/install-pack:
+          version: 0.24.1
       - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
