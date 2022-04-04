@@ -9,18 +9,6 @@ run-image = "heroku/pack:22"
 version = "0.13.5"
 
 [[buildpacks]]
-  id = "heroku/java"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-buildpack@sha256:82e235e8c4e5d6d9e0e1e3ba59d8114871565fb2b7df63bcef48d67ecacc09e6"
-
-[[buildpacks]]
-  id = "heroku/scala"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-scala-buildpack@sha256:02a26d364465a567782806effa2afbf4b992a1e15453bb8e62c5da27118dc7e6"
-
-[[buildpacks]]
-  id = "heroku/java-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:a27030592f648d5ef32fe9bcbfe326d435698a748b8fa17b1d43a23fea27ec51"
-
-[[buildpacks]]
   id = "heroku/ruby"
   uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-ruby-buildpack@sha256:3eeb3773cdbd29d4fb0d578f7781fe8c525de73593480e2740b7143262e5bef5"
 
@@ -70,16 +58,6 @@ version = "0.13.5"
 
 [[order]]
   [[order.group]]
-    id = "heroku/scala"
-    version = "0.0.92"
-
-  [[order.group]]
-    id = "heroku/procfile"
-    version = "1.0.0"
-    optional = true
-
-[[order]]
-  [[order.group]]
     id = "heroku/php"
     version = "0.3.1"
 
@@ -105,15 +83,5 @@ version = "0.13.5"
 
 [[order]]
   [[order.group]]
-    id = "heroku/java-function"
-    version = "0.3.29"
-
-[[order]]
-  [[order.group]]
     id = "heroku/nodejs"
     version = "0.5.1"
-
-[[order]]
-  [[order.group]]
-    id = "heroku/java"
-    version = "0.3.16"

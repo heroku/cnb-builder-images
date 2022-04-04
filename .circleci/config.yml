@@ -269,12 +269,6 @@ workflows:
           requires:
             - create-service-builder-20
       - test-getting-started-guide:
-          language: java
-          stack-tag: "22"
-          name: test-java-22
-          requires:
-            - create-service-builder-22
-      - test-getting-started-guide:
           language: node-js
           stack-tag: "18"
           name: test-node-js-18
@@ -376,12 +370,6 @@ workflows:
           stack-tag: "20"
           requires:
             - create-service-builder-20
-      - test-example:
-          name: test-java-function-example-22
-          example: javafunctionscaffold
-          stack-tag: "22"
-          requires:
-            - create-service-builder-22
       - test-example:
           name: test-javascript-function-example-18
           example: javascriptfunctionscaffold
@@ -523,11 +511,9 @@ workflows:
           image_tag: heroku/pack:22-build
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:build
           requires:
-            - test-java-function-example-22
             - test-javascript-function-example-22
             - test-typescript-function-example-22
             - test-go-22
-            - test-java-22
             - test-node-js-22
             - test-php-22
             - test-python-22
@@ -542,11 +528,9 @@ workflows:
           image_tag: heroku/pack:22
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:run
           requires:
-            - test-java-function-example-22
             - test-javascript-function-example-22
             - test-typescript-function-example-22
             - test-go-22
-            - test-java-22
             - test-node-js-22
             - test-php-22
             - test-python-22
