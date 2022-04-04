@@ -200,6 +200,20 @@ workflows:
           stack_name: heroku-20
           image_tag: heroku/pack:20
           image_file: pack-20-run.tar
+      - create-image:
+          name: create-22-build-image
+          dockerfile: Dockerfile.build
+          base_image: heroku/heroku:22-build
+          stack_name: heroku-22
+          image_tag: heroku/pack:22-build
+          image_file: pack-22-build.tar
+      - create-image:
+          name: create-22-run-image
+          dockerfile: Dockerfile.run
+          base_image: heroku/heroku:22
+          stack_name: heroku-22
+          image_tag: heroku/pack:22
+          image_file: pack-22-run.tar
       - create-pack-builder:
           name: create-service-builder-18
           image_tag: heroku/buildpacks:18
@@ -216,6 +230,14 @@ workflows:
           requires:
             - create-20-run-image
             - create-20-build-image
+      - create-pack-builder:
+          name: create-service-builder-22
+          image_tag: heroku/buildpacks:22
+          image_file: buildpacks-22.tar
+          builder_toml: builder-22.toml
+          requires:
+            - create-22-run-image
+            - create-22-build-image
       - test-getting-started-guide:
           language: go
           stack-tag: "18"
@@ -229,6 +251,12 @@ workflows:
           requires:
             - create-service-builder-20
       - test-getting-started-guide:
+          language: go
+          stack-tag: "22"
+          name: test-go-22
+          requires:
+            - create-service-builder-22
+      - test-getting-started-guide:
           language: java
           stack-tag: "18"
           name: test-java-18
@@ -240,6 +268,12 @@ workflows:
           name: test-java-20
           requires:
             - create-service-builder-20
+      - test-getting-started-guide:
+          language: java
+          stack-tag: "22"
+          name: test-java-22
+          requires:
+            - create-service-builder-22
       - test-getting-started-guide:
           language: node-js
           stack-tag: "18"
@@ -253,6 +287,12 @@ workflows:
           requires:
             - create-service-builder-20
       - test-getting-started-guide:
+          language: node-js
+          stack-tag: "22"
+          name: test-node-js-22
+          requires:
+            - create-service-builder-22
+      - test-getting-started-guide:
           language: typescript
           stack-tag: "18"
           name: test-typescript-18
@@ -264,6 +304,12 @@ workflows:
           name: test-typescript-20
           requires:
             - create-service-builder-20
+      - test-getting-started-guide:
+          language: typescript
+          stack-tag: "22"
+          name: test-typescript-22
+          requires:
+            - create-service-builder-22
       - test-getting-started-guide:
           language: php
           stack-tag: "18"
@@ -277,6 +323,12 @@ workflows:
           requires:
             - create-service-builder-20
       - test-getting-started-guide:
+          language: php
+          stack-tag: "22"
+          name: test-php-22
+          requires:
+            - create-service-builder-22
+      - test-getting-started-guide:
           language: Python
           stack-tag: "18"
           name: test-python-18
@@ -289,6 +341,12 @@ workflows:
           requires:
             - create-service-builder-20
       - test-getting-started-guide:
+          language: Python
+          stack-tag: "22"
+          name: test-python-22
+          requires:
+            - create-service-builder-22
+      - test-getting-started-guide:
           language: Ruby
           stack-tag: "18"
           name: test-ruby-18
@@ -300,6 +358,12 @@ workflows:
           name: test-ruby-20
           requires:
             - create-service-builder-20
+      - test-getting-started-guide:
+          language: Ruby
+          stack-tag: "20"
+          name: test-ruby-22
+          requires:
+            - create-service-builder-22
       - test-example:
           name: test-java-function-example-18
           example: javafunctionscaffold
@@ -313,6 +377,12 @@ workflows:
           requires:
             - create-service-builder-20
       - test-example:
+          name: test-java-function-example-22
+          example: javafunctionscaffold
+          stack-tag: "22"
+          requires:
+            - create-service-builder-22
+      - test-example:
           name: test-javascript-function-example-18
           example: javascriptfunctionscaffold
           stack-tag: "18"
@@ -325,6 +395,12 @@ workflows:
           requires:
             - create-service-builder-20
       - test-example:
+          name: test-javascript-function-example-22
+          example: javascriptfunctionscaffold
+          stack-tag: "22"
+          requires:
+            - create-service-builder-22
+      - test-example:
           name: test-typescript-function-example-18
           example: typescriptfunctionscaffold
           stack-tag: "18"
@@ -336,6 +412,12 @@ workflows:
           stack-tag: "20"
           requires:
             - create-service-builder-20
+      - test-example:
+          name: test-typescript-function-example-22
+          example: typescriptfunctionscaffold
+          stack-tag: "22"
+          requires:
+            - create-service-builder-22
       - publish-image:
           name: publish-18-build-stack
           image_file: pack-18-build.tar
@@ -432,6 +514,56 @@ workflows:
           requires:
             - publish-20-build-stack
             - publish-20-run-stack
+          filters:
+            branches:
+              only: master
+      - publish-image:
+          name: publish-22-build-stack
+          image_file: pack-22-build.tar
+          image_tag: heroku/pack:22-build
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:build
+          requires:
+            - test-java-function-example-22
+            - test-javascript-function-example-22
+            - test-typescript-function-example-22
+            - test-go-22
+            - test-java-22
+            - test-node-js-22
+            - test-php-22
+            - test-python-22
+            - test-ruby-22
+            - test-typescript-22
+          filters:
+            branches:
+              only: master
+      - publish-image:
+          name: publish-22-run-stack
+          image_file: pack-22-run.tar
+          image_tag: heroku/pack:22
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:run
+          requires:
+            - test-java-function-example-22
+            - test-javascript-function-example-22
+            - test-typescript-function-example-22
+            - test-go-22
+            - test-java-22
+            - test-node-js-22
+            - test-php-22
+            - test-python-22
+            - test-ruby-22
+            - test-typescript-22
+          filters:
+            branches:
+              only: master
+      - publish-image:
+          name: publish-service-builder-22
+          image_file: buildpacks-22.tar
+          image_tag: heroku/buildpacks:22
+          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
+          image_tag_alias2: heroku/buildpacks:latest
+          requires:
+            - publish-22-build-stack
+            - publish-22-run-stack
           filters:
             branches:
               only: master
