@@ -317,12 +317,6 @@ workflows:
           requires:
             - create-service-builder-20
       - test-getting-started-guide:
-          language: php
-          stack-tag: "22"
-          name: test-php-22
-          requires:
-            - create-service-builder-22
-      - test-getting-started-guide:
           language: Python
           stack-tag: "18"
           name: test-python-18
@@ -334,12 +328,6 @@ workflows:
           name: test-python-20
           requires:
             - create-service-builder-20
-      - test-getting-started-guide:
-          language: Python
-          stack-tag: "22"
-          name: test-python-22
-          requires:
-            - create-service-builder-22
       - test-getting-started-guide:
           language: Ruby
           stack-tag: "18"
@@ -507,10 +495,7 @@ workflows:
           requires:
             - test-javascript-function-example-22
             - test-typescript-function-example-22
-            - test-go-22
             - test-node-js-22
-            - test-php-22
-            - test-python-22
             - test-typescript-22
           filters:
             branches:
@@ -523,10 +508,7 @@ workflows:
           requires:
             - test-javascript-function-example-22
             - test-typescript-function-example-22
-            - test-go-22
             - test-node-js-22
-            - test-php-22
-            - test-python-22
             - test-typescript-22
           filters:
             branches:
