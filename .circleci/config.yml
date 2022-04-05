@@ -352,12 +352,6 @@ workflows:
           name: test-ruby-20
           requires:
             - create-service-builder-20
-      - test-getting-started-guide:
-          language: Ruby
-          stack-tag: "20"
-          name: test-ruby-22
-          requires:
-            - create-service-builder-22
       - test-example:
           name: test-java-function-example-18
           example: javafunctionscaffold
@@ -517,7 +511,6 @@ workflows:
             - test-node-js-22
             - test-php-22
             - test-python-22
-            - test-ruby-22
             - test-typescript-22
           filters:
             branches:
@@ -534,7 +527,6 @@ workflows:
             - test-node-js-22
             - test-php-22
             - test-python-22
-            - test-ruby-22
             - test-typescript-22
           filters:
             branches:

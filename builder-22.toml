@@ -9,10 +9,6 @@ run-image = "heroku/pack:22"
 version = "0.13.5"
 
 [[buildpacks]]
-  id = "heroku/ruby"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-ruby-buildpack@sha256:3eeb3773cdbd29d4fb0d578f7781fe8c525de73593480e2740b7143262e5bef5"
-
-[[buildpacks]]
   id = "heroku/procfile"
   uri = "docker://docker.io/heroku/procfile-cnb:1.0.1"
 
@@ -35,16 +31,6 @@ version = "0.13.5"
 [[buildpacks]]
   id = "heroku/nodejs-function"
   uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:04c06bf8b9cea7bd30423a1208e2808119d376372bf38047f6969b0f90419936"
-
-[[order]]
-  [[order.group]]
-    id = "heroku/ruby"
-    version = "0.1.3"
-
-  [[order.group]]
-    id = "heroku/procfile"
-    version = "1.0.1"
-    optional = true
 
 [[order]]
   [[order.group]]
