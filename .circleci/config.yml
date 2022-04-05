@@ -251,12 +251,6 @@ workflows:
           requires:
             - create-service-builder-20
       - test-getting-started-guide:
-          language: go
-          stack-tag: "22"
-          name: test-go-22
-          requires:
-            - create-service-builder-22
-      - test-getting-started-guide:
           language: java
           stack-tag: "18"
           name: test-java-18
