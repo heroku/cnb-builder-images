@@ -83,14 +83,14 @@ jobs:
       stack-tag:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
         type: string
-    docker:
-      - image: cimg/base:stable-20.04
+    machine:
+      image: ubuntu-2004:current
+    resource_class: large
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - run: *create-docker-config
       - pack/install-pack:
           version: 0.24.1
-      - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
