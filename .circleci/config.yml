@@ -512,7 +512,6 @@ workflows:
           image_file: buildpacks-22.tar
           image_tag: heroku/buildpacks:22
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
-          image_tag_alias2: heroku/buildpacks:latest
           requires:
             - publish-22-build-stack
             - publish-22-run-stack
