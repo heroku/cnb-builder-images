@@ -6,21 +6,18 @@ This repository is responsible for building and publishing images that enable
 Heroku-like builds with [Cloud Native Buildpacks'](https://buildpacks.io)
 [`pack`](https://github.com/buildpacks/pack) command.
 
-* [heroku/pack:18](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
-  compatible run image based on heroku:18
-* [heroku/pack:20](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
-  compatible run image based on heroku:20
-* [heroku/pack:18-build](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
-  compatible build image based on heroku:18-build
-* [heroku/pack:20-build](https://hub.docker.com/r/heroku/pack/tags/) - A CNB
-  compatible build image based on heroku:20-build
-* [heroku/buildpacks:18](https://hub.docker.com/r/heroku/buildpacks/tags/) - A
-  CNB Builder that features the heroku-18 stack, heroku buildpacks, and
-  Salesforce Function buildpacks
-* [heroku/buildpacks:20](https://hub.docker.com/r/heroku/buildpacks/tags/) - A
-  CNB Builder that features the heroku-20 stack, heroku buildpacks, and
-  Salesforce Function buildpacks
+| Image                                                                    | Base      | Type              | Status         |
+|--------------------------------------------------------------------------|-----------|-------------------|----------------|
+| [heroku/pack:18](https://hub.docker.com/r/heroku/pack/tags/)             | heroku:18 | CNB Run Image     | Available      |
+| [heroku/pack:18-build](https://hub.docker.com/r/heroku/pack/tags/)       | heroku:18 | CNB Build Image   | Available      |
+| [heroku/buildpacks:18](https://hub.docker.com/r/heroku/buildpacks/tags/) | heroku:18 | CNB Builder Image | Available      |
+| [heroku/pack:20](https://hub.docker.com/r/heroku/pack/tags/)             | heroku:20 | CNB Run Image     | Suggested      |
+| [heroku/pack:20-build](https://hub.docker.com/r/heroku/pack/tags/)       | heroku:20 | CNB Build Image   | Suggested      |
+| [heroku/buildpacks:20](https://hub.docker.com/r/heroku/buildpacks/tags/) | heroku:20 | CNB Builder Image | Suggested      |
+| [heroku/pack:22](https://hub.docker.com/r/heroku/pack/tags/)             | heroku:22 | CNB Run Image     | In Development |
+| [heroku/pack:22-build](https://hub.docker.com/r/heroku/pack/tags/)       | heroku:22 | CNB Build Image   | In Development |
+| [heroku/buildpacks:22](https://hub.docker.com/r/heroku/buildpacks/tags/) | heroku:22 | CNB Builder Image | In Development |
 
 ## Usage
 
-`pack build myapp --builder heroku/buildpacks:18`
+`pack build myapp --builder heroku/buildpacks:20`
