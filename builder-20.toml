@@ -6,7 +6,7 @@ build-image = "heroku/pack:20-build"
 run-image = "heroku/pack:20"
 
 [lifecycle]
-version = "0.13.5"
+version = "0.14.0"
 
 [[buildpacks]]
   id = "heroku/java"

@@ -54,7 +54,7 @@ jobs:
             mkdir -p ~/.docker
             echo '{}' > ~/.docker/config.json
       - pack/install-pack:
-          version: 0.24.1
+          version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
       - setup_remote_docker
@@ -90,7 +90,7 @@ jobs:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - run: *create-docker-config
       - pack/install-pack:
-          version: 0.24.1
+          version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
@@ -116,7 +116,7 @@ jobs:
       - checkout
       - run: *create-docker-config
       - pack/install-pack:
-          version: 0.24.1
+          version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
