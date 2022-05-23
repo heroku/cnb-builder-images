@@ -14,7 +14,8 @@ version = "0.14.0"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:c4de76730ea8d0c68ccf1c073734ae467890545eec5896fa5ae805e2883ff20d"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:99e2db8060d12bd5967157c08bfd0f9d2c7fee9f5c2da872c472a9f82b822930"
+
 
 [[buildpacks]]
   id = "heroku/nodejs-function"
