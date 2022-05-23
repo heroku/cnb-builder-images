@@ -28,4 +28,4 @@ version = "0.14.0"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
-    version = "0.5.3"
+    version = "0.5.4"
