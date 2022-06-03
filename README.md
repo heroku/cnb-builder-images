@@ -15,7 +15,7 @@ Heroku-like builds with [Cloud Native Buildpacks'](https://buildpacks.io)
 | [heroku/pack:20-build][pack-tags]       | [heroku/heroku:20-build][stack-images] | CNB Build Image   | Deprecated (replaced by [heroku/heroku:20-cnb-build][heroku-tags])     |
 | [heroku/buildpacks:20][buildpacks-tags] | [heroku/heroku:20-build][stack-images] | CNB Builder Image | Suggested                                                              |
 | [heroku/pack:22][pack-tags]             | [heroku/heroku:22][stack-images]       | CNB Run Image     | Deprecated (replaced by [heroku/heroku:22-cnb][heroku-tags])           |
-| [heroku/pack:22-build][pack-tags]       | [heroku/heroku:22-build][stack-images] | CNB Build Image   | Deprecated (replaced by [heroku/heroku:22-cnb][heroku-tags])           |
+| [heroku/pack:22-build][pack-tags]       | [heroku/heroku:22-build][stack-images] | CNB Build Image   | Deprecated (replaced by [heroku/heroku:22-cnb-build][heroku-tags])           |
 | [heroku/buildpacks:22][buildpacks-tags] | [heroku/heroku:22-build][stack-images] | CNB Builder Image | In Development                                                         |
 
 ## Usage
