@@ -90,8 +90,8 @@ jobs:
       - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logs pack-example && exit 1)
   publish-image:
     parameters:
-      image_file:
-        description: "Name of the local image archive to publish"
+      builder-dir:
+        description: "Builder directory"
         type: string
       image_tag:
         description: "Name of the dockerhub image to publish"
@@ -116,7 +116,7 @@ jobs:
             echo "$REGISTRY_TOKEN" | docker login $REGISTRY_HOST -u "$REGISTRY_USER" --password-stdin
       - attach_workspace:
           at: /tmp/workspace
-      - run: docker load < /tmp/workspace/<< parameters.image_file >>
+      - run: docker load < /tmp/workspace/<< parameters.builder-dir >>.tar
       - run: docker push << parameters.image_tag >>
       - when:
           condition: << parameters.image_tag_alias >>
@@ -315,7 +315,7 @@ workflows:
             - create-builder-22
       - publish-image:
           name: publish-buildpacks-18
-          image_file: buildpacks-18.tar
+          builder-dir: buildpacks-18
           image_tag: heroku/buildpacks:18
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
           requires:
@@ -334,7 +334,7 @@ workflows:
               only: main
       - publish-image:
           name: publish-buildpacks-20
-          image_file: buildpacks-20.tar
+          builder-dir: buildpacks-20
           image_tag: heroku/buildpacks:20
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
           image_tag_alias2: heroku/buildpacks:latest
@@ -354,7 +354,7 @@ workflows:
               only: main
       - publish-image:
           name: publish-builder-22
-          image_file: builder-22.tar
+          builder-dir: builder-22
           image_tag: heroku/builder:22
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
           requires:
