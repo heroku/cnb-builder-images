@@ -34,7 +34,7 @@ jobs:
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy if-not-present && break
+              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
@@ -61,6 +61,8 @@ jobs:
           version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
+      - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
+      - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
@@ -85,9 +87,11 @@ jobs:
           version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
+      - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
+      - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder heroku/buildpacks:<< parameters.stack-tag >> --trust-builder --pull-policy never
+      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
       - run: docker run --name pack-example -d << parameters.example >>
       - run: sleep 5
       - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logs pack-example && exit 1)
