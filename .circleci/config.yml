@@ -68,6 +68,9 @@ jobs:
       stack-tag:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
         type: string
+      builder-dir:
+        description: "Builder directory"
+        type: string
     machine:
       image: ubuntu-2004:current
     resource_class: large
@@ -79,9 +82,9 @@ jobs:
           at: /tmp/workspace
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
-      - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
-      - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
+      - run: docker load < << parameters.builder-dir >>.tar
+      - run: pack trust-builder << parameters.builder-dir >>
+      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder << parameters.builder-dir >> --pull-policy never
       - run: docker run --name pack-example -d << parameters.example >>
       - run: sleep 5
       - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logs pack-example && exit 1)
@@ -256,48 +259,56 @@ workflows:
             - create-buildpacks-20
       - test-example:
           name: test-java-function-example-18
+          builder-dir: buildpacks-18
           example: javafunctionscaffold
           stack-tag: "18"
           requires:
             - create-buildpacks-18
       - test-example:
           name: test-java-function-example-20
+          builder-dir: buildpacks-20
           example: javafunctionscaffold
           stack-tag: "20"
           requires:
             - create-buildpacks-20
       - test-example:
           name: test-javascript-function-example-18
+          builder-dir: buildpacks-18
           example: javascriptfunctionscaffold
           stack-tag: "18"
           requires:
             - create-buildpacks-18
       - test-example:
           name: test-javascript-function-example-20
+          builder-dir: buildpacks-20
           example: javascriptfunctionscaffold
           stack-tag: "20"
           requires:
             - create-buildpacks-20
       - test-example:
           name: test-javascript-function-example-22
+          builder-dir: builder-22
           example: javascriptfunctionscaffold
           stack-tag: "22"
           requires:
             - create-builder-22
       - test-example:
           name: test-typescript-function-example-18
+          builder-dir: buildpacks-18
           example: typescriptfunctionscaffold
           stack-tag: "18"
           requires:
             - create-buildpacks-18
       - test-example:
           name: test-typescript-function-example-20
+          builder-dir: buildpacks-20
           example: typescriptfunctionscaffold
           stack-tag: "20"
           requires:
             - create-buildpacks-20
       - test-example:
           name: test-typescript-function-example-22
+          builder-dir: builder-22
           example: typescriptfunctionscaffold
           stack-tag: "22"
           requires:
