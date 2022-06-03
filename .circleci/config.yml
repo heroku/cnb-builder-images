@@ -5,7 +5,8 @@ orbs:
 jobs:
   create-pack-builder:
     parameters:
-      builder_dir:
+      builder-dir:
+        description: "Builder directory"
         type: string
     docker:
       - image: cimg/base:stable-20.04
@@ -22,11 +23,11 @@ jobs:
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create << parameters.builder_dir >> --config << parameters.builder_dir >>/builder.toml --pull-policy always && break
+              pack builder create << parameters.builder-dir >> --config << parameters.builder-dir >>/builder.toml --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
-      - run: docker save << parameters.builder_dir >> > /tmp/workspace/<< parameters.builder_dir >>.tar
+      - run: docker save << parameters.builder-dir >> > /tmp/workspace/<< parameters.builder-dir >>.tar
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
@@ -39,6 +40,9 @@ jobs:
       stack-tag:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
         type: string
+      builder-dir:
+        description: "Builder directory"
+        type: string
     machine:
       image: ubuntu-2004:current
     resource_class: large
@@ -50,9 +54,9 @@ jobs:
           at: /tmp/workspace
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
-      - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
-      - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
+      - run: docker load < /tmp/workspace/<< parameters.builder-dir >>.tar
+      - run: pack trust-builder << parameters.builder-dir >>
+      - run: pack build pack-getting-started --path getting_started --builder << parameters.builder-dir >> --pull-policy never
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
       - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
@@ -128,107 +132,123 @@ workflows:
     jobs: &build-test-publish-jobs
       - create-pack-builder:
           name: create-buildpacks-18
-          builder_dir: buildpacks-18
+          builder-dir: buildpacks-18
       - create-pack-builder:
           name: create-buildpacks-20
-          builder_dir: buildpacks-20
+          builder-dir: buildpacks-20
       - create-pack-builder:
           name: create-builder-22
-          builder_dir: builder-22
+          builder-dir: builder-22
       - create-pack-builder:
           name: create-builder-classic-22
-          builder_dir: builder-classic-22
+          builder-dir: builder-classic-22
       - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: go
           stack-tag: "18"
           name: test-go-18
           requires:
             - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: go
           stack-tag: "20"
           name: test-go-20
           requires:
             - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: java
           stack-tag: "18"
           name: test-java-18
           requires:
             - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: java
           stack-tag: "20"
           name: test-java-20
           requires:
             - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: node-js
           stack-tag: "18"
           name: test-node-js-18
           requires:
             - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: node-js
           stack-tag: "20"
           name: test-node-js-20
           requires:
             - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-22
           language: node-js
           stack-tag: "22"
           name: test-node-js-22
           requires:
             - create-builder-22
       - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: typescript
           stack-tag: "18"
           name: test-typescript-18
           requires:
             - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: typescript
           stack-tag: "20"
           name: test-typescript-20
           requires:
             - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-22
           language: typescript
           stack-tag: "22"
           name: test-typescript-22
           requires:
             - create-builder-22
       - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: php
           stack-tag: "18"
           name: test-php-18
           requires:
             - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: php
           stack-tag: "20"
           name: test-php-20
           requires:
             - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: Python
           stack-tag: "18"
           name: test-python-18
           requires:
             - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: Python
           stack-tag: "20"
           name: test-python-20
           requires:
             - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: Ruby
           stack-tag: "18"
           name: test-ruby-18
           requires:
             - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: Ruby
           stack-tag: "20"
           name: test-ruby-20
