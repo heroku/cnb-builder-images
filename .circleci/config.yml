@@ -82,7 +82,7 @@ jobs:
           at: /tmp/workspace
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
-      - run: docker load < << parameters.builder-dir >>.tar
+      - run: docker load < /tmp/workspace/<< parameters.builder-dir >>.tar
       - run: pack trust-builder << parameters.builder-dir >>
       - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder << parameters.builder-dir >> --pull-policy never
       - run: docker run --name pack-example -d << parameters.example >>
