@@ -28,8 +28,6 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - setup_remote_docker
-      - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
-      - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
       - run:
           name: Create builder with retries
           command: |
@@ -63,8 +61,6 @@ jobs:
           version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
-      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
-      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
@@ -89,8 +85,6 @@ jobs:
           version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
-      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
-      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
       - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder heroku/buildpacks:<< parameters.stack-tag >> --trust-builder --pull-policy never
