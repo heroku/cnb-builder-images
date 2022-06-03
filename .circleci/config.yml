@@ -3,36 +3,6 @@ orbs:
     pack: buildpacks/pack@0.2.4
 
 jobs:
-  create-image:
-    parameters:
-      dockerfile:
-        description: "Dockerfile to build"
-        type: string
-      base_image:
-        description: "The Docker image to be used in the FROM line of the Dockerfile"
-        type: string
-      stack_name:
-        description: "The name of the stack"
-        type: string
-      image_file:
-        description: "Local image archive file name"
-        type: string
-      image_tag:
-        description: "Remote image tag name"
-        type: string
-    docker:
-      - image: cimg/base:stable-20.04
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /tmp/workspace
-      - setup_remote_docker
-      - run: docker build -f << parameters.dockerfile >> --build-arg STACK=<< parameters.stack_name >> --build-arg BASE_IMAGE=<< parameters.base_image >> -t << parameters.image_tag >> .
-      - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
-      - persist_to_workspace:
-          root: /tmp/workspace
-          paths:
-            - << parameters.image_file >>
   create-pack-builder:
     parameters:
       builder_toml:
@@ -58,15 +28,13 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - setup_remote_docker
-      - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
-      - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
       - run:
           name: Create builder with retries
           command: |
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy if-not-present && break
+              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
@@ -93,8 +61,8 @@ jobs:
           version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
-      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
-      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
+      - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
+      - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
       - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
@@ -119,11 +87,11 @@ jobs:
           version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
-      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
-      - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
+      - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
+      - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder heroku/buildpacks:<< parameters.stack-tag >> --trust-builder --pull-policy never
+      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
       - run: docker run --name pack-example -d << parameters.example >>
       - run: sleep 5
       - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logs pack-example && exit 1)
@@ -172,72 +140,21 @@ workflows:
   version: 2
   build-test-publish:
     jobs: &build-test-publish-jobs
-      - create-image:
-          name: create-18-build-image
-          dockerfile: Dockerfile.build
-          base_image: heroku/heroku:18-build
-          stack_name: heroku-18
-          image_tag: heroku/pack:18-build
-          image_file: pack-18-build.tar
-      - create-image:
-          name: create-18-run-image
-          dockerfile: Dockerfile.run
-          base_image: heroku/heroku:18
-          stack_name: heroku-18
-          image_tag: heroku/pack:18
-          image_file: pack-18-run.tar
-      - create-image:
-          name: create-20-build-image
-          dockerfile: Dockerfile.build
-          base_image: heroku/heroku:20-build
-          stack_name: heroku-20
-          image_tag: heroku/pack:20-build
-          image_file: pack-20-build.tar
-      - create-image:
-          name: create-20-run-image
-          dockerfile: Dockerfile.run
-          base_image: heroku/heroku:20
-          stack_name: heroku-20
-          image_tag: heroku/pack:20
-          image_file: pack-20-run.tar
-      - create-image:
-          name: create-22-build-image
-          dockerfile: Dockerfile.build
-          base_image: heroku/heroku:22-build
-          stack_name: heroku-22
-          image_tag: heroku/pack:22-build
-          image_file: pack-22-build.tar
-      - create-image:
-          name: create-22-run-image
-          dockerfile: Dockerfile.run
-          base_image: heroku/heroku:22
-          stack_name: heroku-22
-          image_tag: heroku/pack:22
-          image_file: pack-22-run.tar
       - create-pack-builder:
           name: create-service-builder-18
           image_tag: heroku/buildpacks:18
           image_file: buildpacks-18.tar
           builder_toml: builder-18.toml
-          requires:
-            - create-18-run-image
-            - create-18-build-image
       - create-pack-builder:
           name: create-service-builder-20
           image_tag: heroku/buildpacks:20
           image_file: buildpacks-20.tar
           builder_toml: builder-20.toml
-          requires:
-            - create-20-run-image
-            - create-20-build-image
       - create-pack-builder:
           name: create-service-builder-22
           image_tag: heroku/buildpacks:22
           image_file: buildpacks-22.tar
           builder_toml: builder-22.toml
-          requires:
-            - create-22-run-image
-            - create-22-build-image
       - test-getting-started-guide:
           language: go
           stack-tag: "18"
@@ -383,89 +300,21 @@ workflows:
           requires:
             - create-service-builder-22
       - publish-image:
-          name: publish-18-build-stack
-          image_file: pack-18-build.tar
-          image_tag: heroku/pack:18-build
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:build
-          requires:
-            - test-java-function-example-18
-            - test-javascript-function-example-18
-            - test-typescript-function-example-18
-            - test-go-18
-            - test-java-18
-            - test-node-js-18
-            - test-php-18
-            - test-python-18
-            - test-ruby-18
-            - test-typescript-18
-          filters:
-            branches:
-              only: main
-      - publish-image:
-          name: publish-18-run-stack
-          image_file: pack-18-run.tar
-          image_tag: heroku/pack:18
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:run
-          requires:
-            - test-java-function-example-18
-            - test-javascript-function-example-18
-            - test-typescript-function-example-18
-            - test-go-18
-            - test-java-18
-            - test-node-js-18
-            - test-php-18
-            - test-python-18
-            - test-ruby-18
-            - test-typescript-18
-          filters:
-            branches:
-              only: main
-      - publish-image:
           name: publish-service-builder-18
           image_file: buildpacks-18.tar
           image_tag: heroku/buildpacks:18
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
           requires:
-            - publish-18-build-stack
-            - publish-18-run-stack
-          filters:
-            branches:
-              only: main
-      - publish-image:
-          name: publish-20-build-stack
-          image_file: pack-20-build.tar
-          image_tag: heroku/pack:20-build
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:build
-          requires:
-            - test-java-function-example-20
-            - test-javascript-function-example-20
-            - test-typescript-function-example-20
-            - test-go-20
-            - test-java-20
-            - test-node-js-20
-            - test-php-20
-            - test-python-20
-            - test-ruby-20
-            - test-typescript-20
-          filters:
-            branches:
-              only: main
-      - publish-image:
-          name: publish-20-run-stack
-          image_file: pack-20-run.tar
-          image_tag: heroku/pack:20
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:run
-          requires:
-            - test-java-function-example-20
-            - test-javascript-function-example-20
-            - test-typescript-function-example-20
-            - test-go-20
-            - test-java-20
-            - test-node-js-20
-            - test-php-20
-            - test-python-20
-            - test-ruby-20
-            - test-typescript-20
+            - test-java-function-example-18
+            - test-javascript-function-example-18
+            - test-typescript-function-example-18
+            - test-go-18
+            - test-java-18
+            - test-node-js-18
+            - test-php-18
+            - test-python-18
+            - test-ruby-18
+            - test-typescript-18
           filters:
             branches:
               only: main
@@ -476,34 +325,16 @@ workflows:
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
           image_tag_alias2: heroku/buildpacks:latest
           requires:
-            - publish-20-build-stack
-            - publish-20-run-stack
-          filters:
-            branches:
-              only: main
-      - publish-image:
-          name: publish-22-build-stack
-          image_file: pack-22-build.tar
-          image_tag: heroku/pack:22-build
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:build
-          requires:
-            - test-javascript-function-example-22
-            - test-typescript-function-example-22
-            - test-node-js-22
-            - test-typescript-22
-          filters:
-            branches:
-              only: main
-      - publish-image:
-          name: publish-22-run-stack
-          image_file: pack-22-run.tar
-          image_tag: heroku/pack:22
-          image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:run
-          requires:
-            - test-javascript-function-example-22
-            - test-typescript-function-example-22
-            - test-node-js-22
-            - test-typescript-22
+            - test-java-function-example-20
+            - test-javascript-function-example-20
+            - test-typescript-function-example-20
+            - test-go-20
+            - test-java-20
+            - test-node-js-20
+            - test-php-20
+            - test-python-20
+            - test-ruby-20
+            - test-typescript-20
           filters:
             branches:
               only: main
@@ -513,8 +344,10 @@ workflows:
           image_tag: heroku/buildpacks:22
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
           requires:
-            - publish-22-build-stack
-            - publish-22-run-stack
+            - test-javascript-function-example-22
+            - test-typescript-function-example-22
+            - test-node-js-22
+            - test-typescript-22
           filters:
             branches:
               only: main
