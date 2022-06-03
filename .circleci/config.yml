@@ -31,7 +31,7 @@ jobs:
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
-            - << parameters.image_file >>.tar
+            - << parameters.builder-dir >>.tar
   test-getting-started-guide:
     parameters:
       language:
