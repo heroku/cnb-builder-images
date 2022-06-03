@@ -147,25 +147,16 @@ workflows:
           image_tag: heroku/buildpacks:18
           image_file: buildpacks-18.tar
           builder_toml: builder-18.toml
-          requires:
-            - create-18-run-image
-            - create-18-build-image
       - create-pack-builder:
           name: create-service-builder-20
           image_tag: heroku/buildpacks:20
           image_file: buildpacks-20.tar
           builder_toml: builder-20.toml
-          requires:
-            - create-20-run-image
-            - create-20-build-image
       - create-pack-builder:
           name: create-service-builder-22
           image_tag: heroku/buildpacks:22
           image_file: buildpacks-22.tar
           builder_toml: builder-22.toml
-          requires:
-            - create-22-run-image
-            - create-22-build-image
       - test-getting-started-guide:
           language: go
           stack-tag: "18"
