@@ -134,166 +134,171 @@ workflows:
   build-test-publish:
     jobs: &build-test-publish-jobs
       - create-pack-builder:
-          name: create-service-builder-18
+          name: create-buildpacks-18
           image_tag: heroku/buildpacks:18
           image_file: buildpacks-18.tar
-          builder_toml: builder-18.toml
+          builder_toml: buildpacks-18/builder.toml
       - create-pack-builder:
-          name: create-service-builder-20
+          name: create-buildpacks-20
           image_tag: heroku/buildpacks:20
           image_file: buildpacks-20.tar
-          builder_toml: builder-20.toml
+          builder_toml: buildpacks-20/builder.toml
       - create-pack-builder:
-          name: create-service-builder-22
-          image_tag: heroku/buildpacks:22
-          image_file: buildpacks-22.tar
-          builder_toml: builder-22.toml
+          name: create-builder-22
+          image_tag: heroku/builder:22
+          image_file: builder-22.tar
+          builder_toml: builder-22/builder.toml
+      - create-pack-builder:
+          name: create-builder-classic-22
+          image_tag: heroku/builder-classic:22
+          image_file: builder-classic-22.tar
+          builder_toml: builder-classic-22/builder.toml
       - test-getting-started-guide:
           language: go
           stack-tag: "18"
           name: test-go-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
           language: go
           stack-tag: "20"
           name: test-go-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
           language: java
           stack-tag: "18"
           name: test-java-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
           language: java
           stack-tag: "20"
           name: test-java-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
           language: node-js
           stack-tag: "18"
           name: test-node-js-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
           language: node-js
           stack-tag: "20"
           name: test-node-js-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
           language: node-js
           stack-tag: "22"
           name: test-node-js-22
           requires:
-            - create-service-builder-22
+            - create-builder-22
       - test-getting-started-guide:
           language: typescript
           stack-tag: "18"
           name: test-typescript-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
           language: typescript
           stack-tag: "20"
           name: test-typescript-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
           language: typescript
           stack-tag: "22"
           name: test-typescript-22
           requires:
-            - create-service-builder-22
+            - create-builder-22
       - test-getting-started-guide:
           language: php
           stack-tag: "18"
           name: test-php-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
           language: php
           stack-tag: "20"
           name: test-php-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
           language: Python
           stack-tag: "18"
           name: test-python-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
           language: Python
           stack-tag: "20"
           name: test-python-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
           language: Ruby
           stack-tag: "18"
           name: test-ruby-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
           language: Ruby
           stack-tag: "20"
           name: test-ruby-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-example:
           name: test-java-function-example-18
           example: javafunctionscaffold
           stack-tag: "18"
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-example:
           name: test-java-function-example-20
           example: javafunctionscaffold
           stack-tag: "20"
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-example:
           name: test-javascript-function-example-18
           example: javascriptfunctionscaffold
           stack-tag: "18"
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-example:
           name: test-javascript-function-example-20
           example: javascriptfunctionscaffold
           stack-tag: "20"
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-example:
           name: test-javascript-function-example-22
           example: javascriptfunctionscaffold
           stack-tag: "22"
           requires:
-            - create-service-builder-22
+            - create-builder-22
       - test-example:
           name: test-typescript-function-example-18
           example: typescriptfunctionscaffold
           stack-tag: "18"
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-example:
           name: test-typescript-function-example-20
           example: typescriptfunctionscaffold
           stack-tag: "20"
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-example:
           name: test-typescript-function-example-22
           example: typescriptfunctionscaffold
           stack-tag: "22"
           requires:
-            - create-service-builder-22
+            - create-builder-22
       - publish-image:
-          name: publish-service-builder-18
+          name: publish-buildpacks-18
           image_file: buildpacks-18.tar
           image_tag: heroku/buildpacks:18
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
@@ -312,7 +317,7 @@ workflows:
             branches:
               only: main
       - publish-image:
-          name: publish-service-builder-20
+          name: publish-buildpacks-20
           image_file: buildpacks-20.tar
           image_tag: heroku/buildpacks:20
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
@@ -332,9 +337,9 @@ workflows:
             branches:
               only: main
       - publish-image:
-          name: publish-service-builder-22
-          image_file: buildpacks-22.tar
-          image_tag: heroku/buildpacks:22
+          name: publish-builder-22
+          image_file: builder-22.tar
+          image_tag: heroku/builder:22
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
           requires:
             - test-javascript-function-example-22
