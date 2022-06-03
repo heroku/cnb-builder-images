@@ -2,8 +2,8 @@ description = "Base builder for Heroku-22 stack, based on ubuntu:22.04 base imag
 
 [stack]
 id = "heroku-22"
-build-image = "heroku/pack:22-build"
-run-image = "heroku/pack:22"
+build-image = "heroku/heroku:22-cnb-build"
+run-image = "heroku/heroku:22-cnb"
 
 [lifecycle]
 version = "0.14.0"
