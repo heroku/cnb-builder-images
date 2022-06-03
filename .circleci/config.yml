@@ -5,14 +5,7 @@ orbs:
 jobs:
   create-pack-builder:
     parameters:
-      builder_toml:
-        description: "Builder toml"
-        type: string
-      image_file:
-        description: "Local builder image archive file name"
-        type: string
-      image_tag:
-        description: "Remote builder image name"
+      builder_dir:
         type: string
     docker:
       - image: cimg/base:stable-20.04
@@ -29,15 +22,15 @@ jobs:
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy always && break
+              pack builder create << parameters.builder_dir >> --config << parameters.builder_dir >>/builder.toml --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
-      - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
+      - run: docker save << parameters.builder_dir >> > /tmp/workspace/<< parameters.builder_dir >>.tar
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
-            - << parameters.image_file >>
+            - << parameters.image_file >>.tar
   test-getting-started-guide:
     parameters:
       language:
@@ -135,24 +128,16 @@ workflows:
     jobs: &build-test-publish-jobs
       - create-pack-builder:
           name: create-buildpacks-18
-          image_tag: heroku/buildpacks:18
-          image_file: buildpacks-18.tar
-          builder_toml: buildpacks-18/builder.toml
+          builder_dir: buildpacks-18
       - create-pack-builder:
           name: create-buildpacks-20
-          image_tag: heroku/buildpacks:20
-          image_file: buildpacks-20.tar
-          builder_toml: buildpacks-20/builder.toml
+          builder_dir: buildpacks-20
       - create-pack-builder:
           name: create-builder-22
-          image_tag: heroku/builder:22
-          image_file: builder-22.tar
-          builder_toml: builder-22/builder.toml
+          builder_dir: builder-22
       - create-pack-builder:
           name: create-builder-classic-22
-          image_tag: heroku/builder-classic:22
-          image_file: builder-classic-22.tar
-          builder_toml: builder-classic-22/builder.toml
+          builder_dir: builder-classic-22
       - test-getting-started-guide:
           language: go
           stack-tag: "18"
