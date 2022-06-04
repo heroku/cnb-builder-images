@@ -18,11 +18,6 @@ jobs:
       - image: cimg/base:stable-20.04
     steps:
       - checkout
-      - run: &create-docker-config
-          name: "Create docker config"
-          command: |
-            mkdir -p ~/.docker
-            echo '{}' > ~/.docker/config.json
       - pack/install-pack:
           version: 0.26.0
       - attach_workspace:
@@ -56,7 +51,6 @@ jobs:
     resource_class: large
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
-      - run: *create-docker-config
       - pack/install-pack:
           version: 0.26.0
       - attach_workspace:
@@ -82,7 +76,6 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      - run: *create-docker-config
       - pack/install-pack:
           version: 0.26.0
       - attach_workspace:
