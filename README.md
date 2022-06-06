@@ -1,27 +1,33 @@
-# Heroku Pack Base Images
+# Heroku Pack Images
 
 [![CircleCI](https://circleci.com/gh/heroku/pack-images.svg?style=svg)](https://circleci.com/gh/heroku/pack-images)
 
-This repository is responsible for building and publishing images that enable
-Heroku-like builds with [Cloud Native Buildpacks'](https://buildpacks.io)
-[`pack`](https://github.com/buildpacks/pack) command.
+This repository is responsible for building and publishing [Cloud Native Buildpacks](https://buildpacks.io)
+builders that enable Heroku-like builds with the [`pack`](https://github.com/buildpacks/pack) command.
 
-| Image                                   | Base                                   | Type              | Status                                                                 |
-|-----------------------------------------|----------------------------------------|-------------------|------------------------------------------------------------------------|
-| [heroku/pack:18][pack-tags]             | [heroku/heroku:18][stack-images]       | CNB Run Image     | Deprecated (replaced by [heroku/heroku:18-cnb][heroku-tags])           |
-| [heroku/pack:18-build][pack-tags]       | [heroku/heroku:18-build][stack-images] | CNB Build Image   | Deprecated (replaced by [heroku/heroku:18-cnb-build][heroku-tags])     |
-| [heroku/buildpacks:18][buildpacks-tags] | [heroku/heroku:18-build][stack-images] | CNB Builder Image | Available                                                              |
-| [heroku/pack:20][pack-tags]             | [heroku/heroku:20][stack-images]       | CNB Run Image     | Deprecated (replaced by [heroku/heroku:20-cnb][heroku-tags])           |
-| [heroku/pack:20-build][pack-tags]       | [heroku/heroku:20-build][stack-images] | CNB Build Image   | Deprecated (replaced by [heroku/heroku:20-cnb-build][heroku-tags])     |
-| [heroku/buildpacks:20][buildpacks-tags] | [heroku/heroku:20-build][stack-images] | CNB Builder Image | Suggested                                                              |
-| [heroku/pack:22][pack-tags]             | [heroku/heroku:22][stack-images]       | CNB Run Image     | Deprecated (replaced by [heroku/heroku:22-cnb][heroku-tags])           |
-| [heroku/pack:22-build][pack-tags]       | [heroku/heroku:22-build][stack-images] | CNB Build Image   | Deprecated (replaced by [heroku/heroku:22-cnb-build][heroku-tags])           |
-| [heroku/buildpacks:22][buildpacks-tags] | [heroku/heroku:22-build][stack-images] | CNB Builder Image | In Development                                                         |
+| Builder Image                                       | Base Image                        | Status         |
+|-----------------------------------------------------|-----------------------------------|----------------|
+| [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18`][heroku-tags] | Available      |
+| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20`][heroku-tags] | Suggested      |
+| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22`][heroku-tags] | In Development |
+| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22`][heroku-tags] | In Development |
+
+[`heroku/builder`][builder-tags] builder images feature Heroku's native Cloud Native Buildpacks. These buildpacks are optimized and make use of many CNB features.
+
+[`heroku/builder-classic`][builder-classic-tags] builder images feature Heroku's classic platform buildpacks, shimmed for compatibility with the Cloud Native Buildpacks specification. These buildpacks don't take advantage of many CNB features and are less optimized, but offer a wider variety of languages and legacy language feature support.
+
+[`heroku/buildpacks`][buildpacks-tags] builder images feature a mix of both native and shimmed Heroku Cloud Native Buildpacks. These images will not be supported in future stack versions (22 and beyond).
 
 ## Usage
 
 `pack build myapp --builder heroku/buildpacks:20`
 
+## Deprecated Images
+
+[`heroku/pack:{STACK_VERSION}`][pack-tags] and [`heroku/pack:{STACK_VERSION}-build`][pack-tags] have been deprecated. They have been replaced by [`heroku/heroku:{STACK_VERSION}-cnb`][heroku-tags] and [`heroku/heroku:{STACK_VERSION}-cnb-build`][heroku-tags], respectively, which are produced by [heroku/stack-images][stack-images].
+
+[builder-tags]: https://hub.docker.com/r/heroku/builder/tags
+[builder-classic-tags]: https://hub.docker.com/r/heroku/builder-classic/tags
 [buildpacks-tags]: https://hub.docker.com/r/heroku/buildpacks/tags
 [heroku-tags]: https://hub.docker.com/r/heroku/heroku/tags
 [pack-tags]: https://hub.docker.com/r/heroku/pack/tags
