@@ -413,6 +413,9 @@ workflows:
             - test-python-builder-classic-22
             - test-ruby-builder-classic-22
             - test-typescript-builder-classic-22
+          filters:
+            branches:
+              only: main
       - publish-image:
           name: publish-builder-22
           builder-dir: builder-22
