@@ -191,7 +191,7 @@ workflows:
           builder-dir: builder-22
           language: node-js
           stack-tag: "22"
-          name: test-node-js-22
+          name: test-node-js-builder-22
           requires:
             - create-builder-22
       - test-getting-started-guide:
@@ -212,7 +212,7 @@ workflows:
           builder-dir: builder-22
           language: typescript
           stack-tag: "22"
-          name: test-typescript-22
+          name: test-typescript-builder-22
           requires:
             - create-builder-22
       - test-getting-started-guide:
@@ -286,7 +286,7 @@ workflows:
           requires:
             - create-buildpacks-20
       - test-example:
-          name: test-javascript-function-example-22
+          name: test-javascript-function-example-builder-22
           builder-dir: builder-22
           example: javascriptfunctionscaffold
           stack-tag: "22"
@@ -307,7 +307,7 @@ workflows:
           requires:
             - create-buildpacks-20
       - test-example:
-          name: test-typescript-function-example-22
+          name: test-typescript-function-example-builder-22
           builder-dir: builder-22
           example: typescriptfunctionscaffold
           stack-tag: "22"
@@ -358,10 +358,10 @@ workflows:
           image_tag: heroku/builder:22
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
           requires:
-            - test-javascript-function-example-22
-            - test-typescript-function-example-22
-            - test-node-js-22
-            - test-typescript-22
+            - test-javascript-function-example-builder-22
+            - test-typescript-function-example-builder-22
+            - test-node-js-builder-22
+            - test-typescript-builder-22
           filters:
             branches:
               only: main
