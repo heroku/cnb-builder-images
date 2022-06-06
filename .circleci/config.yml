@@ -160,6 +160,13 @@ workflows:
           requires:
             - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: go
+          stack-tag: "22"
+          name: test-go-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
           builder-dir: buildpacks-18
           language: java
           stack-tag: "18"
@@ -173,6 +180,13 @@ workflows:
           name: test-java-20
           requires:
             - create-buildpacks-20
+      - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: java
+          stack-tag: "22"
+          name: test-java-builder-classic-22
+          requires:
+            - create-builder-classic-22
       - test-getting-started-guide:
           builder-dir: buildpacks-18
           language: node-js
@@ -195,6 +209,13 @@ workflows:
           requires:
             - create-builder-22
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: node-js
+          stack-tag: "22"
+          name: test-node-js-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
           builder-dir: buildpacks-18
           language: typescript
           stack-tag: "18"
@@ -216,6 +237,13 @@ workflows:
           requires:
             - create-builder-22
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: typescript
+          stack-tag: "22"
+          name: test-typescript-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
           builder-dir: buildpacks-18
           language: php
           stack-tag: "18"
@@ -229,6 +257,13 @@ workflows:
           name: test-php-20
           requires:
             - create-buildpacks-20
+      - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: php
+          stack-tag: "22"
+          name: test-php-builder-classic-22
+          requires:
+            - create-builder-classic-22
       - test-getting-started-guide:
           builder-dir: buildpacks-18
           language: Python
@@ -244,6 +279,13 @@ workflows:
           requires:
             - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: python
+          stack-tag: "22"
+          name: test-python-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
           builder-dir: buildpacks-18
           language: Ruby
           stack-tag: "18"
@@ -257,6 +299,13 @@ workflows:
           name: test-ruby-20
           requires:
             - create-buildpacks-20
+      - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: ruby
+          stack-tag: "22"
+          name: test-ruby-builder-classic-22
+          requires:
+            - create-builder-classic-22
       - test-example:
           name: test-java-function-example-18
           builder-dir: buildpacks-18
@@ -352,6 +401,18 @@ workflows:
           filters:
             branches:
               only: main
+      - publish-image:
+          name: publish-builder-classic-22
+          builder-dir: builder-classic-22
+          image_tag: heroku/builder-classic:22
+          requires:
+            - test-go-builder-classic-22
+            - test-java-builder-classic-22
+            - test-node-js-builder-classic-22
+            - test-php-builder-classic-22
+            - test-python-builder-classic-22
+            - test-ruby-builder-classic-22
+            - test-typescript-builder-classic-22
       - publish-image:
           name: publish-builder-22
           builder-dir: builder-22
