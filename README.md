@@ -1,4 +1,4 @@
-# Heroku Pack Images
+# Heroku Builder Images
 
 [![CircleCI](https://circleci.com/gh/heroku/pack-images.svg?style=svg)](https://circleci.com/gh/heroku/pack-images)
 
