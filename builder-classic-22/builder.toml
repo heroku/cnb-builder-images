@@ -9,6 +9,14 @@ run-image = "heroku/heroku:22-cnb"
 version = "0.14.0"
 
 [[buildpacks]]
+  id = "heroku/clojure"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.3.1&name=Clojure"
+
+[[buildpacks]]
+  id = "heroku/gradle"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.3.1&name=Gradle"
+
+[[buildpacks]]
   id = "heroku/java"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/java?version=0.3.1&name=Java"
 
@@ -52,7 +60,37 @@ version = "0.14.0"
 
 [[order]]
   [[order.group]]
+    id = "heroku/clojure"
+    version = "0.3.1"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
     id = "heroku/python"
+    version = "0.3.1"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/java"
+    version = "0.3.1"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/gradle"
     version = "0.3.1"
 
   [[order.group]]
@@ -93,16 +131,6 @@ version = "0.14.0"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
-    version = "0.3.1"
-
-  [[order.group]]
-    id = "heroku/procfile"
-    version = "1.0.1"
-    optional = true
-
-[[order]]
-  [[order.group]]
-    id = "heroku/java"
     version = "0.3.1"
 
   [[order.group]]
