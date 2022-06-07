@@ -117,6 +117,7 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run: docker load < /tmp/workspace/<< parameters.builder-dir >>.tar
+      - run: docker tag << parameters.builder-dir >> << parameters.image_tag >>
       - run: docker push << parameters.image_tag >>
       - when:
           condition: << parameters.image_tag_alias >>
