@@ -10,7 +10,7 @@ version = "0.14.0"
 
 [[buildpacks]]
   id = "heroku/clojure"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.3.1&name=Clojure"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/clojure?version=0.3.1&name=Clojure"
 
 [[buildpacks]]
   id = "heroku/gradle"
