@@ -146,6 +146,16 @@ workflows:
           name: create-builder-classic-22
           builder-dir: builder-classic-22
       - test-getting-started-guide:
+          builder-dir: buildpacks-classic-22
+          language: clojure
+          stack-tag: "22"
+          name: test-clojure-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: buildpacks-classic-22
+          language: gradle
+          stack-tag: "22"
+          name: test-gradle-builder-classic-22
+      - test-getting-started-guide:
           builder-dir: buildpacks-18
           language: go
           stack-tag: "18"
@@ -215,6 +225,11 @@ workflows:
           name: test-node-js-builder-classic-22
           requires:
             - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: buildpacks-classic-22
+          language: scala
+          stack-tag: "22"
+          name: test-scala-builder-classic-22
       - test-getting-started-guide:
           builder-dir: buildpacks-18
           language: typescript
@@ -406,12 +421,15 @@ workflows:
           builder-dir: builder-classic-22
           image_tag: heroku/builder-classic:22
           requires:
+            - test-clojure-builder-classic-22
+            - test-gradle-builder-classic-22
             - test-go-builder-classic-22
             - test-java-builder-classic-22
             - test-node-js-builder-classic-22
             - test-php-builder-classic-22
             - test-python-builder-classic-22
             - test-ruby-builder-classic-22
+            - test-scala-builder-classic-22
             - test-typescript-builder-classic-22
           filters:
             branches:
