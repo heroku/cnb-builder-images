@@ -9,27 +9,27 @@ run-image = "heroku/heroku:22-cnb"
 version = "0.14.0"
 
 [[buildpacks]]
-  id = "heroku/clojure"
+  id = "heroku/clojure-classic"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/clojure?version=0.3.1&name=Clojure"
 
 [[buildpacks]]
-  id = "heroku/gradle"
+  id = "heroku/gradle-classic"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.3.1&name=Gradle"
 
 [[buildpacks]]
-  id = "heroku/java"
+  id = "heroku/java-classic"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/java?version=0.3.1&name=Java"
 
 [[buildpacks]]
-  id = "heroku/go"
+  id = "heroku/go-classic"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3.1&name=Go"
 
 [[buildpacks]]
-  id = "heroku/nodejs"
+  id = "heroku/nodejs-classic"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs?version=0.3.1&name=Node.js"
 
 [[buildpacks]]
-  id = "heroku/php"
+  id = "heroku/php-classic"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.3.1&name=PHP"
 
 [[buildpacks]]
@@ -37,20 +37,20 @@ version = "0.14.0"
   uri = "docker://docker.io/heroku/procfile-cnb:1.0.1"
 
 [[buildpacks]]
-  id = "heroku/python"
+  id = "heroku/python-classic"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.3.1&name=Python"
 
 [[buildpacks]]
-  id = "heroku/ruby"
+  id = "heroku/ruby-classic"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby?version=0.3.1&name=Ruby"
 
 [[buildpacks]]
-  id = "heroku/scala"
+  id = "heroku/scala-classic"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.3.1&name=Scala"
 
 [[order]]
   [[order.group]]
-    id = "heroku/ruby"
+    id = "heroku/ruby-classic"
     version = "0.3.1"
 
   [[order.group]]
@@ -60,7 +60,7 @@ version = "0.14.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/clojure"
+    id = "heroku/clojure-classic"
     version = "0.3.1"
 
   [[order.group]]
@@ -70,7 +70,7 @@ version = "0.14.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/python"
+    id = "heroku/python-classic"
     version = "0.3.1"
 
   [[order.group]]
@@ -80,7 +80,7 @@ version = "0.14.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/java"
+    id = "heroku/java-classic"
     version = "0.3.1"
 
   [[order.group]]
@@ -90,7 +90,7 @@ version = "0.14.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/gradle"
+    id = "heroku/gradle-classic"
     version = "0.3.1"
 
   [[order.group]]
@@ -100,7 +100,7 @@ version = "0.14.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/scala"
+    id = "heroku/scala-classic"
     version = "0.3.1"
 
   [[order.group]]
@@ -110,7 +110,7 @@ version = "0.14.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/php"
+    id = "heroku/php-classic"
     version = "0.3.1"
 
   [[order.group]]
@@ -120,7 +120,7 @@ version = "0.14.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/go"
+    id = "heroku/go-classic"
     version = "0.3.1"
 
   [[order.group]]
