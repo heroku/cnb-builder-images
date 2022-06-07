@@ -146,14 +146,14 @@ workflows:
           name: create-builder-classic-22
           builder-dir: builder-classic-22
       - test-getting-started-guide:
-          builder-dir: buildpacks-classic-22
+          builder-dir: builder-classic-22
           language: clojure
           stack-tag: "22"
           name: test-clojure-builder-classic-22
           requires:
             - create-builder-classic-22
       - test-getting-started-guide:
-          builder-dir: buildpacks-classic-22
+          builder-dir: builder-classic-22
           language: gradle
           stack-tag: "22"
           name: test-gradle-builder-classic-22
@@ -230,7 +230,7 @@ workflows:
           requires:
             - create-builder-classic-22
       - test-getting-started-guide:
-          builder-dir: buildpacks-classic-22
+          builder-dir: builder-classic-22
           language: scala
           stack-tag: "22"
           name: test-scala-builder-classic-22
