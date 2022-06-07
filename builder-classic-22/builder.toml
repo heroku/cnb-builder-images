@@ -1,0 +1,139 @@
+description = "Classic (shimmed) buildpack builder for Heroku-22 stack, based on ubuntu:22.04 base image"
+
+[stack]
+id = "heroku-22"
+build-image = "heroku/heroku:22-cnb-build"
+run-image = "heroku/heroku:22-cnb"
+
+[lifecycle]
+version = "0.14.0"
+
+[[buildpacks]]
+  id = "heroku/clojure"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/clojure?version=0.0.0&name=Clojure"
+
+[[buildpacks]]
+  id = "heroku/gradle"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.0.0&name=Gradle"
+
+[[buildpacks]]
+  id = "heroku/java"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/java?version=0.0.0&name=Java"
+
+[[buildpacks]]
+  id = "heroku/go"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.0.0&name=Go"
+
+[[buildpacks]]
+  id = "heroku/nodejs"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs?version=0.0.0&name=Node.js"
+
+[[buildpacks]]
+  id = "heroku/php"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.0.0&name=PHP"
+
+[[buildpacks]]
+  id = "heroku/procfile"
+  uri = "docker://docker.io/heroku/procfile-cnb:1.0.1"
+
+[[buildpacks]]
+  id = "heroku/python"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.0.0&name=Python"
+
+[[buildpacks]]
+  id = "heroku/ruby"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby?version=0.0.0&name=Ruby"
+
+[[buildpacks]]
+  id = "heroku/scala"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.0.0&name=Scala"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/ruby"
+    version = "0.0.0"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/clojure"
+    version = "0.0.0"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/python"
+    version = "0.0.0"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/java"
+    version = "0.0.0"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/gradle"
+    version = "0.0.0"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/scala"
+    version = "0.0.0"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/php"
+    version = "0.0.0"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/go"
+    version = "0.0.0"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "0.0.0"
+
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "1.0.1"
+    optional = true

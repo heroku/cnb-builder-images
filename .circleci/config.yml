@@ -5,14 +5,8 @@ orbs:
 jobs:
   create-pack-builder:
     parameters:
-      builder_toml:
-        description: "Builder toml"
-        type: string
-      image_file:
-        description: "Local builder image archive file name"
-        type: string
-      image_tag:
-        description: "Remote builder image name"
+      builder-dir:
+        description: "Builder directory"
         type: string
     docker:
       - image: cimg/base:stable-20.04
@@ -29,15 +23,15 @@ jobs:
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy always && break
+              pack builder create << parameters.builder-dir >> --config << parameters.builder-dir >>/builder.toml --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
-      - run: docker save << parameters.image_tag >> > /tmp/workspace/<< parameters.image_file >>
+      - run: docker save << parameters.builder-dir >> > /tmp/workspace/<< parameters.builder-dir >>.tar
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
-            - << parameters.image_file >>
+            - << parameters.builder-dir >>.tar
   test-getting-started-guide:
     parameters:
       language:
@@ -45,6 +39,9 @@ jobs:
         type: string
       stack-tag:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
+        type: string
+      builder-dir:
+        description: "Builder directory"
         type: string
     machine:
       image: ubuntu-2004:current
@@ -57,9 +54,9 @@ jobs:
           at: /tmp/workspace
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
-      - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
-      - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: pack build pack-getting-started --path getting_started --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
+      - run: docker load < /tmp/workspace/<< parameters.builder-dir >>.tar
+      - run: pack config trusted-builders add << parameters.builder-dir >>
+      - run: pack build pack-getting-started --path getting_started --builder << parameters.builder-dir >> --pull-policy never
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
       - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
@@ -70,6 +67,9 @@ jobs:
         type: string
       stack-tag:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
+        type: string
+      builder-dir:
+        description: "Builder directory"
         type: string
     machine:
       image: ubuntu-2004:current
@@ -82,16 +82,16 @@ jobs:
           at: /tmp/workspace
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
-      - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
-      - run: pack trust-builder heroku/buildpacks:<< parameters.stack-tag >>
-      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder heroku/buildpacks:<< parameters.stack-tag >> --pull-policy never
+      - run: docker load < /tmp/workspace/<< parameters.builder-dir >>.tar
+      - run: pack config trusted-builders add << parameters.builder-dir >>
+      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder << parameters.builder-dir >> --pull-policy never
       - run: docker run --name pack-example -d << parameters.example >>
       - run: sleep 5
       - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logs pack-example && exit 1)
   publish-image:
     parameters:
-      image_file:
-        description: "Name of the local image archive to publish"
+      builder-dir:
+        description: "Builder directory"
         type: string
       image_tag:
         description: "Name of the dockerhub image to publish"
@@ -116,7 +116,7 @@ jobs:
             echo "$REGISTRY_TOKEN" | docker login $REGISTRY_HOST -u "$REGISTRY_USER" --password-stdin
       - attach_workspace:
           at: /tmp/workspace
-      - run: docker load < /tmp/workspace/<< parameters.image_file >>
+      - run: docker load < /tmp/workspace/<< parameters.builder-dir >>.tar
       - run: docker push << parameters.image_tag >>
       - when:
           condition: << parameters.image_tag_alias >>
@@ -134,167 +134,258 @@ workflows:
   build-test-publish:
     jobs: &build-test-publish-jobs
       - create-pack-builder:
-          name: create-service-builder-18
-          image_tag: heroku/buildpacks:18
-          image_file: buildpacks-18.tar
-          builder_toml: builder-18.toml
+          name: create-buildpacks-18
+          builder-dir: buildpacks-18
       - create-pack-builder:
-          name: create-service-builder-20
-          image_tag: heroku/buildpacks:20
-          image_file: buildpacks-20.tar
-          builder_toml: builder-20.toml
+          name: create-buildpacks-20
+          builder-dir: buildpacks-20
       - create-pack-builder:
-          name: create-service-builder-22
-          image_tag: heroku/buildpacks:22
-          image_file: buildpacks-22.tar
-          builder_toml: builder-22.toml
+          name: create-builder-22
+          builder-dir: builder-22
+      - create-pack-builder:
+          name: create-builder-classic-22
+          builder-dir: builder-classic-22
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: clojure
+          stack-tag: "22"
+          name: test-clojure-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: gradle
+          stack-tag: "22"
+          name: test-gradle-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: go
           stack-tag: "18"
           name: test-go-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: go
           stack-tag: "20"
           name: test-go-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: go
+          stack-tag: "22"
+          name: test-go-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: java
           stack-tag: "18"
           name: test-java-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: java
           stack-tag: "20"
           name: test-java-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: java
+          stack-tag: "22"
+          name: test-java-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: node-js
           stack-tag: "18"
           name: test-node-js-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: node-js
           stack-tag: "20"
           name: test-node-js-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-22
           language: node-js
           stack-tag: "22"
-          name: test-node-js-22
+          name: test-node-js-builder-22
           requires:
-            - create-service-builder-22
+            - create-builder-22
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: node-js
+          stack-tag: "22"
+          name: test-node-js-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: scala
+          stack-tag: "22"
+          name: test-scala-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: typescript
           stack-tag: "18"
           name: test-typescript-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: typescript
           stack-tag: "20"
           name: test-typescript-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-22
           language: typescript
           stack-tag: "22"
-          name: test-typescript-22
+          name: test-typescript-builder-22
           requires:
-            - create-service-builder-22
+            - create-builder-22
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: typescript
+          stack-tag: "22"
+          name: test-typescript-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: php
           stack-tag: "18"
           name: test-php-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: php
           stack-tag: "20"
           name: test-php-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: php
+          stack-tag: "22"
+          name: test-php-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: Python
           stack-tag: "18"
           name: test-python-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: Python
           stack-tag: "20"
           name: test-python-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: python
+          stack-tag: "22"
+          name: test-python-builder-classic-22
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          builder-dir: buildpacks-18
           language: Ruby
           stack-tag: "18"
           name: test-ruby-18
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-getting-started-guide:
+          builder-dir: buildpacks-20
           language: Ruby
           stack-tag: "20"
           name: test-ruby-20
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
+      - test-getting-started-guide:
+          builder-dir: builder-classic-22
+          language: ruby
+          stack-tag: "22"
+          name: test-ruby-builder-classic-22
+          requires:
+            - create-builder-classic-22
       - test-example:
           name: test-java-function-example-18
+          builder-dir: buildpacks-18
           example: javafunctionscaffold
           stack-tag: "18"
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-example:
           name: test-java-function-example-20
+          builder-dir: buildpacks-20
           example: javafunctionscaffold
           stack-tag: "20"
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-example:
           name: test-javascript-function-example-18
+          builder-dir: buildpacks-18
           example: javascriptfunctionscaffold
           stack-tag: "18"
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-example:
           name: test-javascript-function-example-20
+          builder-dir: buildpacks-20
           example: javascriptfunctionscaffold
           stack-tag: "20"
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-example:
-          name: test-javascript-function-example-22
+          name: test-javascript-function-example-builder-22
+          builder-dir: builder-22
           example: javascriptfunctionscaffold
           stack-tag: "22"
           requires:
-            - create-service-builder-22
+            - create-builder-22
       - test-example:
           name: test-typescript-function-example-18
+          builder-dir: buildpacks-18
           example: typescriptfunctionscaffold
           stack-tag: "18"
           requires:
-            - create-service-builder-18
+            - create-buildpacks-18
       - test-example:
           name: test-typescript-function-example-20
+          builder-dir: buildpacks-20
           example: typescriptfunctionscaffold
           stack-tag: "20"
           requires:
-            - create-service-builder-20
+            - create-buildpacks-20
       - test-example:
-          name: test-typescript-function-example-22
+          name: test-typescript-function-example-builder-22
+          builder-dir: builder-22
           example: typescriptfunctionscaffold
           stack-tag: "22"
           requires:
-            - create-service-builder-22
+            - create-builder-22
       - publish-image:
-          name: publish-service-builder-18
-          image_file: buildpacks-18.tar
+          name: publish-buildpacks-18
+          builder-dir: buildpacks-18
           image_tag: heroku/buildpacks:18
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
           requires:
@@ -312,8 +403,8 @@ workflows:
             branches:
               only: main
       - publish-image:
-          name: publish-service-builder-20
-          image_file: buildpacks-20.tar
+          name: publish-buildpacks-20
+          builder-dir: buildpacks-20
           image_tag: heroku/buildpacks:20
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
           image_tag_alias2: heroku/buildpacks:latest
@@ -332,15 +423,33 @@ workflows:
             branches:
               only: main
       - publish-image:
-          name: publish-service-builder-22
-          image_file: buildpacks-22.tar
-          image_tag: heroku/buildpacks:22
+          name: publish-builder-classic-22
+          builder-dir: builder-classic-22
+          image_tag: heroku/builder-classic:22
+          requires:
+            - test-clojure-builder-classic-22
+            - test-gradle-builder-classic-22
+            - test-go-builder-classic-22
+            - test-java-builder-classic-22
+            - test-node-js-builder-classic-22
+            - test-php-builder-classic-22
+            - test-python-builder-classic-22
+            - test-ruby-builder-classic-22
+            - test-scala-builder-classic-22
+            - test-typescript-builder-classic-22
+          filters:
+            branches:
+              only: main
+      - publish-image:
+          name: publish-builder-22
+          builder-dir: builder-22
+          image_tag: heroku/builder:22
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
           requires:
-            - test-javascript-function-example-22
-            - test-typescript-function-example-22
-            - test-node-js-22
-            - test-typescript-22
+            - test-javascript-function-example-builder-22
+            - test-typescript-function-example-builder-22
+            - test-node-js-builder-22
+            - test-typescript-builder-22
           filters:
             branches:
               only: main
