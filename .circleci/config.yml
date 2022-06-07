@@ -55,7 +55,7 @@ jobs:
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
       - run: docker load < /tmp/workspace/<< parameters.builder-dir >>.tar
-      - run: pack trust-builder << parameters.builder-dir >>
+      - run: pack config trusted-builders add << parameters.builder-dir >>
       - run: pack build pack-getting-started --path getting_started --builder << parameters.builder-dir >> --pull-policy never
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
@@ -83,7 +83,7 @@ jobs:
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb-build
       - run: docker load < /tmp/workspace/<< parameters.builder-dir >>.tar
-      - run: pack trust-builder << parameters.builder-dir >>
+      - run: pack config trusted-builders add << parameters.builder-dir >>
       - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder << parameters.builder-dir >> --pull-policy never
       - run: docker run --name pack-example -d << parameters.example >>
       - run: sleep 5
