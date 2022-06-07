@@ -5,12 +5,12 @@
 This repository is responsible for building and publishing [Cloud Native Buildpacks](https://buildpacks.io)
 builders that enable Heroku-like builds with the [`pack`](https://github.com/buildpacks/pack) command.
 
-| Builder Image                                       | Base Image                        | Status         |
-|-----------------------------------------------------|-----------------------------------|----------------|
-| [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18`][heroku-tags] | Available      |
-| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20`][heroku-tags] | Suggested      |
-| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22`][heroku-tags] | In Development |
-| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22`][heroku-tags] | In Development |
+| Builder Image                                       | Base Image                                  | Status         |
+|-----------------------------------------------------|---------------------------------------------|----------------|
+| [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | Available      |
+| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | Suggested      |
+| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | In Development |
+| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | In Development |
 
 [`heroku/builder`][builder-tags] builder images feature Heroku's native Cloud Native Buildpacks. These buildpacks are optimized and make use of many CNB features.
 
