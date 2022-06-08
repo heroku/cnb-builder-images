@@ -3,7 +3,7 @@ orbs:
     pack: buildpacks/pack@0.2.4
 
 jobs:
-  create-pack-builder:
+  create-builder:
     parameters:
       builder-dir:
         description: "Builder directory"
@@ -88,7 +88,7 @@ jobs:
       - run: docker run --name pack-example -d << parameters.example >>
       - run: sleep 5
       - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logs pack-example && exit 1)
-  publish-image:
+  publish-builder:
     parameters:
       builder-dir:
         description: "Builder directory"
@@ -134,323 +134,121 @@ workflows:
   version: 2
   build-test-publish:
     jobs: &build-test-publish-jobs
-      - create-pack-builder:
-          name: create-buildpacks-18
+      - create-builder:
+          name: create-<< matrix.builder-dir >>
+          matrix:
+            parameters:
+              builder-dir: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
+      - test-getting-started-guide:
+          name: test-<< matrix.language >>-18
           builder-dir: buildpacks-18
-      - create-pack-builder:
-          name: create-buildpacks-20
+          stack-tag: "18"
+          matrix:
+            alias: test-getting-started-guides-18
+            parameters:
+              language: ["go", "java", "node-js", "typescript", "php", "python", "ruby"]
+          requires:
+            - create-buildpacks-18
+      - test-getting-started-guide:
+          name: test-<< matrix.language >>-20
           builder-dir: buildpacks-20
-      - create-pack-builder:
-          name: create-builder-22
+          stack-tag: "20"
+          matrix:
+            alias: test-getting-started-guides-20
+            parameters:
+              language: ["go", "java", "node-js", "typescript", "php", "python", "ruby"]
+          requires:
+            - create-buildpacks-20
+      - test-getting-started-guide:
+          name: test-<< matrix.language >>-classic-22
+          builder-dir: builder-classic-22
+          stack-tag: "22"
+          matrix:
+            alias: test-getting-started-guides-classic-22
+            parameters:
+              language: ["clojure", "gradle", "go", "java", "node-js", "scala", "typescript", "php", "python", "ruby"]
+          requires:
+            - create-builder-classic-22
+      - test-getting-started-guide:
+          name: test-<< matrix.language >>-22
           builder-dir: builder-22
-      - create-pack-builder:
-          name: create-builder-classic-22
-          builder-dir: builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: clojure
           stack-tag: "22"
-          name: test-clojure-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: gradle
-          stack-tag: "22"
-          name: test-gradle-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: buildpacks-18
-          language: go
-          stack-tag: "18"
-          name: test-go-18
-          requires:
-            - create-buildpacks-18
-      - test-getting-started-guide:
-          builder-dir: buildpacks-20
-          language: go
-          stack-tag: "20"
-          name: test-go-20
-          requires:
-            - create-buildpacks-20
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: go
-          stack-tag: "22"
-          name: test-go-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: buildpacks-18
-          language: java
-          stack-tag: "18"
-          name: test-java-18
-          requires:
-            - create-buildpacks-18
-      - test-getting-started-guide:
-          builder-dir: buildpacks-20
-          language: java
-          stack-tag: "20"
-          name: test-java-20
-          requires:
-            - create-buildpacks-20
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: java
-          stack-tag: "22"
-          name: test-java-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: buildpacks-18
-          language: node-js
-          stack-tag: "18"
-          name: test-node-js-18
-          requires:
-            - create-buildpacks-18
-      - test-getting-started-guide:
-          builder-dir: buildpacks-20
-          language: node-js
-          stack-tag: "20"
-          name: test-node-js-20
-          requires:
-            - create-buildpacks-20
-      - test-getting-started-guide:
-          builder-dir: builder-22
-          language: node-js
-          stack-tag: "22"
-          name: test-node-js-builder-22
-          requires:
-            - create-builder-22
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: node-js
-          stack-tag: "22"
-          name: test-node-js-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: scala
-          stack-tag: "22"
-          name: test-scala-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: buildpacks-18
-          language: typescript
-          stack-tag: "18"
-          name: test-typescript-18
-          requires:
-            - create-buildpacks-18
-      - test-getting-started-guide:
-          builder-dir: buildpacks-20
-          language: typescript
-          stack-tag: "20"
-          name: test-typescript-20
-          requires:
-            - create-buildpacks-20
-      - test-getting-started-guide:
-          builder-dir: builder-22
-          language: typescript
-          stack-tag: "22"
-          name: test-typescript-builder-22
-          requires:
-            - create-builder-22
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: typescript
-          stack-tag: "22"
-          name: test-typescript-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: buildpacks-18
-          language: php
-          stack-tag: "18"
-          name: test-php-18
-          requires:
-            - create-buildpacks-18
-      - test-getting-started-guide:
-          builder-dir: buildpacks-20
-          language: php
-          stack-tag: "20"
-          name: test-php-20
-          requires:
-            - create-buildpacks-20
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: php
-          stack-tag: "22"
-          name: test-php-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: buildpacks-18
-          language: Python
-          stack-tag: "18"
-          name: test-python-18
-          requires:
-            - create-buildpacks-18
-      - test-getting-started-guide:
-          builder-dir: buildpacks-20
-          language: Python
-          stack-tag: "20"
-          name: test-python-20
-          requires:
-            - create-buildpacks-20
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: python
-          stack-tag: "22"
-          name: test-python-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-getting-started-guide:
-          builder-dir: buildpacks-18
-          language: Ruby
-          stack-tag: "18"
-          name: test-ruby-18
-          requires:
-            - create-buildpacks-18
-      - test-getting-started-guide:
-          builder-dir: buildpacks-20
-          language: Ruby
-          stack-tag: "20"
-          name: test-ruby-20
-          requires:
-            - create-buildpacks-20
-      - test-getting-started-guide:
-          builder-dir: builder-classic-22
-          language: ruby
-          stack-tag: "22"
-          name: test-ruby-builder-classic-22
-          requires:
-            - create-builder-classic-22
-      - test-example:
-          name: test-java-function-example-18
-          builder-dir: buildpacks-18
-          example: javafunctionscaffold
-          stack-tag: "18"
-          requires:
-            - create-buildpacks-18
-      - test-example:
-          name: test-java-function-example-20
-          builder-dir: buildpacks-20
-          example: javafunctionscaffold
-          stack-tag: "20"
-          requires:
-            - create-buildpacks-20
-      - test-example:
-          name: test-javascript-function-example-18
-          builder-dir: buildpacks-18
-          example: javascriptfunctionscaffold
-          stack-tag: "18"
-          requires:
-            - create-buildpacks-18
-      - test-example:
-          name: test-javascript-function-example-20
-          builder-dir: buildpacks-20
-          example: javascriptfunctionscaffold
-          stack-tag: "20"
-          requires:
-            - create-buildpacks-20
-      - test-example:
-          name: test-javascript-function-example-builder-22
-          builder-dir: builder-22
-          example: javascriptfunctionscaffold
-          stack-tag: "22"
+          matrix:
+            alias: test-getting-started-guides-22
+            parameters:
+              language: ["node-js", "typescript"]
           requires:
             - create-builder-22
       - test-example:
-          name: test-typescript-function-example-18
+          name: test-<< matrix.example >>-18
           builder-dir: buildpacks-18
-          example: typescriptfunctionscaffold
           stack-tag: "18"
+          matrix:
+            alias: test-examples-18
+            parameters:
+              example: ["javafunctionscaffold", "javascriptfunctionscaffold", "typescriptfunctionscaffold"]
           requires:
             - create-buildpacks-18
       - test-example:
-          name: test-typescript-function-example-20
+          name: test-<< matrix.example >>-20
           builder-dir: buildpacks-20
-          example: typescriptfunctionscaffold
           stack-tag: "20"
+          matrix:
+            alias: test-examples-20
+            parameters:
+              example: ["javafunctionscaffold", "javascriptfunctionscaffold", "typescriptfunctionscaffold"]
           requires:
             - create-buildpacks-20
       - test-example:
-          name: test-typescript-function-example-builder-22
+          name: test-<< matrix.example >>-22
           builder-dir: builder-22
-          example: typescriptfunctionscaffold
           stack-tag: "22"
+          matrix:
+            alias: test-examples-22
+            parameters:
+              example: ["javascriptfunctionscaffold", "typescriptfunctionscaffold"]
           requires:
             - create-builder-22
-      - publish-image:
+      - publish-builder:
           name: publish-buildpacks-18
           builder-dir: buildpacks-18
           image_tag: heroku/buildpacks:18
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
           requires:
-            - test-java-function-example-18
-            - test-javascript-function-example-18
-            - test-typescript-function-example-18
-            - test-go-18
-            - test-java-18
-            - test-node-js-18
-            - test-php-18
-            - test-python-18
-            - test-ruby-18
-            - test-typescript-18
+            - test-examples-18
+            - test-getting-started-guides-18
           filters:
             branches:
               only: main
-      - publish-image:
+      - publish-builder:
           name: publish-buildpacks-20
           builder-dir: buildpacks-20
           image_tag: heroku/buildpacks:20
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
           image_tag_alias2: heroku/buildpacks:latest
           requires:
-            - test-java-function-example-20
-            - test-javascript-function-example-20
-            - test-typescript-function-example-20
-            - test-go-20
-            - test-java-20
-            - test-node-js-20
-            - test-php-20
-            - test-python-20
-            - test-ruby-20
-            - test-typescript-20
+            - test-examples-20
+            - test-getting-started-guides-20
           filters:
             branches:
               only: main
-      - publish-image:
+      - publish-builder:
           name: publish-builder-classic-22
           builder-dir: builder-classic-22
           image_tag: heroku/builder-classic:22
           requires:
-            - test-clojure-builder-classic-22
-            - test-gradle-builder-classic-22
-            - test-go-builder-classic-22
-            - test-java-builder-classic-22
-            - test-node-js-builder-classic-22
-            - test-php-builder-classic-22
-            - test-python-builder-classic-22
-            - test-ruby-builder-classic-22
-            - test-scala-builder-classic-22
-            - test-typescript-builder-classic-22
+            - test-getting-started-guides-classic-22
           filters:
             branches:
               only: main
-      - publish-image:
+      - publish-builder:
           name: publish-builder-22
           builder-dir: builder-22
           image_tag: heroku/builder:22
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
           requires:
-            - test-javascript-function-example-builder-22
-            - test-typescript-function-example-builder-22
-            - test-node-js-builder-22
-            - test-typescript-builder-22
+            - test-examples-22
+            - test-getting-started-guides-22
           filters:
             branches:
               only: main
