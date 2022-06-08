@@ -1,6 +1,6 @@
 # Heroku Builder Images
 
-[![CircleCI](https://circleci.com/gh/heroku/pack-images.svg?style=svg)](https://circleci.com/gh/heroku/pack-images)
+[![CircleCI](https://circleci.com/gh/heroku/builder.svg?style=svg)](https://circleci.com/gh/heroku/builder)
 
 This repository is responsible for building and publishing [Cloud Native Buildpacks](https://buildpacks.io)
 builders that enable Heroku-like builds with the [`pack`](https://github.com/buildpacks/pack) command.
