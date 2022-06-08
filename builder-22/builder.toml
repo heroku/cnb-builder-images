@@ -9,13 +9,8 @@ run-image = "heroku/heroku:22-cnb"
 version = "0.14.0"
 
 [[buildpacks]]
-  id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/procfile-cnb:1.0.1"
-
-[[buildpacks]]
   id = "heroku/nodejs"
   uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:99e2db8060d12bd5967157c08bfd0f9d2c7fee9f5c2da872c472a9f82b822930"
-
 
 [[buildpacks]]
   id = "heroku/nodejs-function"
