@@ -10,7 +10,7 @@ version = "0.14.0"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-buildpack@sha256:06938365d0bb9c2b9e3d54b50331161541a4666e2fdb14b4880c9ae95d07b2b7"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-buildpack@sha256:e3031bc05816379243c5f732e4acb4345f7c968977b91bae0e40dd954894b87e"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -18,7 +18,7 @@ version = "0.14.0"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:c913b5581cd8a935058f680e6de6b7d9fe66237c379dfddd24c2267c3f41c9ba"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:bd64e489115813777d8723f04944a98fcf7993329d55db6c6c80a9b1c05599d0"
 
 [[buildpacks]]
   id = "heroku/ruby"
@@ -106,7 +106,7 @@ version = "0.14.0"
 [[order]]
   [[order.group]]
     id = "heroku/java-function"
-    version = "0.3.30"
+    version = "0.3.31"
 
 [[order]]
   [[order.group]]
@@ -116,4 +116,4 @@ version = "0.14.0"
 [[order]]
   [[order.group]]
     id = "heroku/java"
-    version = "0.5.0"
+    version = "0.6.0"
