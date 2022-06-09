@@ -14,7 +14,7 @@ version = "0.14.0"
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-scala-buildpack@sha256:02a26d364465a567782806effa2afbf4b992a1e15453bb8e62c5da27118dc7e6"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.0.0&name=Scala"
 
 [[buildpacks]]
   id = "heroku/java-function"
@@ -71,7 +71,7 @@ version = "0.14.0"
 [[order]]
   [[order.group]]
     id = "heroku/scala"
-    version = "0.0.92"
+    version = "0.0.0"
 
   [[order.group]]
     id = "heroku/procfile"
