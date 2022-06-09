@@ -170,7 +170,7 @@ workflows:
           matrix:
             alias: test-getting-started-guides-22
             parameters:
-              language: ["node-js", "typescript"]
+              language: ["java", "node-js", "typescript"]
           requires:
             - create-builder-22
       - test-example:
@@ -200,7 +200,7 @@ workflows:
           matrix:
             alias: test-examples-22
             parameters:
-              example: ["javascriptfunctionscaffold", "typescriptfunctionscaffold"]
+              example: ["javafunctionscaffold", "javascriptfunctionscaffold", "typescriptfunctionscaffold"]
           requires:
             - create-builder-22
       - publish-builder:
