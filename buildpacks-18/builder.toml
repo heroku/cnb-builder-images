@@ -30,15 +30,15 @@ version = "0.14.0"
 
 [[buildpacks]]
   id = "heroku/python"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.3.1&name=Python"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.0.0&name=Python"
 
 [[buildpacks]]
   id = "heroku/php"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.3.1&name=PHP"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.0.0&name=PHP"
 
 [[buildpacks]]
   id = "heroku/go"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3.1&name=Go"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.0.0&name=Go"
 
 [[buildpacks]]
   id = "heroku/nodejs"
@@ -61,7 +61,7 @@ version = "0.14.0"
 [[order]]
   [[order.group]]
     id = "heroku/python"
-    version = "0.3.1"
+    version = "0.0.0"
 
   [[order.group]]
     id = "heroku/procfile"
@@ -81,7 +81,7 @@ version = "0.14.0"
 [[order]]
   [[order.group]]
     id = "heroku/php"
-    version = "0.3.1"
+    version = "0.0.0"
 
   [[order.group]]
     id = "heroku/procfile"
@@ -91,7 +91,7 @@ version = "0.14.0"
 [[order]]
   [[order.group]]
     id = "heroku/go"
-    version = "0.3.1"
+    version = "0.0.0"
 
   [[order.group]]
     id = "heroku/procfile"
