@@ -16,16 +16,7 @@ jobs:
           version: 0.26.0
       - attach_workspace:
           at: /tmp/workspace
-      - run:
-          name: Create builder with retries
-          command: |
-            n=1
-            until [ "$n" -ge 5 ]
-            do
-              pack builder create << parameters.builder-dir >> --config << parameters.builder-dir >>/builder.toml --pull-policy always && break
-              n=$((n + 1))
-              sleep $(($n * 2))
-            done
+      - run: pack builder create << parameters.builder-dir >> --config << parameters.builder-dir >>/builder.toml --pull-policy always
       - run: docker save << parameters.builder-dir >> | zstd > /tmp/workspace/<< parameters.builder-dir >>.tar.zst
       - persist_to_workspace:
           root: /tmp/workspace
