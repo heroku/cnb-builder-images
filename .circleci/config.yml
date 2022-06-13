@@ -36,7 +36,7 @@ jobs:
     machine:
       image: ubuntu-2204:current
     steps:
-      - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
+      - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting-started
       - pack/install-pack:
           version: 0.26.0
       - attach_workspace:
@@ -44,14 +44,23 @@ jobs:
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
       - run: zstd -dc /tmp/workspace/<< parameters.builder-dir >>.tar.zst | docker load
       - run: pack config trusted-builders add << parameters.builder-dir >>
-      - run: pack build pack-getting-started --path getting_started --builder << parameters.builder-dir >> --pull-policy never
-      - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
-      - run: sleep 5
-      - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
-  test-example:
+      - run: pack build getting-started --path getting-started --builder << parameters.builder-dir >> --pull-policy never
+      - run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
+      - run:
+          name: Test web server response
+          command: |
+            if curl -sSf --retry 5 --retry-delay 1 --retry-all-errors --connect-timeout 3 http://localhost:8080 -o response.txt; then
+              echo "Successful response from server"
+            else
+              echo "Server did not respond successfully"
+              docker logs getting-started
+              [[ -f response.txt ]] && cat response.txt
+              exit 1
+            fi
+  test-example-function:
     parameters:
       example:
-        description: "Example repo directory"
+        description: "The path to the directory containing the function"
         type: string
       stack-tag:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
@@ -70,10 +79,19 @@ jobs:
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
       - run: zstd -dc /tmp/workspace/<< parameters.builder-dir >>.tar.zst | docker load
       - run: pack config trusted-builders add << parameters.builder-dir >>
-      - run: pack build << parameters.example >> --path examples/<< parameters.example >> --builder << parameters.builder-dir >> --pull-policy never
-      - run: docker run --name pack-example -d << parameters.example >>
-      - run: sleep 5
-      - run: docker exec pack-example true 2>/dev/null || (echo not running && docker logs pack-example && exit 1)
+      - run: pack build example-function --path examples/<< parameters.example >> --builder << parameters.builder-dir >> --pull-policy never
+      - run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
+      - run:
+          name: Test function response
+          command: |
+            if curl -sSf --retry 5 --retry-delay 1 --retry-all-errors --connect-timeout 3 -X POST -H 'x-health-check: true' http://localhost:8080 -o response.txt; then
+              echo "Successful response from function"
+            else
+              echo "Function did not respond successfully"
+              docker logs example-function
+              [[ -f response.txt ]] && cat response.txt
+              exit 1
+            fi
   publish-builder:
     parameters:
       builder-dir:
@@ -164,34 +182,34 @@ workflows:
               language: ["java", "node-js", "typescript"]
           requires:
             - create-builder-22
-      - test-example:
+      - test-example-function:
           name: test-<< matrix.example >>-18
           builder-dir: buildpacks-18
           stack-tag: "18"
           matrix:
-            alias: test-examples-18
+            alias: test-example-functions-18
             parameters:
-              example: ["javafunctionscaffold", "javascriptfunctionscaffold", "typescriptfunctionscaffold"]
+              example: ["java-function", "javascript-function", "typescript-function"]
           requires:
             - create-buildpacks-18
-      - test-example:
+      - test-example-function:
           name: test-<< matrix.example >>-20
           builder-dir: buildpacks-20
           stack-tag: "20"
           matrix:
-            alias: test-examples-20
+            alias: test-example-functions-20
             parameters:
-              example: ["javafunctionscaffold", "javascriptfunctionscaffold", "typescriptfunctionscaffold"]
+              example: ["java-function", "javascript-function", "typescript-function"]
           requires:
             - create-buildpacks-20
-      - test-example:
+      - test-example-function:
           name: test-<< matrix.example >>-22
           builder-dir: builder-22
           stack-tag: "22"
           matrix:
-            alias: test-examples-22
+            alias: test-example-functions-22
             parameters:
-              example: ["javafunctionscaffold", "javascriptfunctionscaffold", "typescriptfunctionscaffold"]
+              example: ["java-function", "javascript-function", "typescript-function"]
           requires:
             - create-builder-22
       - publish-builder:
@@ -200,7 +218,7 @@ workflows:
           image_tag: heroku/buildpacks:18
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
           requires:
-            - test-examples-18
+            - test-example-functions-18
             - test-getting-started-guides-18
           filters:
             branches:
@@ -212,7 +230,7 @@ workflows:
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
           image_tag_alias2: heroku/buildpacks:latest
           requires:
-            - test-examples-20
+            - test-example-functions-20
             - test-getting-started-guides-20
           filters:
             branches:
@@ -232,7 +250,7 @@ workflows:
           image_tag: heroku/builder:22
           image_tag_alias: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
           requires:
-            - test-examples-22
+            - test-example-functions-22
             - test-getting-started-guides-22
           filters:
             branches:
