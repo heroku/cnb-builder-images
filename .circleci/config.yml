@@ -149,7 +149,7 @@ workflows:
           matrix:
             alias: test-getting-started-guides-18
             parameters:
-              language: ["go", "java", "node-js", "typescript", "php", "python", "ruby", "gradle"]
+              language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
           requires:
             - create-buildpacks-18
       - test-getting-started-guide:
@@ -159,7 +159,7 @@ workflows:
           matrix:
             alias: test-getting-started-guides-20
             parameters:
-              language: ["go", "java", "node-js", "typescript", "php", "python", "ruby", "gradle"]
+              language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
           requires:
             - create-buildpacks-20
       - test-getting-started-guide:
@@ -169,7 +169,7 @@ workflows:
           matrix:
             alias: test-getting-started-guides-classic-22
             parameters:
-              language: ["clojure", "gradle", "go", "java", "node-js", "scala", "typescript", "php", "python", "ruby"]
+              language: ["clojure", "go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
           requires:
             - create-builder-classic-22
       - test-getting-started-guide:
