@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
       - pack/install-pack:
-          version: 0.26.0
+          version: 0.27.0
       - attach_workspace:
           at: /tmp/workspace
       - run: pack builder create << parameters.builder-dir >> --config << parameters.builder-dir >>/builder.toml --pull-policy always
@@ -38,7 +38,7 @@ jobs:
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting-started
       - pack/install-pack:
-          version: 0.26.0
+          version: 0.27.0
       - attach_workspace:
           at: /tmp/workspace
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
@@ -73,7 +73,7 @@ jobs:
     steps:
       - checkout
       - pack/install-pack:
-          version: 0.26.0
+          version: 0.27.0
       - attach_workspace:
           at: /tmp/workspace
       - run: docker pull heroku/heroku:<< parameters.stack-tag>>-cnb
