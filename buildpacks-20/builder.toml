@@ -18,7 +18,7 @@ version = "0.14.1"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:d269fe5610ea6789e015b8e22ee37e7e245f53ea1cae130d83a45d89310e043f"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:05db69b29422852362aa3b8ba06cd33a0e0930f2f037ec52baf268f99d03965f"
 
 [[buildpacks]]
   id = "heroku/gradle"
@@ -111,7 +111,7 @@ version = "0.14.1"
 [[order]]
   [[order.group]]
     id = "heroku/java-function"
-    version = "0.3.35"
+    version = "0.3.36"
 
 [[order]]
   [[order.group]]
