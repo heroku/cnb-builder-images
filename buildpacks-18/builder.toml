@@ -129,7 +129,7 @@ version = "0.14.1"
 [[order]]
   [[order.group]]
     id = "heroku/jvm"
-    version = "1.0.3"
+    version = "1.0.4"
 
   [[order.group]]
     id = "heroku/gradle"
