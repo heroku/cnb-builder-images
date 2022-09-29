@@ -36,6 +36,9 @@ jobs:
             language: node-js
           - builder: builder-22
             language: typescript
+    steps:
+      - uses: actions/checkout@v3
+
 
   test-example-functions:
     needs: test-getting-started-guides
@@ -43,6 +46,8 @@ jobs:
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-22"]
         example: ["java-function", "javascript-function", "typescript-function"]
+    steps:
+      - uses: actions/checkout@v3
 
   publish-builders:
     needs:
@@ -64,3 +69,5 @@ jobs:
           - builder: builder-22
             tag1: heroku/builder:22
             tag2: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
+    steps:
+      - uses: actions/checkout@v3
