@@ -1,0 +1,66 @@
+name: Build, Test (and Publish) Builders
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+
+  create-builders:
+    strategy:
+      matrix:
+        builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: buildpacks/github-actions/setup-pack@v4.1.0
+      - run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
+      - run: docker save ${{ matrix.builder }} | zstd > ${{ matrix.builder }}.tar.zst
+      - name: Persist image
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
+
+  test-getting-started-guides:
+    needs: create-builder
+    strategy:
+      matrix:
+        builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22"]
+        language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
+        include:
+          - builder: builder-classic-22
+            language: clojure
+          - builder: builder-22
+            language: java
+          - builder: builder-22
+            language: node-js
+          - builder: builder-22
+            language: typescript
+
+  test-example-functions:
+    needs: test-getting-started-guides
+    strategy:
+      matrix:
+        builder: ["buildpacks-18", "buildpacks-20", "builder-22"]
+        example: ["java-function", "javascript-function", "typescript-function"]
+
+  publish-builders:
+    needs:
+      - test-example-functions
+      - test-getting-started-guides
+    if: github.branch == 'main'
+    strategy:
+      matrix:
+        include:
+          - builder: buildpacks-18
+            tag1: heroku/buildpacks:18
+            tag2: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
+          - builder: buildpacks-20
+            tag1: heroku/buildpacks:20
+            tag2: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
+            tag3: heroku/buildpacks:latest
+          - builder: builder-classic-22
+            tag1: heroku/builder-classic:22
+          - builder: builder-22
+            tag1: heroku/builder:22
+            tag2: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
