@@ -7,6 +7,7 @@ on:
 jobs:
 
   create-builders:
+    runs-on: sfdc-hk-ubuntu-22.04-medium
     strategy:
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
@@ -22,6 +23,7 @@ jobs:
           path: ${{ matrix.builder }}.tar.zst
 
   test-getting-started-guides:
+    runs-on: sfdc-hk-ubuntu-22.04-medium
     needs: create-builder
     strategy:
       matrix:
@@ -41,6 +43,7 @@ jobs:
 
 
   test-example-functions:
+    runs-on: sfdc-hk-ubuntu-22.04-medium
     needs: test-getting-started-guides
     strategy:
       matrix:
@@ -50,6 +53,7 @@ jobs:
       - uses: actions/checkout@v3
 
   publish-builders:
+    runs-on: sfdc-hk-ubuntu-22.04-medium
     needs:
       - test-example-functions
       - test-getting-started-guides
