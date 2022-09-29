@@ -24,7 +24,7 @@ jobs:
 
   test-getting-started-guides:
     runs-on: sfdc-hk-ubuntu-22.04-medium
-    needs: create-builder
+    needs: create-builders
     strategy:
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22"]
@@ -44,7 +44,7 @@ jobs:
 
   test-example-functions:
     runs-on: sfdc-hk-ubuntu-22.04-medium
-    needs: test-getting-started-guides
+    needs: create-builders
     strategy:
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-22"]
