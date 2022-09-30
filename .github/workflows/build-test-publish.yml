@@ -114,6 +114,7 @@ jobs:
         # if: github.branch == 'main' # TODO: Only publish from main
     strategy:
       matrix:
+
         include:
           - builder: buildpacks-18
             tag_public: heroku/buildpacks:18
@@ -140,7 +141,8 @@ jobs:
       - run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - name: Tag builder and push to registries
         run: |
-          export TAGS=(${{ matrix.tag_public }} ${{ matrix.tag_alias }} ${{ secrets.REGISTRY_HOST }}/s/${{ secrets.REGISTRY_USER }}/${{ matrix.tag_private }})
+          [ -n "${{ matrix.tag_private }}"] && export TAG_PRIVATE="${{ secrets.REGISTRY_HOST }}/s/${{ secrets.REGISTRY_USER }}/${{ matrix.tag_private }}"
+          export TAGS=(${{ matrix.tag_public }} ${{ matrix.tag_alias }} $TAG_PRIVATE)
           for tag in ${TAGS[@]}; do
             docker tag ${{ matrix.builder }} $tag
             docker push $tag
