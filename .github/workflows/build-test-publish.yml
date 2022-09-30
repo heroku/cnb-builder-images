@@ -1,15 +1,16 @@
-name: Build, Test (and Publish) Builders
+name: Build, Test, Publish
 
 on:
   pull_request:
   push:
+    branches: ["main"]
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
 
-  create-builders:
+  create:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -25,9 +26,9 @@ jobs:
           name: ${{ matrix.builder }}
           path: ${{ matrix.builder }}.tar.zst
 
-  test-getting-started-guides:
+  test-guides:
     runs-on: ubuntu-22.04
-    needs: create-builders
+    needs: create
     strategy:
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22"]
@@ -74,9 +75,9 @@ jobs:
             exit 1
           fi
 
-  test-example-functions:
+  test-examples:
     runs-on: ubuntu-22.04
-    needs: create-builders
+    needs: create
     strategy:
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-22"]
@@ -109,11 +110,11 @@ jobs:
             exit 1
           fi
 
-  publish-builders:
+  publish:
     runs-on: ubuntu-22.04
     needs:
-      - test-example-functions
-      - test-getting-started-guides
+      - test-guides
+      - test-examples
         # if: github.branch == 'main' # TODO: Only publish from main
     strategy:
       matrix:
@@ -137,10 +138,10 @@ jobs:
         with:
           name: ${{ matrix.builder }}
       - run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
-      - run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+      - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
       - name: Log into additional registry
         run: |
-          REGISTRY_TOKEN=$(curl -f -X POST ${{ secrets.SERVICE_TOKEN_ENDPOINT }} -d "{\"username\":\"${{ secrets.SERVICE_TOKEN_USER_NAME }}\", \"password\":\"${{ secrets.SERVICE_TOKEN_PASSWORD }}\"}" -s --retry 3 | jq -r ".raw_id_token")
+          export REGISTRY_TOKEN=$(curl -f -X POST ${{ secrets.SERVICE_TOKEN_ENDPOINT }} -d "{\"username\":\"${{ secrets.SERVICE_TOKEN_USER_NAME }}\", \"password\":\"${{ secrets.SERVICE_TOKEN_PASSWORD }}\"}" -s --retry 3 | jq -r ".raw_id_token")
           echo "$REGISTRY_TOKEN" | docker login ${{ secrets.REGISTRY_HOST }} -u "${{ secrets.REGISTRY_USER }}" --password-stdin
       - name: Tag builder and push to registries
         run: |
