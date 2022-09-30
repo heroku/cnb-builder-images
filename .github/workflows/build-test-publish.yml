@@ -13,7 +13,7 @@ jobs:
         builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
     steps:
       - uses: actions/checkout@v3
-      - uses: buildpacks/github-actions/setup-pack@v4.1.0
+      - uses: buildpacks/github-actions/setup-pack@v4.8.1
         with:
           pack-version: 0.27.0
       - run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
