@@ -18,7 +18,7 @@ jobs:
           pack-version: 0.27.0
       - run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
       - run: docker save ${{ matrix.builder }} | zstd > ${{ matrix.builder }}.tar.zst
-      - name: Persist image
+      - name: Persist builder image
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.builder }}
@@ -42,7 +42,34 @@ jobs:
             language: typescript
     steps:
       - uses: actions/checkout@v3
-
+        with:
+          repository: heroku/${{ matrix.language }}-getting-started.git
+      - uses: buildpacks/github-actions/setup-pack@v4.8.1
+        with:
+          pack-version: 0.27.0
+      - name: Restore builder image from archive
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
+      - name: Load builder image into docker daemon
+        run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
+      - name: Add builder to trusted builders list
+        run: pack config trusted-builders add ${{ matrix.builder }}
+      - name: Build getting started guide image
+        run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy never
+      - name: Start getting started guide image
+        run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
+      - name: Test getting started web server response
+        run: |
+          if curl -sSf --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 http://localhost:8080 -o response.txt; then
+            echo "Successful response from server"
+          else
+            echo "Server did not respond successfully"
+            docker logs getting-started
+            [[ -f response.txt ]] && cat response.txt
+            exit 1
+          fi
 
   test-example-functions:
     runs-on: ubuntu-22.04
