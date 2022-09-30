@@ -146,7 +146,9 @@ jobs:
         run: |
           [ -n "${{ matrix.tag_private }}"] && export TAG_PRIVATE="${{ secrets.REGISTRY_HOST }}/s/${{ secrets.REGISTRY_USER }}/${{ matrix.tag_private }}"
           export TAGS=(${{ matrix.tag_public }} ${{ matrix.tag_alias }} $TAG_PRIVATE)
+          echo "TAGS=$TAGS"
           for tag in ${TAGS[@]}; do
+            echo "Pushing $tag"
             docker tag ${{ matrix.builder }} $tag
             docker push $tag
           done
