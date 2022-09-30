@@ -52,6 +52,10 @@ jobs:
         run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - name: Add builder to trusted builders list
         run: pack config trusted-builders add ${{ matrix.builder }}
+      - name: Pull the stack image
+        env:
+          BUILDER: ${{ matrix.builder }}
+        run: docker pull heroku/heroku:${BUILDER##*-}-cnb
       - name: Build getting started guide image
         run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy never
       - name: Start getting started guide image
