@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v4.1.0
         with:
-          pack_version: 0.27.0
+          pack-version: 0.27.0
       - run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
       - run: docker save ${{ matrix.builder }} | zstd > ${{ matrix.builder }}.tar.zst
       - name: Persist image
