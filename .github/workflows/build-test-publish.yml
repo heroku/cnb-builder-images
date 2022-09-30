@@ -143,11 +143,10 @@ jobs:
         run: |
           export REGISTRY_TOKEN=$(curl -f -X POST ${{ secrets.SERVICE_TOKEN_ENDPOINT }} -d "{\"username\":\"${{ secrets.SERVICE_TOKEN_USER_NAME }}\", \"password\":\"${{ secrets.SERVICE_TOKEN_PASSWORD }}\"}" -s --retry 3 | jq -r ".raw_id_token")
           echo "$REGISTRY_TOKEN" | docker login ${{ secrets.REGISTRY_HOST }} -u "${{ secrets.REGISTRY_USER }}" --password-stdin
-          cat ~/.docker/config.json
       - name: Tag builder and push to registries
         run: |
           if [[ -n "${{ matrix.tag_private }}" ]]; then
-            export TAG_PRIVATE="${{ secrets.REGISTRY_HOST }}/s/${{ secrets.REGISTRY_USER }}/${{ matrix.tag_private }}"
+            export TAG_PRIVATE="${{ secrets.REGISTRY_HOST }}/s/${{ secrets.SERVICE_TOKEN_USER_NAME }}/${{ matrix.tag_private }}"
           fi
           export TAGS=($TAG_PRIVATE ${{ matrix.tag_public }} ${{ matrix.tag_alias }})
           for tag in ${TAGS[@]}; do
