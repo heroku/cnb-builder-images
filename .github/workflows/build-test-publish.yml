@@ -18,13 +18,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v4.8.1
+      - name: Setup builder cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.run_id}}-${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
       - run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
       - run: docker save ${{ matrix.builder }} | zstd > ${{ matrix.builder }}.tar.zst
-      - name: Persist builder image
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.builder }}
-          path: ${{ matrix.builder }}.tar.zst
 
   test-guides:
     runs-on: ubuntu-22.04
@@ -48,10 +48,11 @@ jobs:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
       - uses: buildpacks/github-actions/setup-pack@v4.8.1
-      - name: Restore builder image from archive
-        uses: actions/download-artifact@v3
+      - name: Setup builder cache
+        uses: actions/cache@v3
         with:
-          name: ${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
       - name: Load builder image into docker daemon
         run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - name: Add builder to trusted builders list
@@ -85,10 +86,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v4.8.1
-      - name: Restore builder image from archive
-        uses: actions/download-artifact@v3
+      - name: Setup builder cache
+        uses: actions/cache@v3
         with:
-          name: ${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
       - name: Load builder image into docker daemon
         run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - name: Add builder to trusted builders list
@@ -118,7 +120,6 @@ jobs:
         # if: github.branch == 'main' # TODO: Only publish from main
     strategy:
       matrix:
-
         include:
           - builder: buildpacks-18
             tag_public: heroku/buildpacks:18
@@ -133,10 +134,11 @@ jobs:
             tag_public: heroku/builder:22
             tag_private: heroku-22:builder
     steps:
-      - name: Restore builder image from archive
-        uses: actions/download-artifact@v3
+      - name: Setup builder cache
+        uses: actions/cache@v3
         with:
-          name: ${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
       - run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
       - name: Log into additional registry
