@@ -43,6 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
       - uses: buildpacks/github-actions/setup-pack@v4.8.1
         with:
