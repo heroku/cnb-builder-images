@@ -87,17 +87,16 @@ jobs:
         run: pack config trusted-builders add ${{ matrix.builder }}
       - run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy never
       - run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
-      - run:
-          name: Test web server response
-          command: |
-            if curl -sSf --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 http://localhost:8080 -o response.txt; then
-              echo "Successful response from server"
-            else
-              echo "Server did not respond successfully"
-              docker logs getting-started
-              [[ -f response.txt ]] && cat response.txt
-              exit 1
-            fi
+      - name: Test example function web server response
+        run: |
+          if curl -sSf --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 http://localhost:8080 -o response.txt; then
+            echo "Successful response from server"
+          else
+            echo "Server did not respond successfully"
+            docker logs getting-started
+            [[ -f response.txt ]] && cat response.txt
+            exit 1
+          fi
 
   publish-builders:
     runs-on: ubuntu-22.04
