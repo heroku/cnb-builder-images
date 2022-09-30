@@ -48,7 +48,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ matrix.builder }}
-          path: ${{ matrix.builder }}.tar.zst
       - name: Load builder image into docker daemon
         run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - name: Add builder to trusted builders list
@@ -82,7 +81,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ matrix.builder }}
-          path: ${{ matrix.builder }}.tar.zst
       - name: Load builder image into docker daemon
         run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - name: Add builder to trusted builders list
