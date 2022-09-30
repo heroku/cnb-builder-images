@@ -111,21 +111,37 @@ jobs:
     needs:
       - test-example-functions
       - test-getting-started-guides
-    if: github.branch == 'main'
+        # if: github.branch == 'main' # TODO: Only publish from main
     strategy:
       matrix:
         include:
           - builder: buildpacks-18
             tag1: heroku/buildpacks:18
-            tag2: $REGISTRY_HOST/s/heroku/cnb/heroku-18:builder
+            tag2: ${{ secrets.REGISTRY_HOST }}/s/heroku/cnb/heroku-18:builder
           - builder: buildpacks-20
             tag1: heroku/buildpacks:20
-            tag2: $REGISTRY_HOST/s/heroku/cnb/heroku-20:builder
+            tag2: ${{ secrets.REGISTRY_HOST }}/s/heroku/cnb/heroku-20:builder
             tag3: heroku/buildpacks:latest
           - builder: builder-classic-22
             tag1: heroku/builder-classic:22
           - builder: builder-22
             tag1: heroku/builder:22
-            tag2: $REGISTRY_HOST/s/heroku/cnb/heroku-22:builder
+            tag2: ${{ secrets.REGISTRY_HOST}}/s/heroku/cnb/heroku-22:builder
     steps:
-      - uses: actions/checkout@v3
+      - name: Restore builder image from archive
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ matrix.builder }}
+      - run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: Log into additional registry
+      - run: |
+          REGISTRY_TOKEN=$(curl -f -X POST ${{ secrets.SERVICE_TOKEN_ENDPOINT }} -d "{\"username\":\"${{ secrets.SERVICE_TOKEN_USER_NAME }}\", \"password\":\"${{ secrets.SERVICE_TOKEN_PASSWORD }}\"}" -s --retry 3 | jq -r ".raw_id_token")
+          echo "$REGISTRY_TOKEN" | docker login ${{ secrets.REGISTRY_HOST }} -u "${{ secrets.REGISTRY_USER }}" --password-stdin
+      - run: zstd -dc /tmp/workspace/${{ matrix.builder }}.tar.zst | docker load
+      - name: Tag and push to registries
+        run: |
+          export TAGS=(${{ matrix.tag1 }} ${{ matrix.tag2 }} ${{ matrix.tag3 }})
+          for tag in ${TAGS[@]}; do
+            docker tag ${{ matrix.builder }} $tag
+            docker push $tag
+          done
