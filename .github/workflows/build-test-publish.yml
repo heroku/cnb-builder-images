@@ -136,19 +136,18 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ matrix.builder }}
+      - run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Log into additional registry
         run: |
           REGISTRY_TOKEN=$(curl -f -X POST ${{ secrets.SERVICE_TOKEN_ENDPOINT }} -d "{\"username\":\"${{ secrets.SERVICE_TOKEN_USER_NAME }}\", \"password\":\"${{ secrets.SERVICE_TOKEN_PASSWORD }}\"}" -s --retry 3 | jq -r ".raw_id_token")
           echo "$REGISTRY_TOKEN" | docker login ${{ secrets.REGISTRY_HOST }} -u "${{ secrets.REGISTRY_USER }}" --password-stdin
-      - run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - name: Tag builder and push to registries
         run: |
           if [[ -n "${{ matrix.tag_private }}" ]]; then
             export TAG_PRIVATE="${{ secrets.REGISTRY_HOST }}/s/${{ secrets.REGISTRY_USER }}/${{ matrix.tag_private }}"
           fi
-          export TAGS=(${{ matrix.tag_public }} ${{ matrix.tag_alias }} $TAG_PRIVATE)
-          echo "TAGS=>$TAGS[@]"
+          export TAGS=($TAG_PRIVATE ${{ matrix.tag_public }} ${{ matrix.tag_alias }})
           for tag in ${TAGS[@]}; do
             echo "Pushing $tag"
             docker tag ${{ matrix.builder }} $tag
