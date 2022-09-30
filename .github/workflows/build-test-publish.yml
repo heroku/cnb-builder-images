@@ -116,17 +116,17 @@ jobs:
       matrix:
         include:
           - builder: buildpacks-18
-            tag1: heroku/buildpacks:18
-            tag2: ${{ secrets.REGISTRY_HOST }}/s/heroku/cnb/heroku-18:builder
+            tag_public: heroku/buildpacks:18
+            tag_private: heroku-18:builder
           - builder: buildpacks-20
-            tag1: heroku/buildpacks:20
-            tag2: ${{ secrets.REGISTRY_HOST }}/s/heroku/cnb/heroku-20:builder
-            tag3: heroku/buildpacks:latest
+            tag_public: heroku/buildpacks:20
+            tag_alias: heroku/buildpacks:latest
+            tag_private: heroku-20:builder
           - builder: builder-classic-22
-            tag1: heroku/builder-classic:22
+            public_tag: heroku/builder-classic:22
           - builder: builder-22
-            tag1: heroku/builder:22
-            tag2: ${{ secrets.REGISTRY_HOST}}/s/heroku/cnb/heroku-22:builder
+            tag_public: heroku/builder:22
+            tag_private: heroku-22:builder
     steps:
       - name: Restore builder image from archive
         uses: actions/download-artifact@v3
@@ -138,9 +138,9 @@ jobs:
           REGISTRY_TOKEN=$(curl -f -X POST ${{ secrets.SERVICE_TOKEN_ENDPOINT }} -d "{\"username\":\"${{ secrets.SERVICE_TOKEN_USER_NAME }}\", \"password\":\"${{ secrets.SERVICE_TOKEN_PASSWORD }}\"}" -s --retry 3 | jq -r ".raw_id_token")
           echo "$REGISTRY_TOKEN" | docker login ${{ secrets.REGISTRY_HOST }} -u "${{ secrets.REGISTRY_USER }}" --password-stdin
       - run: zstd -dc /tmp/workspace/${{ matrix.builder }}.tar.zst | docker load
-      - name: Tag and push to registries
+      - name: Tag builder and push to registries
         run: |
-          export TAGS=(${{ matrix.tag1 }} ${{ matrix.tag2 }} ${{ matrix.tag3 }})
+          export TAGS=(${{ matrix.tag_public }} ${{ matrix.tag_alias }} ${{ secrets.REGISTRY_HOST }}/s/${{ secrets.REGISTRY_USER }}/${{ matrix.tag_private }})
           for tag in ${TAGS[@]}; do
             docker tag ${{ matrix.builder }} $tag
             docker push $tag
