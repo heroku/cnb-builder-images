@@ -1,0 +1,163 @@
+name: Build, Test, Publish
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+  schedule:
+    - cron: '0 0 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+
+  create:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: buildpacks/github-actions/setup-pack@v4.8.1
+      # We use a cache here rather than artifacts because it's 4x faster and we
+      # don't need the .tar.zst outside of this workflow run anyway.
+      - name: Setup builder cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.run_id}}-${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
+      - run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
+      - run: docker save ${{ matrix.builder }} | zstd > ${{ matrix.builder }}.tar.zst
+
+  test-guides:
+    runs-on: ubuntu-22.04
+    needs: create
+    strategy:
+      matrix:
+        builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22"]
+        language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
+        include:
+          - builder: builder-classic-22
+            language: clojure
+          - builder: builder-22
+            language: java
+          - builder: builder-22
+            language: node-js
+          - builder: builder-22
+            language: typescript
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+          repository: heroku/${{ matrix.language }}-getting-started.git
+      - uses: buildpacks/github-actions/setup-pack@v4.8.1
+      - name: Setup builder cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.run_id}}-${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
+      - name: Load builder image into docker daemon
+        run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
+      - name: Add builder to trusted builders list
+        run: pack config trusted-builders add ${{ matrix.builder }}
+      - name: Pull the stack image
+        env:
+          BUILDER: ${{ matrix.builder }}
+        run: docker pull heroku/heroku:${BUILDER##*-}-cnb
+      - name: Build getting started guide image
+        run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy never
+      - name: Start getting started guide image
+        run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
+      - name: Test getting started web server response
+        run: |
+          if curl -sSf --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 http://localhost:8080 -o response.txt; then
+            echo "Successful response from server"
+          else
+            echo "Server did not respond successfully"
+            docker logs getting-started
+            [[ -f response.txt ]] && cat response.txt
+            exit 1
+          fi
+
+  test-examples:
+    runs-on: ubuntu-22.04
+    needs: create
+    strategy:
+      matrix:
+        builder: ["buildpacks-18", "buildpacks-20", "builder-22"]
+        example: ["java-function", "javascript-function", "typescript-function"]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: buildpacks/github-actions/setup-pack@v4.8.1
+      - name: Setup builder cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.run_id}}-${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
+      - name: Load builder image into docker daemon
+        run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
+      - name: Add builder to trusted builders list
+        run: pack config trusted-builders add ${{ matrix.builder }}
+      - name: Pull the stack image
+        env:
+          BUILDER: ${{ matrix.builder }}
+        run: docker pull heroku/heroku:${BUILDER##*-}-cnb
+      - run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy never
+      - run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
+      - name: Test example function web server response
+        run: |
+          if curl -sSf --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 -X POST -H 'x-health-check: true' http://localhost:8080 -o response.txt; then
+            echo "Successful response from function"
+          else
+            echo "Function did not respond successfully"
+            docker logs example-function
+            [[ -f response.txt ]] && cat response.txt
+            exit 1
+          fi
+
+  publish:
+    runs-on: ubuntu-22.04
+    if: github.branch == 'main'
+    needs:
+      - test-guides
+      - test-examples
+    strategy:
+      matrix:
+        include:
+          - builder: buildpacks-18
+            tag_public: heroku/buildpacks:18
+            tag_private: heroku-18:builder
+          - builder: buildpacks-20
+            tag_public: heroku/buildpacks:20
+            tag_alias: heroku/buildpacks:latest
+            tag_private: heroku-20:builder
+          - builder: builder-classic-22
+            public_tag: heroku/builder-classic:22
+          - builder: builder-22
+            tag_public: heroku/builder:22
+            tag_private: heroku-22:builder
+    steps:
+      - name: Setup builder cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.run_id}}-${{ matrix.builder }}
+          path: ${{ matrix.builder }}.tar.zst
+      - run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
+      - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
+      - name: Log into additional registry
+        run: |
+          export REGISTRY_TOKEN=$(curl -f -X POST ${{ secrets.SERVICE_TOKEN_ENDPOINT }} -d "{\"username\":\"${{ secrets.SERVICE_TOKEN_USER_NAME }}\", \"password\":\"${{ secrets.SERVICE_TOKEN_PASSWORD }}\"}" -s --retry 3 | jq -r ".raw_id_token")
+          echo "$REGISTRY_TOKEN" | docker login ${{ secrets.REGISTRY_HOST }} -u "${{ secrets.REGISTRY_USER }}" --password-stdin
+      - name: Tag builder and push to registries
+        run: |
+          if [[ -n "${{ matrix.tag_private }}" ]]; then
+            export TAG_PRIVATE="${{ secrets.REGISTRY_HOST }}/s/${{ secrets.SERVICE_TOKEN_USER_NAME }}/${{ matrix.tag_private }}"
+          fi
+          export TAGS=($TAG_PRIVATE ${{ matrix.tag_public }} ${{ matrix.tag_alias }})
+          for tag in ${TAGS[@]}; do
+            echo "Pushing $tag"
+            docker tag ${{ matrix.builder }} $tag
+            docker push $tag
+          done
