@@ -117,7 +117,7 @@ jobs:
     needs:
       - test-guides
       - test-examples
-        # if: github.branch == 'main' # TODO: Only publish from main
+        if: github.branch == 'main'
     strategy:
       matrix:
         include:
