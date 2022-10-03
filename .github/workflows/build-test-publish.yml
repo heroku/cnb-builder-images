@@ -119,7 +119,7 @@ jobs:
 
   publish:
     runs-on: ubuntu-22.04
-    if: github.branch == 'main'
+    if: success() && github.ref == 'refs/heads/main'
     needs:
       - test-guides
       - test-examples
