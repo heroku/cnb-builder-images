@@ -117,10 +117,10 @@ jobs:
 
   publish:
     runs-on: ubuntu-22.04
+    if: github.branch == 'main'
     needs:
       - test-guides
       - test-examples
-        if: github.branch == 'main'
     strategy:
       matrix:
         include:
