@@ -10,7 +10,7 @@ version = "0.14.1"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-buildpack@sha256:e33188188acb8631ccd1ee9fbd7eb7314b1a4aad4b3ecf0072b3bab23839012e"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-buildpack@sha256:b5fb470e12507e2a2dfa48e74648bd8e9c6adc5ae70e6145fb3871d782a8e2bb"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -18,7 +18,7 @@ version = "0.14.1"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:05db69b29422852362aa3b8ba06cd33a0e0930f2f037ec52baf268f99d03965f"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:1472bec7148ea9797904da9eca7f85d158b8886017d7fc1e19803e83a507facf"
 
 [[buildpacks]]
   id = "heroku/gradle"
@@ -110,7 +110,7 @@ version = "0.14.1"
 [[order]]
   [[order.group]]
     id = "heroku/java-function"
-    version = "0.3.36"
+    version = "0.3.37"
 
 [[order]]
   [[order.group]]
@@ -120,7 +120,7 @@ version = "0.14.1"
 [[order]]
   [[order.group]]
     id = "heroku/java"
-    version = "0.6.4"
+    version = "0.6.5"
 
 # heroku/java previously supported Gradle by mixing in the shimmed heroku/gradle buildpack. When we decided to make a
 # clean cut and not have shimmed buildpacks in the CNB repository, support for Gradle in heroku/java was dropped.
@@ -129,7 +129,7 @@ version = "0.14.1"
 [[order]]
   [[order.group]]
     id = "heroku/jvm"
-    version = "1.0.4"
+    version = "1.0.5"
 
   [[order.group]]
     id = "heroku/gradle"
