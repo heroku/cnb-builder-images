@@ -108,7 +108,7 @@ jobs:
       - run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
       - name: Test example function web server response
         run: |
-          if curl -sSf --retry 10 --retry-delay 2 --retry-all-errors --connect-timeout 3 -X POST -H 'x-health-check: true' http://localhost:8080 -o response.txt; then
+          if curl -sSf --retry 10 --retry-delay 3 --retry-all-errors --connect-timeout 3 -X POST -H 'x-health-check: true' http://localhost:8080 -o response.txt; then
             echo "Successful response from function"
           else
             echo "Function did not respond successfully"
