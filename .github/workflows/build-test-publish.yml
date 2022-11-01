@@ -134,7 +134,7 @@ jobs:
             tag_alias: heroku/buildpacks:latest
             tag_private: heroku-20:builder
           - builder: builder-classic-22
-            public_tag: heroku/builder-classic:22
+            tag_public: heroku/builder-classic:22
           - builder: builder-22
             tag_public: heroku/builder:22
             tag_private: heroku-22:builder
