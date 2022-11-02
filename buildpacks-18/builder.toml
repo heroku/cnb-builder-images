@@ -6,7 +6,7 @@ build-image = "heroku/heroku:18-cnb-build"
 run-image = "heroku/heroku:18-cnb"
 
 [lifecycle]
-version = "0.14.1"
+version = "0.15.0"
 
 [[buildpacks]]
   id = "heroku/java"
