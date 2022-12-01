@@ -20,7 +20,7 @@ jobs:
         builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
     steps:
       - uses: actions/checkout@v3
-      - uses: buildpacks/github-actions/setup-pack@v4.8.1
+      - uses: buildpacks/github-actions/setup-pack@v4.9.0
       # We use a cache here rather than artifacts because it's 4x faster and we
       # don't need the .tar.zst outside of this workflow run anyway.
       - name: Setup builder cache
@@ -52,7 +52,7 @@ jobs:
         with:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
-      - uses: buildpacks/github-actions/setup-pack@v4.8.1
+      - uses: buildpacks/github-actions/setup-pack@v4.9.0
       - name: Setup builder cache
         uses: actions/cache@v3
         with:
@@ -90,7 +90,7 @@ jobs:
         example: ["java-function", "javascript-function", "typescript-function"]
     steps:
       - uses: actions/checkout@v3
-      - uses: buildpacks/github-actions/setup-pack@v4.8.1
+      - uses: buildpacks/github-actions/setup-pack@v4.9.0
       - name: Setup builder cache
         uses: actions/cache@v3
         with:
