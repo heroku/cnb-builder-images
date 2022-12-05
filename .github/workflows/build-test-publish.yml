@@ -41,7 +41,7 @@ jobs:
         include:
           - builder: builder-classic-22
             language: clojure
-          - builder: builder-classic-22
+          - builder: builder-22
             language: go
           - builder: builder-22
             language: java
