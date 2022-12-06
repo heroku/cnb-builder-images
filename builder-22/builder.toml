@@ -24,6 +24,14 @@ version = "0.14.1"
   id = "heroku/java-function"
   uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:46e353cadcd941baeb0f566d7ab7b1f13c18e96223c1143dc51b258638ab9d47"
 
+[[buildpacks]]
+  id = "heroku/go"
+  uri = "docker://docker.io/heroku/buildpack-go@sha256:fdc270c4414dc636daf29e269a67f28bb1a8c4aee89974d80b90edbdc10ae8a2"
+
+[[buildpacks]]
+  id = "heroku/procfile"
+  uri = "docker://docker.io/heroku/procfile-cnb:2.0.0"
+
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-function"
@@ -43,3 +51,12 @@ version = "0.14.1"
   [[order.group]]
     id = "heroku/java"
     version = "0.6.5"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/go"
+    version = "0.1.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "2.0.0"
+    optional = true
