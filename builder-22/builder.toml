@@ -9,6 +9,10 @@ run-image = "heroku/heroku:22-cnb"
 version = "0.14.1"
 
 [[buildpacks]]
+  id = "heroku/python-functions-experimental"
+  uri = "https://heroku-buildpack-python.s3.us-east-1.amazonaws.com/cnb/python-functions-experimental-0.1.0.cnb"
+
+[[buildpacks]]
   id = "heroku/nodejs"
   uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:3152a250f07ffea3c368d46cfe9e69cc2e19f19f8ac95d2c3842b18b9594fecc"
 
@@ -31,6 +35,11 @@ version = "0.14.1"
 [[buildpacks]]
   id = "heroku/procfile"
   uri = "docker://docker.io/heroku/procfile-cnb:2.0.0"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/python-functions-experimental"
+    version = "0.1.0"
 
 [[order]]
   [[order.group]]
