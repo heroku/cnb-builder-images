@@ -46,11 +46,11 @@ version = "0.15.3"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:3152a250f07ffea3c368d46cfe9e69cc2e19f19f8ac95d2c3842b18b9594fecc"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:c9bb0e25cabe83ba7334d728343ed8cd6cafe8ebc6bdfa48878be70757177137"
 
 [[buildpacks]]
   id = "heroku/nodejs-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:cd6c0b84caa76a31ab669d2119d33b39af042aa11a4f362fe918e5b4694b9534"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:301fa50ee1155dc47deb18cb18233868fb4b56dc6bc7d5b3ab9582635bfceaf5"
 
 [[order]]
   [[order.group]]
@@ -105,7 +105,7 @@ version = "0.15.3"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-function"
-    version = "0.9.16"
+    version = "0.9.17"
 
 [[order]]
   [[order.group]]
@@ -115,7 +115,7 @@ version = "0.15.3"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
-    version = "0.5.12"
+    version = "0.5.13"
 
 [[order]]
   [[order.group]]
