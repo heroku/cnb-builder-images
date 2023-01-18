@@ -1,5 +1,1 @@
-# Once Python support for Salesforce Functions is in beta, the salesforce-functions
-# package will be published to PyPI, and the GitHub URL here can be replaced by the
-# PyPI package name instead. For example:
-# salesforce-functions>=0.1.0,<0.2.0
-salesforce-functions @ git+https://github.com/heroku/sf-functions-python.git
+salesforce-functions>=0.1.0,<1.0.0
