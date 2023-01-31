@@ -16,6 +16,7 @@ jobs:
   create:
     runs-on: ubuntu-22.04
     strategy:
+      fail-fast: false
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
     steps:
@@ -35,6 +36,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: create
     strategy:
+      fail-fast: false
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
@@ -87,6 +89,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: create
     strategy:
+      fail-fast: false
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-22"]
         example: ["java-function", "javascript-function", "typescript-function"]
@@ -129,6 +132,7 @@ jobs:
       - test-guides
       - test-examples
     strategy:
+      fail-fast: false
       matrix:
         include:
           - builder: buildpacks-18
