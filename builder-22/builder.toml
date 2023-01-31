@@ -33,8 +33,33 @@ version = "0.15.3"
   uri = "docker://docker.io/heroku/buildpack-go@sha256:fdc270c4414dc636daf29e269a67f28bb1a8c4aee89974d80b90edbdc10ae8a2"
 
 [[buildpacks]]
+  id = "heroku/ruby"
+  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:7f48a442c056cd19ea48462e05faa2837ac3a13732c47616d20f11f8c847a8c4"
+
+[[buildpacks]]
   id = "heroku/procfile"
   uri = "docker://docker.io/heroku/procfile-cnb:2.0.0"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs-engine"
+    version = "0.8.14"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs-yarn"
+    version = "0.3.1"
+    optional = true
+  [[order.group]]
+    id = "heroku/jvm"
+    version = "1.0.6"
+    optional = true
+  [[order.group]]
+    id = "heroku/ruby"
+    version = "2.0.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "2.0.0"
+    optional = true
 
 [[order]]
   [[order.group]]
