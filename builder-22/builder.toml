@@ -43,11 +43,11 @@ version = "0.15.3"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-engine"
-    version = "0.8.14"
+    version = "0.8.15"
     optional = true
   [[order.group]]
     id = "heroku/nodejs-yarn"
-    version = "0.3.1"
+    version = "0.3.2"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
