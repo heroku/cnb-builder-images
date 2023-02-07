@@ -51,6 +51,8 @@ jobs:
             language: node-js
           - builder: builder-22
             language: typescript
+          - builder: builder-22
+            language: ruby
     steps:
       - uses: actions/checkout@v3
         with:
