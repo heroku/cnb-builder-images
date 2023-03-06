@@ -38,21 +38,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22"]
+        builder: ["buildpacks-18", "buildpacks-20", builder-22, "builder-classic-22"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
         include:
           - builder: builder-classic-22
             language: clojure
+        exclude:
           - builder: builder-22
-            language: go
+            language: gradle
           - builder: builder-22
-            language: java
+            language: php
           - builder: builder-22
-            language: node-js
-          - builder: builder-22
-            language: typescript
-          - builder: builder-22
-            language: ruby
+            language: scala
     steps:
       - uses: actions/checkout@v3
         with:
