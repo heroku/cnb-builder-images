@@ -55,6 +55,9 @@ jobs:
         with:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
+      - name: Modify package.json (fix for Heroku-18 stack)
+        if: matrix.language == 'node-js' && matrix.builder == 'buildpacks-18'
+        run: sed -i 's/18.x || 16.x/16.x/g' package.json
       - uses: buildpacks/github-actions/setup-pack@v5.0.1
       - name: Setup builder cache
         uses: actions/cache@v3
