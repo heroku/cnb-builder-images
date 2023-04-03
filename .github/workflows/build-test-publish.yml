@@ -21,7 +21,7 @@ jobs:
         builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
     steps:
       - uses: actions/checkout@v3
-      - uses: buildpacks/github-actions/setup-pack@v5.0.1
+      - uses: buildpacks/github-actions/setup-pack@v5.1.0
       # We use a cache here rather than artifacts because it's 4x faster and we
       # don't need the .tar.zst outside of this workflow run anyway.
       - name: Setup builder cache
@@ -58,7 +58,7 @@ jobs:
       - name: Modify package.json (fix for Heroku-18 stack)
         if: matrix.language == 'node-js' && matrix.builder == 'buildpacks-18'
         run: sed -i 's/18.x || 16.x/16.x/g' package.json
-      - uses: buildpacks/github-actions/setup-pack@v5.0.1
+      - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - name: Setup builder cache
         uses: actions/cache@v3
         with:
@@ -100,7 +100,7 @@ jobs:
             example: python-function
     steps:
       - uses: actions/checkout@v3
-      - uses: buildpacks/github-actions/setup-pack@v5.0.1
+      - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - name: Setup builder cache
         uses: actions/cache@v3
         with:
