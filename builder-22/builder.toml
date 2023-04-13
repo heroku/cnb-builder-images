@@ -52,7 +52,7 @@ version = "0.16.1"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-engine"
-    version = "0.8.17"
+    version = "0.8.18"
     optional = true
   [[order.group]]
     id = "heroku/nodejs-yarn"
