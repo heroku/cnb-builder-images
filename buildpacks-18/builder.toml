@@ -14,7 +14,7 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.0.0&name=Scala"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala-v96?id=heroku/scala&name=Scala&version=0.0.0&stacks=heroku-18"
 
 [[buildpacks]]
   id = "heroku/java-function"
@@ -22,11 +22,11 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/gradle"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.0.0&name=Gradle"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle-v39?id=heroku/gradle&name=Gradle&version=0.0.0&stacks=heroku-18"
 
 [[buildpacks]]
   id = "heroku/ruby"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby?version=0.0.0&name=Ruby"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby-v271?id=heroku/ruby&name=Ruby&version=0.0.0&stacks=heroku-18"
 
 [[buildpacks]]
   id = "heroku/procfile"
@@ -34,15 +34,15 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/python"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.0.0&name=Python"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python-v232?id=heroku/python&name=Python&version=0.0.0&stacks=heroku-18"
 
 [[buildpacks]]
   id = "heroku/php"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.0.0&name=PHP"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php-v230?id=heroku/php&name=PHP&version=0.0.0&stacks=heroku-18"
 
 [[buildpacks]]
   id = "heroku/go"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.0.0&name=Go"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go-v173?id=heroku/go&name=Go&version=0.0.0&stacks=heroku-18"
 
 [[buildpacks]]
   id = "heroku/nodejs"
