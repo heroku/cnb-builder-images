@@ -73,7 +73,7 @@ jobs:
           BUILDER: ${{ matrix.builder }}
         run: docker pull heroku/heroku:${BUILDER##*-}-cnb
       - name: Build getting started guide image
-        run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy never
+        run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
       - name: Start getting started guide image
         run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
       - name: Test getting started web server response
@@ -114,7 +114,7 @@ jobs:
         env:
           BUILDER: ${{ matrix.builder }}
         run: docker pull heroku/heroku:${BUILDER##*-}-cnb
-      - run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy never
+      - run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
       - run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
       - name: Test example function web server response
         run: |

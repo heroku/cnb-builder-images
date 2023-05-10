@@ -5,12 +5,12 @@
 This repository is responsible for building and publishing [Cloud Native Buildpacks](https://buildpacks.io)
 builders that enable Heroku-like builds with the [`pack`](https://github.com/buildpacks/pack) command.
 
-| Builder Image                                       | Base Image                                  | Status     |
-|-----------------------------------------------------|---------------------------------------------|------------|
-| [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | Deprecated |
-| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | Available  |
-| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | Suggested  |
-| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | Available  |
+| Builder Image                                       | Base Image                                  | Status      |
+|-----------------------------------------------------|---------------------------------------------|-------------|
+| [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | End-of-life |
+| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | Available   |
+| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | Recommended |
+| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | Available   |
 
 [`heroku/builder`][builder-tags] builder images feature Heroku's native Cloud Native Buildpacks. These buildpacks are optimized and make use of many CNB features. These builder images support Go, Java, Node.js, Python, Ruby, and Typescript codebases.
 
@@ -20,7 +20,7 @@ builders that enable Heroku-like builds with the [`pack`](https://github.com/bui
 
 ## Usage
 
-`pack build myapp --builder heroku/buildpacks:20`
+`pack build myapp --builder heroku/builder:22`
 
 ## Deprecated Images
 

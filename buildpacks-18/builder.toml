@@ -9,6 +9,10 @@ run-image = "heroku/heroku:18-cnb"
 version = "0.16.1"
 
 [[buildpacks]]
+  id = "heroku/heroku-18-stack-eol-warning"
+  uri = "./end-of-life-buildpack/"
+
+[[buildpacks]]
   id = "heroku/java"
   uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-buildpack@sha256:21990393c93927b16f76c303ae007ea7e95502d52b0317ca773d4cd51e7a5682"
 
@@ -54,6 +58,10 @@ version = "0.16.1"
 
 [[order]]
   [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
+  [[order.group]]
     id = "heroku/ruby"
     version = "0.0.0"
 
@@ -63,6 +71,10 @@ version = "0.16.1"
     optional = true
 
 [[order]]
+  [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
   [[order.group]]
     id = "heroku/python"
     version = "0.0.0"
@@ -74,6 +86,10 @@ version = "0.16.1"
 
 [[order]]
   [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
+  [[order.group]]
     id = "heroku/scala"
     version = "0.0.0"
 
@@ -83,6 +99,10 @@ version = "0.16.1"
     optional = true
 
 [[order]]
+  [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
   [[order.group]]
     id = "heroku/php"
     version = "0.0.0"
@@ -94,6 +114,10 @@ version = "0.16.1"
 
 [[order]]
   [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
+  [[order.group]]
     id = "heroku/go"
     version = "0.0.0"
 
@@ -104,20 +128,36 @@ version = "0.16.1"
 
 [[order]]
   [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
+  [[order.group]]
     id = "heroku/nodejs-function"
     version = "0.10.4"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
   [[order.group]]
     id = "heroku/java-function"
     version = "0.3.43"
 
 [[order]]
   [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
+  [[order.group]]
     id = "heroku/nodejs"
     version = "0.6.4"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
   [[order.group]]
     id = "heroku/java"
     version = "0.6.9"
@@ -127,6 +167,10 @@ version = "0.16.1"
 # To maintain backwards compatibilty, we have this order definition here that mirrors what was in heroku/java
 # previously. It can be removed when the heroku/java CNB supports Gradle again.
 [[order]]
+  [[order.group]]
+    id = "heroku/heroku-18-stack-eol-warning"
+    version = "1.0.0"
+
   [[order.group]]
     id = "heroku/jvm"
     version = "1.0.9"
