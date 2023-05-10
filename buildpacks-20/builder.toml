@@ -17,10 +17,6 @@ version = "0.16.1"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.0.0&name=Scala"
 
 [[buildpacks]]
-  id = "heroku/java-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:b4750feb3b738786cdbee31146ea9bfb2b63ab124dca2f1605c2ec79ab11e05c"
-
-[[buildpacks]]
   id = "heroku/gradle"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.0.0&name=Gradle"
 
@@ -47,11 +43,6 @@ version = "0.16.1"
 [[buildpacks]]
   id = "heroku/nodejs"
   uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:e124fd4dcd60460ab8588c1ce0fc07fb07b84b4100d6f03d34daa2ffea097ce8"
-
-[[buildpacks]]
-  id = "heroku/nodejs-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:467a2fdab78b22f05f6f0d6801ccad0a2cc1c963838df311e1a237aec2bfdc71"
-
 
 [[order]]
   [[order.group]]
@@ -105,16 +96,6 @@ version = "0.16.1"
 
 [[order]]
   [[order.group]]
-    id = "heroku/nodejs-function"
-    version = "0.10.4"
-
-[[order]]
-  [[order.group]]
-    id = "heroku/java-function"
-    version = "0.3.43"
-
-[[order]]
-  [[order.group]]
     id = "heroku/nodejs"
     version = "0.6.4"
 
@@ -125,7 +106,7 @@ version = "0.16.1"
 
 # heroku/java previously supported Gradle by mixing in the shimmed heroku/gradle buildpack. When we decided to make a
 # clean cut and not have shimmed buildpacks in the CNB repository, support for Gradle in heroku/java was dropped.
-# To maintain backwards compatibilty, we have this order definition here that mirrors what was in heroku/java
+# To maintain backwards compatibility, we have this order definition here that mirrors what was in heroku/java
 # previously. It can be removed when the heroku/java CNB supports Gradle again.
 [[order]]
   [[order.group]]
