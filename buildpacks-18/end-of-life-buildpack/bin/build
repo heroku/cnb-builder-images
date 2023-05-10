@@ -16,8 +16,8 @@ This builder image (heroku/buildpacks:18) is based upon the Heroku-18
 stack, which has been end-of-life since April 30th, 2023:
 https://devcenter.heroku.com/changelog-items/2583
 
-The underlying Ubuntu 18.04 OS is no longer receiving security updates,
-and so apps still using it could contain security vulnerabilities.
+The underlying Ubuntu 18.04 OS is no longer receiving security updates.
+Apps still using this OS could be vulnerable.
 
 Please switch to one of our newer 'heroku/builder:*' builder images:
 https://github.com/heroku/builder#heroku-builder-images
