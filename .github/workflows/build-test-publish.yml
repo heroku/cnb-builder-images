@@ -5,7 +5,7 @@ on:
   push:
     branches: ["main"]
   schedule:
-    - cron: '0 0 * * 1-5'
+    - cron: "0 0 * * 1-5"
   workflow_dispatch:
 
 permissions:
@@ -20,8 +20,10 @@ jobs:
       matrix:
         builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
     steps:
-      - uses: actions/checkout@v3
-      - uses: buildpacks/github-actions/setup-pack@v5.1.0
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Pack CLI
+        uses: buildpacks/github-actions/setup-pack@v5.1.0
       # We use a cache here rather than artifacts because it's 4x faster and we
       # don't need the .tar.zst outside of this workflow run anyway.
       - name: Setup builder cache
@@ -29,8 +31,10 @@ jobs:
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}
           path: ${{ matrix.builder }}.tar.zst
-      - run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
-      - run: docker save ${{ matrix.builder }} | zstd > ${{ matrix.builder }}.tar.zst
+      - name: Create builder image
+        run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
+      - name: Export Docker images from the Docker daemon
+        run: docker save ${{ matrix.builder }} | zstd > ${{ matrix.builder }}.tar.zst
 
   test-guides:
     runs-on: ubuntu-22.04
@@ -38,7 +42,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-18", "buildpacks-20", builder-22, "builder-classic-22"]
+        builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
         include:
           - builder: builder-classic-22
@@ -51,20 +55,22 @@ jobs:
           - builder: builder-22
             language: scala
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout getting started guide
+        uses: actions/checkout@v3
         with:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
       - name: Modify package.json (fix for Heroku-18 stack)
         if: matrix.language == 'node-js' && matrix.builder == 'buildpacks-18'
         run: sed -i 's/18.x || 16.x/16.x/g' package.json
-      - uses: buildpacks/github-actions/setup-pack@v5.1.0
+      - name: Install Pack CLI
+        uses: buildpacks/github-actions/setup-pack@v5.1.0
       - name: Setup builder cache
         uses: actions/cache@v3
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}
           path: ${{ matrix.builder }}.tar.zst
-      - name: Load builder image into docker daemon
+      - name: Load builder image into the Docker daemon
         run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - name: Add builder to trusted builders list
         run: pack config trusted-builders add ${{ matrix.builder }}
@@ -96,14 +102,16 @@ jobs:
         builder: ["builder-22"]
         example: ["java-function", "javascript-function", "python-function", "typescript-function"]
     steps:
-      - uses: actions/checkout@v3
-      - uses: buildpacks/github-actions/setup-pack@v5.1.0
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Pack CLI
+        uses: buildpacks/github-actions/setup-pack@v5.1.0
       - name: Setup builder cache
         uses: actions/cache@v3
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}
           path: ${{ matrix.builder }}.tar.zst
-      - name: Load builder image into docker daemon
+      - name: Load builder image into the Docker daemon
         run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
       - name: Add builder to trusted builders list
         run: pack config trusted-builders add ${{ matrix.builder }}
@@ -111,8 +119,10 @@ jobs:
         env:
           BUILDER: ${{ matrix.builder }}
         run: docker pull heroku/heroku:${BUILDER##*-}-cnb
-      - run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
-      - run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
+      - name: Build example function image
+        run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
+      - name: Start example function image
+        run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
       - name: Test example function web server response
         run: |
           if curl -sSf --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 -X POST -H 'x-health-check: true' http://localhost:8080 -o response.txt; then
@@ -152,8 +162,10 @@ jobs:
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}
           path: ${{ matrix.builder }}.tar.zst
-      - run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
-      - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
+      - name: Load builder image into the Docker daemon
+        run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
+      - name: Log into Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
       - name: Log into additional registry
         run: |
           export REGISTRY_TOKEN=$(curl -f -X POST ${{ secrets.SERVICE_TOKEN_ENDPOINT }} -d "{\"username\":\"${{ secrets.SERVICE_TOKEN_USER_NAME }}\", \"password\":\"${{ secrets.SERVICE_TOKEN_PASSWORD }}\"}" -s --retry 3 | jq -r ".raw_id_token")
