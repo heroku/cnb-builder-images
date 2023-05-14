@@ -24,17 +24,24 @@ jobs:
         uses: actions/checkout@v3
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.1.0
-      # We use a cache here rather than artifacts because it's 4x faster and we
-      # don't need the .tar.zst outside of this workflow run anyway.
-      - name: Setup builder cache
-        uses: actions/cache@v3
-        with:
-          key: ${{ github.run_id}}-${{ matrix.builder }}
-          path: ${{ matrix.builder }}.tar.zst
       - name: Create builder image
         run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
+      # We export the run image too (and not just the generated builder image), since it adds virtually
+      # no size to the archive (since the layers are mostly duplicates), and it ends up being quicker
+      # than docker pulling the run image in the jobs that perform the pack build.
+      # We manually compress the archive rather than relying upon actions/cache's compression, since
+      # it ends up being faster both in this job and also later when the images are consumed.
       - name: Export Docker images from the Docker daemon
-        run: docker save ${{ matrix.builder }} | zstd > ${{ matrix.builder }}.tar.zst
+        env:
+          BUILDER: ${{ matrix.builder }}
+        run: docker save ${{ matrix.builder }} heroku/heroku:${BUILDER##*-}-cnb | zstd -T0 --long=31 -o images.tar.zst
+      # We use a cache here rather than artifacts because it's 4x faster and we
+      # don't need the builder archive outside of this workflow run anyway.
+      - name: Save Docker images to the cache
+        uses: actions/cache/save@v3
+        with:
+          key: ${{ github.run_id}}-${{ matrix.builder }}
+          path: images.tar.zst
 
   test-guides:
     runs-on: ubuntu-22.04
@@ -65,21 +72,15 @@ jobs:
         run: sed -i 's/18.x || 16.x/16.x/g' package.json
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.1.0
-      - name: Setup builder cache
-        uses: actions/cache@v3
+      - name: Restore Docker images from the cache
+        uses: actions/cache/restore@v3
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}
-          path: ${{ matrix.builder }}.tar.zst
-      - name: Load builder image into the Docker daemon
-        run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
-      - name: Add builder to trusted builders list
-        run: pack config trusted-builders add ${{ matrix.builder }}
-      - name: Pull the stack image
-        env:
-          BUILDER: ${{ matrix.builder }}
-        run: docker pull heroku/heroku:${BUILDER##*-}-cnb
+          path: images.tar.zst
+      - name: Load Docker images into the Docker daemon
+        run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build getting started guide image
-        run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
+        run: pack build getting-started --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
       - name: Start getting started guide image
         run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
       - name: Test getting started web server response
@@ -106,21 +107,15 @@ jobs:
         uses: actions/checkout@v3
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.1.0
-      - name: Setup builder cache
-        uses: actions/cache@v3
+      - name: Restore Docker images from the cache
+        uses: actions/cache/restore@v3
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}
-          path: ${{ matrix.builder }}.tar.zst
-      - name: Load builder image into the Docker daemon
-        run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
-      - name: Add builder to trusted builders list
-        run: pack config trusted-builders add ${{ matrix.builder }}
-      - name: Pull the stack image
-        env:
-          BUILDER: ${{ matrix.builder }}
-        run: docker pull heroku/heroku:${BUILDER##*-}-cnb
+          path: images.tar.zst
+      - name: Load Docker images into the Docker daemon
+        run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build example function image
-        run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
+        run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
       - name: Start example function image
         run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
       - name: Test example function web server response
@@ -157,13 +152,13 @@ jobs:
             tag_public: heroku/builder:22
             tag_private: heroku-22:builder
     steps:
-      - name: Setup builder cache
-        uses: actions/cache@v3
+      - name: Restore Docker images from the cache
+        uses: actions/cache/restore@v3
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}
-          path: ${{ matrix.builder }}.tar.zst
-      - name: Load builder image into the Docker daemon
-        run: zstd -dc ${{ matrix.builder }}.tar.zst | docker load
+          path: images.tar.zst
+      - name: Load Docker images into the Docker daemon
+        run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Log into Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
       - name: Log into additional registry
