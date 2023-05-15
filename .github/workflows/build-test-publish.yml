@@ -52,8 +52,6 @@ jobs:
             language: gradle
           - builder: builder-22
             language: php
-          - builder: builder-22
-            language: scala
     steps:
       - name: Checkout getting started guide
         uses: actions/checkout@v3
