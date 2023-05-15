@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
+        builder: ["buildpacks-20", "builder-classic-22", "builder-22"]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -51,7 +51,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-18", "buildpacks-20", "builder-classic-22", "builder-22"]
+        builder: ["buildpacks-20", "builder-classic-22", "builder-22"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
         include:
           - builder: builder-classic-22
@@ -67,9 +67,6 @@ jobs:
         with:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
-      - name: Modify package.json (fix for Heroku-18 stack)
-        if: matrix.language == 'node-js' && matrix.builder == 'buildpacks-18'
-        run: sed -i 's/18.x || 16.x/16.x/g' package.json
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.1.0
         with:
@@ -82,7 +79,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build getting started guide image
-        run: pack build getting-started --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
+        run: pack build getting-started --builder ${{ matrix.builder }} --trust-builder --pull-policy never
       - name: Start getting started guide image
         run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
       - name: Test getting started web server response
@@ -119,7 +116,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build example function image
-        run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_INSECURE_HEROKU_18_BUILDER=1
+        run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --trust-builder --pull-policy never
       - name: Start example function image
         run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
       - name: Test example function web server response
@@ -143,9 +140,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - builder: buildpacks-18
-            tag_public: heroku/buildpacks:18
-            tag_private: heroku-18:builder
           - builder: buildpacks-20
             tag_public: heroku/buildpacks:20
             tag_alias: heroku/buildpacks:latest
