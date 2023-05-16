@@ -142,7 +142,6 @@ jobs:
         include:
           - builder: buildpacks-20
             tag_public: heroku/buildpacks:20
-            tag_alias: heroku/buildpacks:latest
             tag_private: heroku-20:builder
           - builder: builder-classic-22
             tag_public: heroku/builder-classic:22
@@ -168,7 +167,7 @@ jobs:
           if [[ -n "${{ matrix.tag_private }}" ]]; then
             export TAG_PRIVATE="${{ secrets.REGISTRY_HOST }}/s/${{ secrets.SERVICE_TOKEN_USER_NAME }}/${{ matrix.tag_private }}"
           fi
-          export TAGS=($TAG_PRIVATE ${{ matrix.tag_public }} ${{ matrix.tag_alias }})
+          export TAGS=($TAG_PRIVATE ${{ matrix.tag_public }})
           for tag in ${TAGS[@]}; do
             echo "Pushing $tag"
             docker tag ${{ matrix.builder }} $tag
