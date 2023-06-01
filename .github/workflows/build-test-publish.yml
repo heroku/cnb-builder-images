@@ -23,7 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5.1.0
+        uses: buildpacks/github-actions/setup-pack@v5.2.0
         with:
           pack-version: "0.29.0"
       - name: Create builder image
@@ -68,7 +68,7 @@ jobs:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5.1.0
+        uses: buildpacks/github-actions/setup-pack@v5.2.0
         with:
           pack-version: "0.29.0"
       - name: Restore Docker images from the cache
@@ -105,7 +105,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5.1.0
+        uses: buildpacks/github-actions/setup-pack@v5.2.0
         with:
           pack-version: "0.29.0"
       - name: Restore Docker images from the cache
