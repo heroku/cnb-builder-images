@@ -42,7 +42,7 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:22ec91eebee2271b99368844f193c4bb3c6084201062f89b3e45179b938c3241"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:370b3b537642fa35553298ea61119e85fd1ecd6153009611a2fc4d784b26fb92"
 
 [[order]]
   [[order.group]]
@@ -97,7 +97,7 @@ version = "0.16.1"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
-    version = "0.6.5"
+    version = "0.6.7"
 
 [[order]]
   [[order.group]]
