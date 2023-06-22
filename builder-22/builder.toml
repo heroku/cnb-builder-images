@@ -30,7 +30,7 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "docker://docker.io/heroku/buildpack-scala@sha256:1fc6beaf291dcf1972c621afe3a1b3a80d1bffe8fccb6b0a68bc7f24bf99456a"
+  uri = "docker.io/heroku/buildpack-scala@sha256:dd41aacd9ce11a11fdc3f0ba0bf4cd8a816fc56c634d30c2806998b5fce9534d"
 
 [[buildpacks]]
   id = "heroku/go"
@@ -97,7 +97,7 @@ version = "0.16.1"
 [[order]]
   [[order.group]]
     id = "heroku/scala"
-    version = "1.0.0"
+    version = "1.1.1"
 
 [[order]]
   [[order.group]]
