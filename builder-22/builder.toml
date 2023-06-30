@@ -41,6 +41,10 @@ version = "0.16.1"
   uri = "docker://docker.io/heroku/buildpack-ruby@sha256:7f48a442c056cd19ea48462e05faa2837ac3a13732c47616d20f11f8c847a8c4"
 
 [[buildpacks]]
+  id = "heroku/php"
+  uri = "docker://docker.io/heroku/buildpack-php@sha256:19e44139b850b3b9040f21d436ec693f0dff82e931bbff500e9876f4febacd0e"
+
+[[buildpacks]]
   id = "heroku/procfile"
   uri = "docker://docker.io/heroku/procfile-cnb:2.0.0"
 
@@ -103,6 +107,15 @@ version = "0.16.1"
   [[order.group]]
     id = "heroku/go"
     version = "0.1.5"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "2.0.0"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/php"
+    version = "0.1.1"
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.0"
