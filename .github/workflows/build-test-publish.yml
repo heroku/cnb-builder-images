@@ -72,8 +72,11 @@ jobs:
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v3
         with:
+          fail-on-cache-miss: true
           key: ${{ github.run_id}}-${{ matrix.builder }}
           path: images.tar.zst
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build getting started guide image
@@ -109,8 +112,11 @@ jobs:
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v3
         with:
+          fail-on-cache-miss: true
           key: ${{ github.run_id}}-${{ matrix.builder }}
           path: images.tar.zst
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build example function image
@@ -150,8 +156,11 @@ jobs:
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v3
         with:
+          fail-on-cache-miss: true
           key: ${{ github.run_id}}-${{ matrix.builder }}
           path: images.tar.zst
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Log into Docker Hub
