@@ -5,6 +5,8 @@
 This repository is responsible for building and publishing [Cloud Native Buildpacks](https://buildpacks.io)
 builders that enable Heroku-like builds with the [`pack`](https://github.com/buildpacks/pack) command.
 
+The builder images use Heroku's [stack images](https://github.com/heroku/stack-images) as their base.
+
 | Builder Image                                       | Base Image                                  | Status      |
 |-----------------------------------------------------|---------------------------------------------|-------------|
 | [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | End-of-life |
@@ -22,13 +24,7 @@ builders that enable Heroku-like builds with the [`pack`](https://github.com/bui
 
 `pack build myapp --builder heroku/builder:22`
 
-## Deprecated Images
-
-[`heroku/pack:{STACK_VERSION}`][pack-tags] and [`heroku/pack:{STACK_VERSION}-build`][pack-tags] have been deprecated. They have been replaced by [`heroku/heroku:{STACK_VERSION}-cnb`][heroku-tags] and [`heroku/heroku:{STACK_VERSION}-cnb-build`][heroku-tags], respectively, which are produced by [heroku/stack-images][stack-images].
-
 [builder-tags]: https://hub.docker.com/r/heroku/builder/tags
 [builder-classic-tags]: https://hub.docker.com/r/heroku/builder-classic/tags
 [buildpacks-tags]: https://hub.docker.com/r/heroku/buildpacks/tags
 [heroku-tags]: https://hub.docker.com/r/heroku/heroku/tags
-[pack-tags]: https://hub.docker.com/r/heroku/pack/tags
-[stack-images]: https://github.com/heroku/stack-images
