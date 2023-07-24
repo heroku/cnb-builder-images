@@ -14,11 +14,11 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:6dcd96c4c59cf71ebacc1bdb6b8cbbc8168530e8c86e591eaed6be3e4214953b"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:e5519335d777a818929aa2050b4a8d0b73e9d31f3593779732631b3cf4c08f34"
 
 [[buildpacks]]
   id = "heroku/nodejs-function"
-  uri = "docker://docker.io/heroku/buildpack-nodejs-function@sha256:637b8bfbf71bc842aaa930ac3ae8da0decff49d5ef542acdb7d05c2b144a5be1"
+  uri = "docker://docker.io/heroku/buildpack-nodejs-function@sha256:970b6202d65feeb8e1d090af242da2e9e1dd10c48b23664ec25aab10d3d7038a"
 
 [[buildpacks]]
   id = "heroku/java"
@@ -60,11 +60,11 @@ version = "0.16.1"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-engine"
-    version = "1.1.2"
+    version = "1.1.3"
     optional = true
   [[order.group]]
     id = "heroku/nodejs-yarn"
-    version = "1.1.2"
+    version = "1.1.3"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
@@ -81,12 +81,12 @@ version = "0.16.1"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-function"
-    version = "1.1.2"
+    version = "1.1.3"
 
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
-    version = "1.1.2"
+    version = "1.1.3"
 
 [[order]]
   [[order.group]]
