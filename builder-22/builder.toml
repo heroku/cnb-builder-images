@@ -38,7 +38,7 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/ruby"
-  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:7f48a442c056cd19ea48462e05faa2837ac3a13732c47616d20f11f8c847a8c4"
+  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:fd32f123fdfa3e94eeb4ce2ad82aad353f6a3b87ac70bfebfdd30cc41927a737"
 
 [[buildpacks]]
   id = "heroku/php"
@@ -72,7 +72,7 @@ version = "0.16.1"
     optional = true
   [[order.group]]
     id = "heroku/ruby"
-    version = "2.0.0"
+    version = "2.0.1"
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.0"
