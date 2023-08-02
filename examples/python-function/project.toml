@@ -1,9 +1,0 @@
-[_]
-schema-version = "0.2"
-
-[com.salesforce]
-schema-version = "0.1"
-id = "pythonfunctionscaffold"
-description = "A Salesforce Function"
-type = "function"
-salesforce-api-version = "56.0"
