@@ -22,15 +22,15 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "docker://docker.io/heroku/buildpack-java@sha256:a5a946975e79d73d0a0f801aa3b8cc4e3de69a092eb588aa69e8c7d2552bc581"
+  uri = "docker://docker.io/heroku/buildpack-java@sha256:7e4a2bc5f80e6892949117e3ae48ecac0b54760058999c48a5907a56268949fe"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "docker://docker.io/heroku/buildpack-java-function@sha256:bada76191f6092a536b734bb35019f4695841656d275dffce6f9e72df28cda26"
+  uri = "docker://docker.io/heroku/buildpack-java-function@sha256:5025f31347af8d3642701ab416c3f1c5278775538f2d8e3d82ed1e03ea3de533"
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "docker://docker.io/heroku/buildpack-scala@sha256:b39387744fd45eb9042e82cd0071c19e103fafb0409c1b77dc7563adb691c776"
+  uri = "docker://docker.io/heroku/buildpack-scala@sha256:5210d085d5b39e196fe7e0f8463fb06f96dc2e007ae985e11e92059a1e3b1183"
 
 [[buildpacks]]
   id = "heroku/go"
@@ -68,7 +68,7 @@ version = "0.16.1"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
-    version = "2.0.0"
+    version = "3.0.0"
     optional = true
   [[order.group]]
     id = "heroku/ruby"
@@ -91,17 +91,17 @@ version = "0.16.1"
 [[order]]
   [[order.group]]
     id = "heroku/java-function"
-    version = "2.0.0"
+    version = "3.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/java"
-    version = "2.0.0"
+    version = "3.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/scala"
-    version = "2.0.0"
+    version = "3.0.0"
 
 [[order]]
   [[order.group]]
