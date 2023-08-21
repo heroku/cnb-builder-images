@@ -6,7 +6,7 @@ build-image = "heroku/heroku:20-cnb-build"
 run-image = "heroku/heroku:20-cnb"
 
 [lifecycle]
-version = "0.16.1"
+version = "0.17.0"
 
 [[buildpacks]]
   id = "heroku/java"
