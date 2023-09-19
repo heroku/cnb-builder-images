@@ -10,7 +10,7 @@ version = "0.17.0"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "docker://docker.io/heroku/buildpack-java@sha256:7e4a2bc5f80e6892949117e3ae48ecac0b54760058999c48a5907a56268949fe"
+  uri = "docker://docker.io/heroku/buildpack-java@sha256:01ee978c56689f0ea53b35d07469a3f66a8511e1c44f13e147dea1351cbe80d5"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -102,22 +102,4 @@ version = "0.17.0"
 [[order]]
   [[order.group]]
     id = "heroku/java"
-    version = "3.0.0"
-
-# heroku/java previously supported Gradle by mixing in the shimmed heroku/gradle buildpack. When we decided to make a
-# clean cut and not have shimmed buildpacks in the CNB repository, support for Gradle in heroku/java was dropped.
-# To maintain backwards compatibility, we have this order definition here that mirrors what was in heroku/java
-# previously. It can be removed when the heroku/java CNB supports Gradle again.
-[[order]]
-  [[order.group]]
-    id = "heroku/jvm"
-    version = "3.0.0"
-
-  [[order.group]]
-    id = "heroku/gradle"
-    version = "0.0.0"
-
-  [[order.group]]
-    id = "heroku/procfile"
-    version = "2.0.1"
-    optional = true
+    version = "3.1.0"

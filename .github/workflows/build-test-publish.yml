@@ -54,9 +54,6 @@ jobs:
         include:
           - builder: builder-classic-22
             language: clojure
-        exclude:
-          - builder: builder-22
-            language: gradle
     steps:
       - name: Checkout getting started guide
         uses: actions/checkout@v3
