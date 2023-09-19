@@ -75,7 +75,9 @@ jobs:
       - name: Build getting started guide image
         run: pack build getting-started --builder ${{ matrix.builder }} --trust-builder --pull-policy never
       - name: Start getting started guide image
-        run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
+        # The `DYNO` env var is set to more accurately reflect the Heroku environment, since some of the getting
+        # started guides use the presence of `DYNO` to determine whether to enable production mode or not.
+        run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 --env DYNO=web.1 getting-started
       - name: Test getting started web server response
         run: |
           if curl -sSf --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 http://localhost:8080 -o response.txt; then
@@ -113,7 +115,7 @@ jobs:
       - name: Build example function image
         run: pack build example-function --path examples/functions/${{ matrix.language }} --builder ${{ matrix.builder }} --trust-builder --pull-policy never
       - name: Start example function image
-        run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
+        run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 --env DYNO=web.1 example-function
       - name: Test example function web server response
         run: |
           if curl -sSf --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 -X POST -H 'x-health-check: true' http://localhost:8080 -o response.txt; then
