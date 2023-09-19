@@ -14,11 +14,11 @@ The builder images use Heroku's [stack images](https://github.com/heroku/stack-i
 | [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | Recommended |
 | [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | Available   |
 
-[`heroku/builder`][builder-tags] builder images feature Heroku's native Cloud Native Buildpacks. These buildpacks are optimized and make use of many CNB features. These builder images support Go, Java, Node.js, PHP, Python, Ruby, and Typescript codebases.
+[`heroku/builder`][builder-tags] builder images feature Heroku's native Cloud Native Buildpacks. These buildpacks are optimized and make use of many CNB features. These builder images support Go, Java (Maven, Gradle), Node.js, PHP, Python, Ruby, Scala and Typescript codebases.
 
-[`heroku/builder-classic`][builder-classic-tags] builder images feature Heroku's classic platform buildpacks, shimmed for compatibility with the Cloud Native Buildpacks specification. These buildpacks don't take advantage of many CNB features and are less optimized, but offer a wider variety of languages and legacy language feature support.These builder images support Clojure, Go, Gradle, Java, Node.js, PHP, Python, Ruby, Scala, and Typescript codebases.
+[`heroku/builder-classic`][builder-classic-tags] builder images feature Heroku's classic platform buildpacks, shimmed for compatibility with the Cloud Native Buildpacks specification. These buildpacks don't take advantage of many CNB features and are less optimized, but offer a wider variety of languages and legacy language feature support. These builder images support Clojure, Go, Java (Maven, Gradle), Node.js, PHP, Python, Ruby, Scala, and Typescript codebases.
 
-[`heroku/buildpacks`][buildpacks-tags] builder images feature a mix of both native and shimmed Heroku Cloud Native Buildpacks. These images will not be supported in future stack versions (22 and beyond). These builder images support Go, Gradle, Java, Node.js, PHP, Python, Ruby, Scala, and Typescript codebases.
+[`heroku/buildpacks`][buildpacks-tags] builder images feature a mix of both native and shimmed Heroku Cloud Native Buildpacks. These images will not be supported in future stack versions (22 and beyond). These builder images support Go, Java (Maven, Gradle), Node.js, PHP, Python, Ruby, Scala, and Typescript codebases.
 
 ## Usage
 
