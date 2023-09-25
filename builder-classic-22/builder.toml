@@ -13,16 +13,16 @@ version = "0.17.0"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/clojure?version=0.0.0&name=Clojure"
 
 [[buildpacks]]
+  id = "heroku/go"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.0.0&name=Go"
+
+[[buildpacks]]
   id = "heroku/gradle"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.0.0&name=Gradle"
 
 [[buildpacks]]
   id = "heroku/java"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/java?version=0.0.0&name=Java"
-
-[[buildpacks]]
-  id = "heroku/go"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.0.0&name=Go"
 
 [[buildpacks]]
   id = "heroku/nodejs"

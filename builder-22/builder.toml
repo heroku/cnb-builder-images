@@ -9,16 +9,8 @@ run-image = "heroku/heroku:22-cnb"
 version = "0.17.0"
 
 [[buildpacks]]
-  id = "heroku/python"
-  uri = "docker://docker.io/heroku/buildpack-python@sha256:537221283e7040997e006c90782ba93ed01edf0de705d013b474aa5ee82979fc"
-
-[[buildpacks]]
-  id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:d318628ddd8945ee1da9d7a43766546abafe432a8ecd75c26fef263ae7a0ff60"
-
-[[buildpacks]]
-  id = "heroku/nodejs-function"
-  uri = "docker://docker.io/heroku/buildpack-nodejs-function@sha256:b35269ffb6b0c9c6d1dce5fac447ac5a1b38e11d4877752f44f3a8ac998b9e30"
+  id = "heroku/go"
+  uri = "docker://docker.io/heroku/buildpack-go@sha256:922fe2337450d9570b4eae2aaefc805068c73053d7d7c4c4ae0da1c06bddb73e"
 
 [[buildpacks]]
   id = "heroku/java"
@@ -29,16 +21,12 @@ version = "0.17.0"
   uri = "docker://docker.io/heroku/buildpack-java-function@sha256:4cbe8d4984f70fc63e6b0fcea1b904d4246d90bbe0b9cc10ba8b73c98eda3b00"
 
 [[buildpacks]]
-  id = "heroku/scala"
-  uri = "docker://docker.io/heroku/buildpack-scala@sha256:14169e0dd1531b00f3d423787618425f1739af02ba21a9a6d88c4bc7024574cb"
+  id = "heroku/nodejs"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:d318628ddd8945ee1da9d7a43766546abafe432a8ecd75c26fef263ae7a0ff60"
 
 [[buildpacks]]
-  id = "heroku/go"
-  uri = "docker://docker.io/heroku/buildpack-go@sha256:922fe2337450d9570b4eae2aaefc805068c73053d7d7c4c4ae0da1c06bddb73e"
-
-[[buildpacks]]
-  id = "heroku/ruby"
-  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:fd32f123fdfa3e94eeb4ce2ad82aad353f6a3b87ac70bfebfdd30cc41927a737"
+  id = "heroku/nodejs-function"
+  uri = "docker://docker.io/heroku/buildpack-nodejs-function@sha256:b35269ffb6b0c9c6d1dce5fac447ac5a1b38e11d4877752f44f3a8ac998b9e30"
 
 [[buildpacks]]
   id = "heroku/php"
@@ -47,6 +35,18 @@ version = "0.17.0"
 [[buildpacks]]
   id = "heroku/procfile"
   uri = "docker://docker.io/heroku/procfile-cnb@sha256:ea7219d4bb50196b4f292c9aae397b17255c59a243d7408535d2a03a5cd2b040"
+
+[[buildpacks]]
+  id = "heroku/python"
+  uri = "docker://docker.io/heroku/buildpack-python@sha256:537221283e7040997e006c90782ba93ed01edf0de705d013b474aa5ee82979fc"
+
+[[buildpacks]]
+  id = "heroku/ruby"
+  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:fd32f123fdfa3e94eeb4ce2ad82aad353f6a3b87ac70bfebfdd30cc41927a737"
+
+[[buildpacks]]
+  id = "heroku/scala"
+  uri = "docker://docker.io/heroku/buildpack-scala@sha256:14169e0dd1531b00f3d423787618425f1739af02ba21a9a6d88c4bc7024574cb"
 
 [[order]]
   [[order.group]]
