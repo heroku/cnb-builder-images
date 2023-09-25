@@ -11,6 +11,7 @@ The builder images use Heroku's [stack images](https://github.com/heroku/stack-i
 |-----------------------------------------------------|---------------------------------------------|-------------|
 | [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | End-of-life |
 | [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | Available   |
+| [`heroku/builder:20`][builder-tags]                 | [`heroku/heroku:20-cnb-build`][heroku-tags] | Available   |
 | [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | Recommended |
 | [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | Available   |
 

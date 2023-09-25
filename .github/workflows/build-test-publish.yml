@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-20", "builder-classic-22", "builder-22", "salesforce-functions"]
+        builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22", "salesforce-functions"]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -58,7 +58,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-20", "builder-classic-22", "builder-22"]
+        builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
         include:
           - builder: builder-classic-22
@@ -151,6 +151,8 @@ jobs:
             tag_private: heroku-20:builder
           - builder: builder-classic-22
             tag_public: heroku/builder-classic:22
+          - builder: builder-20
+            tag_public: heroku/builder:20
           - builder: builder-22
             tag_public: heroku/builder:22
             tag_private: heroku-22:builder
