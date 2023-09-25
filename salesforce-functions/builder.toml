@@ -1,0 +1,27 @@
+description = "Internal builder image for Salesforce Functions"
+
+[stack]
+id = "heroku-22"
+build-image = "heroku/heroku:22-cnb-build"
+run-image = "heroku/heroku:22-cnb"
+
+[lifecycle]
+version = "0.17.1"
+
+[[buildpacks]]
+  id = "heroku/java-function"
+  uri = "docker://docker.io/heroku/buildpack-java-function@sha256:4cbe8d4984f70fc63e6b0fcea1b904d4246d90bbe0b9cc10ba8b73c98eda3b00"
+
+[[buildpacks]]
+  id = "heroku/nodejs-function"
+  uri = "docker://docker.io/heroku/buildpack-nodejs-function@sha256:69d61df4e1805055fcf2911e75f5fed59b02292f2bda7c78b6f891e8d8cd00f3"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs-function"
+    version = "1.1.6"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/java-function"
+    version = "3.2.0"
