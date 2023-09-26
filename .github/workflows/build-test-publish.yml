@@ -11,6 +11,13 @@ on:
 permissions:
   contents: read
 
+defaults:
+  run:
+    # Setting an explicit bash shell ensures GitHub Actions enables pipefail mode too, rather
+    # than only error on exit. This is important for UX since this workflow uses pipes. See:
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsshell
+    shell: bash
+
 jobs:
 
   create:
