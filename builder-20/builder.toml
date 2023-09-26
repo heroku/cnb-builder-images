@@ -1,0 +1,104 @@
+description = "Base builder for Heroku-20 stack, based on ubuntu:20.04 base image"
+
+[stack]
+id = "heroku-20"
+build-image = "heroku/heroku:20-cnb-build"
+run-image = "heroku/heroku:20-cnb"
+
+[lifecycle]
+version = "0.17.1"
+
+[[buildpacks]]
+  id = "heroku/go"
+  uri = "docker://docker.io/heroku/buildpack-go@sha256:922fe2337450d9570b4eae2aaefc805068c73053d7d7c4c4ae0da1c06bddb73e"
+
+[[buildpacks]]
+  id = "heroku/java"
+  uri = "docker://docker.io/heroku/buildpack-java@sha256:3b69171e416c8062b3caefc97c206cd006a197773e380d09cb7f704a10147dee"
+
+[[buildpacks]]
+  id = "heroku/nodejs"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:5000a0f8ca2f440bedc24dd1a75dd20c60ffb8ff1708b7490d67aa290f280606"
+
+[[buildpacks]]
+  id = "heroku/php"
+  uri = "docker://docker.io/heroku/buildpack-php@sha256:19e44139b850b3b9040f21d436ec693f0dff82e931bbff500e9876f4febacd0e"
+
+[[buildpacks]]
+  id = "heroku/procfile"
+  uri = "docker://docker.io/heroku/procfile-cnb@sha256:ea7219d4bb50196b4f292c9aae397b17255c59a243d7408535d2a03a5cd2b040"
+
+[[buildpacks]]
+  id = "heroku/python"
+  uri = "docker://docker.io/heroku/buildpack-python@sha256:537221283e7040997e006c90782ba93ed01edf0de705d013b474aa5ee82979fc"
+
+[[buildpacks]]
+  id = "heroku/ruby"
+  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:fd32f123fdfa3e94eeb4ce2ad82aad353f6a3b87ac70bfebfdd30cc41927a737"
+
+[[buildpacks]]
+  id = "heroku/scala"
+  uri = "docker://docker.io/heroku/buildpack-scala@sha256:14169e0dd1531b00f3d423787618425f1739af02ba21a9a6d88c4bc7024574cb"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/python"
+    version = "0.7.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "2.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs-engine"
+    version = "1.1.6"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs-yarn"
+    version = "1.1.6"
+    optional = true
+  [[order.group]]
+    id = "heroku/jvm"
+    version = "3.2.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/ruby"
+    version = "2.0.1"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "2.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "1.1.6"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/java"
+    version = "3.2.0"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/scala"
+    version = "3.2.0"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/go"
+    version = "0.1.9"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "2.0.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/php"
+    version = "0.1.1"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "2.0.1"
+    optional = true
