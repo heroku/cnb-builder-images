@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-20", "builder-classic-22", "builder-22"]
+        builder: ["buildpacks-20", "builder-classic-22", "builder-22", "salesforce-functions"]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -39,9 +39,11 @@ jobs:
       # We manually compress the archive rather than relying upon actions/cache's compression, since
       # it ends up being faster both in this job and also later when the images are consumed.
       - name: Export Docker images from the Docker daemon
-        env:
-          BUILDER: ${{ matrix.builder }}
-        run: docker save ${{ matrix.builder }} heroku/heroku:${BUILDER##*-}-cnb | zstd -T0 --long=31 -o images.tar.zst
+        # Using sed rather than yq until this yq bug is fixed:
+        # https://github.com/mikefarah/yq/issues/1758
+        run: |
+          RUN_IMAGE_TAG=$(sed --quiet --regexp-extended --expression 's/run-image\s*=\s*"(.+)"/\1/p' ${{ matrix.builder }}/builder.toml)
+          docker save ${{ matrix.builder }} ${RUN_IMAGE_TAG} | zstd -T0 --long=31 -o images.tar.zst
       # We use a cache here rather than artifacts because it's 4x faster and we
       # don't need the builder archive outside of this workflow run anyway.
       - name: Save Docker images to the cache
@@ -102,7 +104,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["builder-22"]
+        builder: ["builder-22", "salesforce-functions"]
         language: ["java", "javascript", "typescript"]
     steps:
       - name: Checkout
@@ -152,6 +154,8 @@ jobs:
           - builder: builder-22
             tag_public: heroku/builder:22
             tag_private: heroku-22:builder
+          - builder: salesforce-functions
+            tag_private: heroku-22:builder-functions
     steps:
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v3
