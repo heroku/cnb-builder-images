@@ -1,6 +1,6 @@
-# Heroku Builder Images
+# Heroku CNB Builder Images
 
-[![CI](https://github.com/heroku/builder/actions/workflows/build-test-publish.yml/badge.svg)](https://github.com/heroku/builder/actions/workflows/build-test-publish.yml)
+[![CI](https://github.com/heroku/cnb-builder-images/actions/workflows/build-test-publish.yml/badge.svg)](https://github.com/heroku/cnb-builder-images/actions/workflows/build-test-publish.yml)
 
 This repository is responsible for building and publishing [Cloud Native Buildpacks](https://buildpacks.io)
 builders that enable Heroku-like builds with the [`pack`](https://github.com/buildpacks/pack) command.
