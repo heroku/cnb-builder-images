@@ -104,7 +104,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["builder-22", "salesforce-functions"]
+        builder: ["salesforce-functions"]
         language: ["java", "javascript", "typescript"]
     steps:
       - name: Checkout
@@ -122,7 +122,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build example function image
-        run: pack build example-function --path examples/functions/${{ matrix.language }} --builder ${{ matrix.builder }} --trust-builder --pull-policy never
+        run: pack build example-function --path salesforce-functions/examples/${{ matrix.language }} --builder ${{ matrix.builder }} --trust-builder --pull-policy never
       - name: Start example function image
         run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 --env DYNO=web.1 example-function
       - name: Test example function web server response
