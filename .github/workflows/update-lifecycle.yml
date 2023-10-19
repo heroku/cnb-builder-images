@@ -32,14 +32,16 @@ jobs:
       - name: Determine latest lifecycle version
         id: latest-version
         run: echo "version=$(gh release view --repo buildpacks/lifecycle --json tagName --jq '.tagName | sub("v"; "")')" >> "${GITHUB_OUTPUT}"
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.app_token }}
 
       - name: Update builder manifests with latest lifecycle version
         # This only updates manifests that were on the same version as builder-22, to ensure
         # that any legacy builder images pinned to older lifecycle versions are not updated too.
         run: sed --in-place --expression 's/^version = "${{ steps.existing-version.outputs.version }}"$/version = "${{ steps.latest-version.outputs.version }}"/' */builder.toml
 
-      # This step will skip creating a PR if there are no changes to commit.
-      - name: Create pull request
+      # Note: This step will skip creating a PR if there are no changes to commit.
+      - name: Create or update pull request
         id: pr
         uses: peter-evans/create-pull-request@v5.0.2
         with:
