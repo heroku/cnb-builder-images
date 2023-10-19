@@ -21,6 +21,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          # We always want the version bump and resultant PR to target main, not the branch of the workflow_dispatch.
+          ref: main
           token: ${{ steps.generate-token.outputs.app_token }}
 
       - name: Record existing lifecycle version
