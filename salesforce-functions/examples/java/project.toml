@@ -3,7 +3,7 @@ schema-version = "0.2"
 
 [com.salesforce]
 schema-version = "0.1"
-id = "javafunctionscaffold"
-description = "A Salesforce Function"
+id = "examplejavafunction"
+description = "An example Java Salesforce Function"
 type = "function"
 salesforce-api-version = "54.0"
