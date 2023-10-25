@@ -83,11 +83,19 @@ version = "0.17.2"
   [[order.group]]
     id = "heroku/java"
     version = "4.0.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "2.0.2"
+    optional = true
 
 [[order]]
   [[order.group]]
     id = "heroku/scala"
     version = "4.0.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "2.0.2"
+    optional = true
 
 [[order]]
   [[order.group]]
