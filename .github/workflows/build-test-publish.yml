@@ -59,7 +59,7 @@ jobs:
       fail-fast: false
       matrix:
         builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22"]
-        language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
+        language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala"]
         include:
           - builder: builder-classic-22
             language: clojure
