@@ -139,9 +139,7 @@ jobs:
   publish:
     runs-on: ubuntu-22.04
     if: success() && github.ref == 'refs/heads/main'
-    needs:
-      - test-guides
-      - test-functions
+    needs: ["test-guides", "test-functions"]
     strategy:
       fail-fast: false
       matrix:
@@ -171,20 +169,28 @@ jobs:
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Log into Docker Hub
         if: matrix.tag_public != ''
-        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
+        run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
       - name: Log into internal registry
         if: matrix.tag_private != ''
         run: |
-          export REGISTRY_TOKEN=$(curl -f -X POST ${{ secrets.SERVICE_TOKEN_ENDPOINT }} -d "{\"username\":\"${{ secrets.SERVICE_TOKEN_USER_NAME }}\", \"password\":\"${{ secrets.SERVICE_TOKEN_PASSWORD }}\"}" -s --retry 3 | jq -r ".raw_id_token")
-          echo "$REGISTRY_TOKEN" | docker login ${{ secrets.REGISTRY_HOST }} -u "${{ secrets.REGISTRY_USER }}" --password-stdin
-      - name: Tag builder and push to registries
+          REGISTRY_TOKEN=$(
+            curl -sSf --retry 3 --retry-delay 1 --retry-all-errors --connect-timeout 3 \
+              -X POST -d '{"username":"${{ secrets.SERVICE_TOKEN_USER_NAME }}", "password":"${{ secrets.SERVICE_TOKEN_PASSWORD }}"}' \
+              '${{ secrets.SERVICE_TOKEN_ENDPOINT }}' \
+              | jq --exit-status -r '.raw_id_token'
+          )
+          echo "${REGISTRY_TOKEN}" | docker login '${{ secrets.REGISTRY_HOST }}' -u '${{ secrets.REGISTRY_USER }}' --password-stdin
+      - name: Tag builder and push to Docker Hub
+        if: matrix.tag_public != ''
         run: |
-          if [[ -n "${{ matrix.tag_private }}" ]]; then
-            export TAG_PRIVATE="${{ secrets.REGISTRY_HOST }}/s/${{ secrets.SERVICE_TOKEN_USER_NAME }}/${{ matrix.tag_private }}"
-          fi
-          export TAGS=($TAG_PRIVATE ${{ matrix.tag_public }})
-          for tag in ${TAGS[@]}; do
-            echo "Pushing $tag"
-            docker tag ${{ matrix.builder }} $tag
-            docker push $tag
-          done
+          PUBLIC_IMAGE_URI='${{ matrix.tag_public }}'
+          set -x
+          docker tag '${{ matrix.builder }}' "${PUBLIC_IMAGE_URI}"
+          docker push "${PUBLIC_IMAGE_URI}"
+      - name: Tag builder and push to internal registry
+        if: matrix.tag_private != ''
+        run: |
+          PRIVATE_IMAGE_URI='${{ secrets.REGISTRY_HOST }}/s/${{ secrets.SERVICE_TOKEN_USER_NAME }}/${{ matrix.tag_private }}'
+          set -x
+          docker tag '${{ matrix.builder }}' "${PRIVATE_IMAGE_URI}"
+          docker push "${PRIVATE_IMAGE_URI}"
