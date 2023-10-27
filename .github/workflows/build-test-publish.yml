@@ -146,14 +146,12 @@ jobs:
         include:
           - builder: buildpacks-20
             tag_public: heroku/buildpacks:20
-            tag_private: heroku-20:builder
           - builder: builder-classic-22
             tag_public: heroku/builder-classic:22
           - builder: builder-20
             tag_public: heroku/builder:20
           - builder: builder-22
             tag_public: heroku/builder:22
-            tag_private: heroku-22:builder
           - builder: salesforce-functions
             tag_private: heroku-22:builder-functions
     steps:
