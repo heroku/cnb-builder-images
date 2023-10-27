@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+function echo_stderr() {
+  local ansi_red="\033[1;31m"
+  local ansi_reset="\033[0m"
+  echo -e "\n${ansi_red}${1}${ansi_reset}\n" >&2
+}
+
+read -r -d '' EOL_MESSAGE <<'EOF' || true
+#######################################################################
+
+WARNING: This builder image (heroku/builder-classic:22) is deprecated,
+since it uses legacy shimmed classic Heroku buildpacks, rather than
+Heroku's next-generation Cloud Native Buildpacks.
+
+As such, this image is no longer supported and will soon stop receiving
+security updates.
+
+Please switch to one of our newer 'heroku/builder:*' builder images,
+such as 'heroku/builder:22':
+https://github.com/heroku/cnb-builder-images#heroku-cnb-builder-images
+
+If you are using the Pack CLI, you will need to adjust your '--builder'
+CLI argument, or else change the default builder configuration:
+https://buildpacks.io/docs/tools/pack/cli/pack_config_default-builder/
+
+If you are using a third-party platform to deploy your app, check their
+documentation for how to adjust the builder image used for your build.
+
+#######################################################################
+EOF
+
+echo_stderr "${EOL_MESSAGE}"
+exit 0
