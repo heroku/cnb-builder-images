@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-function echo_stderr() {
+function display_error() {
   local ansi_red="\033[1;31m"
   local ansi_reset="\033[0m"
   echo -e "\n${ansi_red}${1}${ansi_reset}\n" >&2
@@ -32,5 +32,5 @@ documentation for how to adjust the builder image used for your build.
 #######################################################################
 EOF
 
-echo_stderr "${EOL_MESSAGE}"
+display_error "${EOL_MESSAGE}"
 exit 0
