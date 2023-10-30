@@ -9,6 +9,10 @@ run-image = "heroku/heroku:22-cnb"
 version = "0.17.2"
 
 [[buildpacks]]
+  id = "heroku/builder-eol-warning"
+  uri = "./end-of-life-buildpack/"
+
+[[buildpacks]]
   id = "heroku/clojure"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/clojure?version=0.0.0&name=Heroku+Clojure+(Shimmed)"
 
@@ -52,88 +56,106 @@ version = "0.17.2"
   [[order.group]]
     id = "heroku/ruby"
     version = "0.0.0"
-
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/clojure"
     version = "0.0.0"
-
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/python"
     version = "0.0.0"
-
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/java"
     version = "0.0.0"
-
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/gradle"
     version = "0.0.0"
-
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/scala"
     version = "0.0.0"
-
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/php"
     version = "0.0.0"
-
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/go"
     version = "0.0.0"
-
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
     version = "0.0.0"
-
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"

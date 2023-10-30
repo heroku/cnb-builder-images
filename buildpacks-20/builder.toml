@@ -9,6 +9,10 @@ run-image = "heroku/heroku:20-cnb"
 version = "0.17.2"
 
 [[buildpacks]]
+  id = "heroku/builder-eol-warning"
+  uri = "./end-of-life-buildpack/"
+
+[[buildpacks]]
   id = "heroku/go"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.0.0&name=Heroku+Go+(Shimmed)"
 
@@ -52,6 +56,9 @@ version = "0.17.2"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
@@ -61,6 +68,9 @@ version = "0.17.2"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
@@ -70,6 +80,9 @@ version = "0.17.2"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
@@ -79,6 +92,9 @@ version = "0.17.2"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
@@ -88,6 +104,9 @@ version = "0.17.2"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
@@ -97,6 +116,9 @@ version = "0.17.2"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
 
 [[order]]
   [[order.group]]
@@ -106,3 +128,6 @@ version = "0.17.2"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "1.0.0"
