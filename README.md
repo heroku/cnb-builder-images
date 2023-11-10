@@ -2,10 +2,10 @@
 
 [![CI](https://github.com/heroku/cnb-builder-images/actions/workflows/build-test-publish.yml/badge.svg)](https://github.com/heroku/cnb-builder-images/actions/workflows/build-test-publish.yml)
 
-This repository is responsible for building and publishing [Cloud Native Buildpacks](https://buildpacks.io)
+This repository is responsible for building and publishing [Cloud Native Buildpacks (CNB)](https://buildpacks.io)
 builders that enable Heroku-like builds with the [`pack`](https://github.com/buildpacks/pack) command.
 
-The builder images use Heroku's [stack images](https://github.com/heroku/stack-images) as their base.
+The builder images use Heroku's [stack images](https://github.com/heroku/stack-images) as their base. To better understand the relationship between these images and the [CNB concepts](https://buildpacks.io/docs/concepts/#what-is-a-builder), see the [Image Hierarchy](assets/Heroku%2022%20Stack%20Image%20Hierarchy.png) using the Heroku 22 family as an example.
 
 | Builder Image                                       | Base Image                                  | Status      |
 |-----------------------------------------------------|---------------------------------------------|-------------|
