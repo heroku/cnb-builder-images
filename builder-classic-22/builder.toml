@@ -6,7 +6,7 @@ build-image = "heroku/heroku:22-cnb-build"
 run-image = "heroku/heroku:22-cnb"
 
 [lifecycle]
-version = "0.17.2"
+version = "0.18.1"
 
 [[buildpacks]]
   id = "heroku/builder-eol-warning"
