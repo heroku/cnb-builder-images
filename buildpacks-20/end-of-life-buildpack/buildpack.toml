@@ -3,6 +3,11 @@ api = "0.9"
 [buildpack]
   id = "heroku/builder-eol-warning"
   version = "1.0.0"
+  name = "Builder End-of-Life Warning"
+  homepage = "https://github.com/heroku/cnb-builder-images"
+
+[[buildpack.licenses]]
+  type = "BSD-3-Clause"
 
 [[stacks]]
   id = "*"
