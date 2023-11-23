@@ -2,28 +2,71 @@
 
 [![CI](https://github.com/heroku/cnb-builder-images/actions/workflows/build-test-publish.yml/badge.svg)](https://github.com/heroku/cnb-builder-images/actions/workflows/build-test-publish.yml)
 
-This repository is responsible for building and publishing [Cloud Native Buildpacks](https://buildpacks.io)
-builders that enable Heroku-like builds with the [`pack`](https://github.com/buildpacks/pack) command.
+> [!IMPORTANT]
+> These images are experimental and still in active development: [heroku/roadmap#20](https://github.com/heroku/roadmap/issues/20)
 
-The builder images use Heroku's [stack images](https://github.com/heroku/stack-images) as their base.
+This repository is responsible for building and publishing Heroku's [Cloud Native Buildpacks](https://buildpacks.io)
+(CNB) builder images.
 
-| Builder Image                                       | Base Image                                  | Status      |
-|-----------------------------------------------------|---------------------------------------------|-------------|
-| [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | End-of-life |
-| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | Deprecated  |
-| [`heroku/builder:20`][builder-tags]                 | [`heroku/heroku:20-cnb-build`][heroku-tags] | Available   |
-| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | Recommended |
-| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | Deprecated  |
+A builder image is a packaged set of buildpacks, base images and a [`lifecycle`](https://github.com/buildpacks/lifecycle)
+binary that orchestrates the build. These builder images use Heroku's [stack images](https://github.com/heroku/stack-images)
+as their base.
 
-[`heroku/builder`][builder-tags] builder images feature Heroku's native Cloud Native Buildpacks. These buildpacks are optimized and make use of many CNB features. These builder images support Go, Java (Maven, Gradle), Node.js, PHP, Python, Ruby, Scala and Typescript codebases.
+For more information, see: [What is a builder?](https://buildpacks.io/docs/concepts/#what-is-a-builder)
 
-[`heroku/builder-classic`][builder-classic-tags] builder images feature Heroku's classic platform buildpacks, shimmed for compatibility with the Cloud Native Buildpacks specification. These buildpacks don't take advantage of many CNB features and are less optimized, but offer a wider variety of languages and legacy language feature support. These builder images support Clojure, Go, Java (Maven, Gradle), Node.js, PHP, Python, Ruby, Scala, and Typescript codebases.
+## Available images
 
-[`heroku/buildpacks`][buildpacks-tags] builder images feature a mix of both native and shimmed Heroku Cloud Native Buildpacks. These images will not be supported in future stack versions (22 and beyond). These builder images support Go, Java (Maven, Gradle), Node.js, PHP, Python, Ruby, Scala, and Typescript codebases.
+> [!WARNING]
+> The `heroku/buildpacks:*` and `heroku/builder-classic:*` builder image variants are deprecated,
+> since they use classic Heroku buildpacks shimmed for compatibility with the CNB specification,
+> rather than Heroku's next-generation Cloud Native Buildpacks.
+
+| Builder Image                                       | Build-time Base Image                       | Run-time Base Image                   | Lifecycle Version | Buildpack Types  | Status      |
+|-----------------------------------------------------|---------------------------------------------|---------------------------------------|-------------------|------------------|-------------|
+| [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | [`heroku/heroku:18-cnb`][heroku-tags] | 0.16.1            | Shimmed + Native | End-of-life |
+| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.17.2            | Shimmed + Native | Deprecated  |
+| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.17.2            | Shimmed          | Deprecated  |
+| [`heroku/builder:20`][builder-tags]                 | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.18.2            | Native           | Available   |
+| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.18.2            | Native           | Recommended |
+
+The builder images above include buildpack support for the following languages: Go, Java, Node.js, PHP, Python, Ruby & Scala. The `heroku/builder-classic:22` builder image variant additionally supports Clojure.
+
+Check the [lifecycle API version support matrix](https://github.com/buildpacks/lifecycle#supported-apis) to determine
+which Platform and Buildpack API versions are compatible with the `lifecycle` version included in each builder.
 
 ## Usage
 
-`pack build myapp --builder heroku/builder:22`
+To build an app using these builder images locally:
+
+1. Install Docker: https://docs.docker.com/get-docker/
+2. Install the Pack CLI: https://buildpacks.io/docs/tools/pack/
+3. In your console, navigate to the directory containing your app and then run:
+   ```term
+   pack build --builder heroku/builder:22 my-output-image-name
+   ```
+
+To avoid having to specify the `--builder` each time, you can set a
+[default builder](https://buildpacks.io/docs/tools/pack/cli/pack_config_default-builder/). For example:
+
+```term
+pack config default-builder heroku/builder:22
+```
+
+## Reporting issues
+
+For language-specific bugs or feature requests, file an issue against the appropriate buildpack repository:
+
+- https://github.com/heroku/buildpacks-go
+- https://github.com/heroku/buildpacks-jvm
+- https://github.com/heroku/buildpacks-nodejs
+- https://github.com/heroku/buildpacks-php
+- https://github.com/heroku/buildpacks-python
+- https://github.com/heroku/buildpacks-ruby
+
+For base-image related bugs or feature requests (for example requests for additional system libraries), use:
+https://github.com/heroku/stack-images
+
+For any other bug or feature request, file an issue in this repository.
 
 [builder-tags]: https://hub.docker.com/r/heroku/builder/tags
 [builder-classic-tags]: https://hub.docker.com/r/heroku/builder-classic/tags
