@@ -1,4 +1,4 @@
-description = "Base builder for Heroku-20 stack, based on ubuntu:20.04 base image"
+description = "[DEPRECATED] Heroku-20 (Ubuntu 20.04) base image with a mixture of shimmed classic Heroku buildpacks and native CNBs. Use 'heroku/builder' instead."
 
 [stack]
 id = "heroku-20"

@@ -1,4 +1,4 @@
-description = "Internal builder image for Salesforce Functions"
+description = "Internal builder image for Salesforce Functions."
 
 [stack]
 id = "heroku-22"

@@ -1,4 +1,4 @@
-description = "Classic (shimmed) buildpack builder for Heroku-22 stack, based on ubuntu:22.04 base image"
+description = "[DEPRECATED] Heroku-22 (Ubuntu 22.04) base image with shimmed classic Heroku buildpacks. Use 'heroku/builder' instead."
 
 [stack]
 id = "heroku-22"
