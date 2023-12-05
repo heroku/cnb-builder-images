@@ -14,7 +14,7 @@ version = "0.18.2"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "docker://docker.io/heroku/buildpack-java@sha256:c89ce8363fe6fa36b2f3bcc83f8d3458fba1e09210b4c011538cafcca8b4b418"
+  uri = "docker://docker.io/heroku/buildpack-java@sha256:7215ec11a198f04da57355043ef9e61a5af699fb96c8a320e22df1832ba275b4"
 
 [[buildpacks]]
   id = "heroku/nodejs"
@@ -38,7 +38,7 @@ version = "0.18.2"
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "docker://docker.io/heroku/buildpack-scala@sha256:36024b46ba682af4cf29d0b1cdc72b0889120426d318a7bc5a432cff62ce02cf"
+  uri = "docker://docker.io/heroku/buildpack-scala@sha256:f5c6608a0f81058872eabe4d4829e80650d7388a59b6c3bf866d38ab7111eabe"
 
 [[order]]
   [[order.group]]
@@ -60,7 +60,7 @@ version = "0.18.2"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
-    version = "4.0.1"
+    version = "4.0.2"
     optional = true
   [[order.group]]
     id = "heroku/ruby"
@@ -82,7 +82,7 @@ version = "0.18.2"
 [[order]]
   [[order.group]]
     id = "heroku/java"
-    version = "4.0.1"
+    version = "4.0.2"
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
@@ -91,7 +91,7 @@ version = "0.18.2"
 [[order]]
   [[order.group]]
     id = "heroku/scala"
-    version = "4.0.1"
+    version = "4.0.2"
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"

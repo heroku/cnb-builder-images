@@ -25,7 +25,7 @@ version = "0.17.2"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "docker://docker.io/heroku/buildpack-java@sha256:c89ce8363fe6fa36b2f3bcc83f8d3458fba1e09210b4c011538cafcca8b4b418"
+  uri = "docker://docker.io/heroku/buildpack-java@sha256:7215ec11a198f04da57355043ef9e61a5af699fb96c8a320e22df1832ba275b4"
 
 [[buildpacks]]
   id = "heroku/nodejs"
@@ -126,7 +126,7 @@ version = "0.17.2"
 [[order]]
   [[order.group]]
     id = "heroku/java"
-    version = "4.0.1"
+    version = "4.0.2"
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
