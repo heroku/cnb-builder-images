@@ -54,7 +54,7 @@ pack config default-builder heroku/builder:22
 
 ## Reporting issues
 
-For language-specific bugs or feature requests, file an issue against the appropriate buildpack repository:
+For buildpack-specific bugs or feature requests, file an issue against the appropriate buildpack repository:
 
 - https://github.com/heroku/buildpacks-go
 - https://github.com/heroku/buildpacks-jvm
@@ -62,6 +62,7 @@ For language-specific bugs or feature requests, file an issue against the approp
 - https://github.com/heroku/buildpacks-php
 - https://github.com/heroku/buildpacks-python
 - https://github.com/heroku/buildpacks-ruby
+- https://github.com/heroku/procfile-cnb
 
 For base-image related bugs or feature requests (for example requests for additional system libraries), use:
 https://github.com/heroku/stack-images
