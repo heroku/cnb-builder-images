@@ -21,7 +21,7 @@ For more information, see: [What is a builder?](https://buildpacks.io/docs/conce
 > since they use classic Heroku buildpacks shimmed for compatibility with the CNB specification,
 > rather than Heroku's next-generation Cloud Native Buildpacks.
 
-| Builder Image                                       | Build-time Base Image                       | Run-time Base Image                   | Lifecycle Version | Buildpack Types  | Status      |
+| Builder Image                                       | Base Build Image                            | Base Run Image                        | Lifecycle Version | Buildpack Types  | Status      |
 |-----------------------------------------------------|---------------------------------------------|---------------------------------------|-------------------|------------------|-------------|
 | [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | [`heroku/heroku:18-cnb`][heroku-tags] | 0.16.1            | Shimmed + Native | End-of-life |
 | [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.17.2            | Shimmed + Native | Deprecated  |
