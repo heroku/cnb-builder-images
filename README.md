@@ -9,7 +9,7 @@ This repository is responsible for building and publishing Heroku's [Cloud Nativ
 (CNB) builder images.
 
 A builder image is a packaged set of buildpacks, base images and a [`lifecycle`](https://github.com/buildpacks/lifecycle)
-binary that orchestrates the build. These builder images use Heroku's [stack images](https://github.com/heroku/stack-images)
+binary that orchestrates the build. These builder images use Heroku's [base images](https://github.com/heroku/base-images)
 as their base.
 
 For more information, see: [What is a builder?](https://buildpacks.io/docs/concepts/#what-is-a-builder)
@@ -21,7 +21,7 @@ For more information, see: [What is a builder?](https://buildpacks.io/docs/conce
 > since they use classic Heroku buildpacks shimmed for compatibility with the CNB specification,
 > rather than Heroku's next-generation Cloud Native Buildpacks.
 
-| Builder Image                                       | Build-time Base Image                       | Run-time Base Image                   | Lifecycle Version | Buildpack Types  | Status      |
+| Builder Image                                       | Base Build Image                            | Base Run Image                        | Lifecycle Version | Buildpack Types  | Status      |
 |-----------------------------------------------------|---------------------------------------------|---------------------------------------|-------------------|------------------|-------------|
 | [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | [`heroku/heroku:18-cnb`][heroku-tags] | 0.16.1            | Shimmed + Native | End-of-life |
 | [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.17.2            | Shimmed + Native | Deprecated  |
@@ -64,8 +64,8 @@ For buildpack-specific bugs or feature requests, file an issue against the appro
 - https://github.com/heroku/buildpacks-ruby
 - https://github.com/heroku/procfile-cnb
 
-For base-image related bugs or feature requests (for example requests for additional system libraries), use:
-https://github.com/heroku/stack-images
+For base image related bugs or feature requests (for example requests for additional system libraries), use:
+https://github.com/heroku/base-images
 
 For any other bug or feature request, file an issue in this repository.
 
