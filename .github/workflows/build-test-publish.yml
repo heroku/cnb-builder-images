@@ -47,7 +47,7 @@ jobs:
       # We use a cache here rather than artifacts because it's 4x faster and we
       # don't need the builder archive outside of this workflow run anyway.
       - name: Save Docker images to the cache
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}
           path: images.tar.zst
@@ -72,7 +72,7 @@ jobs:
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.5.1
       - name: Restore Docker images from the cache
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
           key: ${{ github.run_id}}-${{ matrix.builder }}
@@ -112,7 +112,7 @@ jobs:
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.5.1
       - name: Restore Docker images from the cache
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
           key: ${{ github.run_id}}-${{ matrix.builder }}
@@ -156,7 +156,7 @@ jobs:
             tag_private: heroku-22:builder-functions
     steps:
       - name: Restore Docker images from the cache
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
           key: ${{ github.run_id}}-${{ matrix.builder }}
