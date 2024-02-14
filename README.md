@@ -24,10 +24,10 @@ For more information, see: [What is a builder?](https://buildpacks.io/docs/conce
 | Builder Image                                       | Base Build Image                            | Base Run Image                        | Lifecycle Version | Buildpack Types  | Status      |
 |-----------------------------------------------------|---------------------------------------------|---------------------------------------|-------------------|------------------|-------------|
 | [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | [`heroku/heroku:18-cnb`][heroku-tags] | 0.16.1            | Shimmed + Native | End-of-life |
-| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.17.2            | Shimmed + Native | Deprecated  |
-| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.17.2            | Shimmed          | Deprecated  |
-| [`heroku/builder:20`][builder-tags]                 | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.18.4            | Native           | Available   |
-| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.18.4            | Native           | Recommended |
+| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.17.4            | Shimmed + Native | Deprecated  |
+| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.17.4            | Shimmed          | Deprecated  |
+| [`heroku/builder:20`][builder-tags]                 | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.18.5            | Native           | Available   |
+| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.18.5            | Native           | Recommended |
 
 The builder images above include buildpack support for the following languages: Go, Java, Node.js, PHP, Python, Ruby & Scala. The `heroku/builder-classic:22` builder image variant additionally supports Clojure.
 
