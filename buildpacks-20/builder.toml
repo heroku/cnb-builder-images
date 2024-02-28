@@ -35,9 +35,12 @@ version = "0.17.4"
   id = "heroku/php"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.0.0&name=Heroku+PHP+(Shimmed)"
 
+# We have to use Procfile CNB v2.0.2 in this builder image, since cnb-shim isn't compatible with
+# the direct process mode used in newer Procfile CNB:
+# https://github.com/heroku/cnb-shim/issues/74
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/procfile-cnb@sha256:dbf9dd716f869678e8bdaa47dbe7bdb5e5bd39c2e537dbcfb1f22ce613534ab2"
+  uri = "docker://docker.io/heroku/procfile-cnb@sha256:2549eee29b64c5dc063a3966c65baf1f264389645f54d416a320aa9e20b09592"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -57,7 +60,7 @@ version = "0.17.4"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.0.0"
+    version = "2.0.2"
     optional = true
   [[order.group]]
     id = "heroku/builder-eol-warning"
@@ -69,7 +72,7 @@ version = "0.17.4"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.0.0"
+    version = "2.0.2"
     optional = true
   [[order.group]]
     id = "heroku/builder-eol-warning"
@@ -81,7 +84,7 @@ version = "0.17.4"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.0.0"
+    version = "2.0.2"
     optional = true
   [[order.group]]
     id = "heroku/builder-eol-warning"
@@ -93,7 +96,7 @@ version = "0.17.4"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.0.0"
+    version = "2.0.2"
     optional = true
   [[order.group]]
     id = "heroku/builder-eol-warning"
@@ -105,7 +108,7 @@ version = "0.17.4"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.0.0"
+    version = "2.0.2"
     optional = true
   [[order.group]]
     id = "heroku/builder-eol-warning"
@@ -117,7 +120,7 @@ version = "0.17.4"
     version = "2.6.6"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.0.0"
+    version = "2.0.2"
     optional = true
   [[order.group]]
     id = "heroku/builder-eol-warning"
@@ -129,7 +132,7 @@ version = "0.17.4"
     version = "4.1.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.0.0"
+    version = "2.0.2"
     optional = true
   [[order.group]]
     id = "heroku/builder-eol-warning"
