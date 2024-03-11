@@ -111,6 +111,12 @@ jobs:
         uses: actions/checkout@v4
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.5.3
+        with:
+          # Using an older version of Pack CLI here (that only supports Platform API <= 0.9),
+          # for testing parity with the Platform API version used by Kodon for Functions:
+          # https://github.com/buildpacks/pack/blob/v0.27.0/internal/build/lifecycle_executor.go#L30
+          # https://github.com/heroku/kodon/blob/functions_eol/internal/constants/constants.go#L75
+          pack-version: "0.27.0"
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
         with:
@@ -122,7 +128,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build example function image
-        run: pack build example-function --force-color --path salesforce-functions/examples/${{ matrix.language }} --builder ${{ matrix.builder }} --trust-builder --pull-policy never
+        run: pack build example-function --path salesforce-functions/examples/${{ matrix.language }} --builder ${{ matrix.builder }} --trust-builder --pull-policy never
       - name: Start example function image
         run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 --env DYNO=web.1 example-function
       - name: Test example function web server response
