@@ -40,7 +40,7 @@ version = "0.17.4"
 # https://github.com/heroku/cnb-shim/issues/74
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/procfile-cnb@sha256:2549eee29b64c5dc063a3966c65baf1f264389645f54d416a320aa9e20b09592"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:2549eee29b64c5dc063a3966c65baf1f264389645f54d416a320aa9e20b09592"
 
 [[buildpacks]]
   id = "heroku/python"
