@@ -11,7 +11,7 @@ A builder image is a packaged set of buildpacks, base images and a [`lifecycle`]
 binary that orchestrates the build. These builder images use Heroku's [base images](https://github.com/heroku/base-images)
 as their base.
 
-For more information, see: [What is a builder?](https://buildpacks.io/docs/concepts/#what-is-a-builder)
+For more information, see: [What is a builder?](https://buildpacks.io/docs/for-platform-operators/concepts/builder/)
 
 ## Available images
 
