@@ -5,8 +5,7 @@
 > [!IMPORTANT]
 > These images are experimental and still in active development: [heroku/roadmap#20](https://github.com/heroku/roadmap/issues/20)
 
-This repository is responsible for building and publishing Heroku's [Cloud Native Buildpacks](https://buildpacks.io)
-(CNB) builder images.
+This repository is responsible for building and publishing builder images for [Heroku's Cloud Native Buildpacks project](https://github.com/heroku/buildpacks).
 
 A builder image is a packaged set of buildpacks, base images and a [`lifecycle`](https://github.com/buildpacks/lifecycle)
 binary that orchestrates the build. These builder images use Heroku's [base images](https://github.com/heroku/base-images)
