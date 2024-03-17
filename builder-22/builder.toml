@@ -2,8 +2,8 @@ description = "Heroku-22 (Ubuntu 22.04) base image with buildpacks for Go, Java,
 
 [stack]
 id = "heroku-22"
-build-image = "heroku/heroku:22-cnb-build"
-run-image = "heroku/heroku:22-cnb"
+build-image = "test-heroku-22-build"
+run-image = "test-heroku-22-run"
 
 [lifecycle]
 version = "0.19.0"

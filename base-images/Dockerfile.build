@@ -1,0 +1,7 @@
+FROM heroku/heroku:22-cnb-build.nightly
+
+USER root
+RUN rm -rf /app
+RUN useradd heroku-build -u 1002 -g 1000 -s /bin/bash -m
+ENV CNB_USER_ID=1002
+USER heroku

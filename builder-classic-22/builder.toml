@@ -2,8 +2,8 @@ description = "[DEPRECATED] Heroku-22 (Ubuntu 22.04) base image with shimmed cla
 
 [stack]
 id = "heroku-22"
-build-image = "heroku/heroku:22-cnb-build"
-run-image = "heroku/heroku:22-cnb"
+build-image = "test-heroku-22-build"
+run-image = "test-heroku-22-run"
 
 [lifecycle]
 # We have to use an older lifecycle version in this builder image since lifecycle 0.18.0

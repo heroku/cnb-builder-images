@@ -1,0 +1,7 @@
+FROM heroku/heroku:22-cnb.nightly
+
+USER root
+RUN rm -rf /app
+RUN useradd heroku-build -u 1002 -g 1000 -s /bin/bash -m
+USER heroku
+ENV HOME=/home/heroku

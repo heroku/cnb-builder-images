@@ -3,7 +3,7 @@ name: Build, Test, Publish
 on:
   pull_request:
   push:
-    branches: ["main"]
+    # branches: ["main"]
   schedule:
     - cron: "0 0 * * 1-5"
   workflow_dispatch:
@@ -25,14 +25,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22", "salesforce-functions"]
+        builder: ["builder-22", "salesforce-functions"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.5.4
+      - run: docker build --file base-images/Dockerfile.run -t test-heroku-22-run base-images/
+      - run: docker build --file base-images/Dockerfile.build -t test-heroku-22-build base-images/
       - name: Create builder image
-        run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
+        run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy if-not-present
       # We export the run image too (and not just the generated builder image), since it adds virtually
       # no size to the archive (since the layers are mostly duplicates), and it ends up being quicker
       # than docker pulling the run image in the jobs that perform the pack build.
@@ -58,11 +60,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22"]
+        builder: ["builder-22"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala"]
-        include:
-          - builder: builder-classic-22
-            language: clojure
     steps:
       - name: Checkout getting started guide
         uses: actions/checkout@v4
@@ -71,6 +70,9 @@ jobs:
           repository: heroku/${{ matrix.language }}-getting-started.git
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.5.4
+        with:
+          # Work around https://github.com/buildpacks/pack/issues/2078
+          pack-version: '0.32.1'
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
         with:
@@ -82,7 +84,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build getting started guide image
-        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_EOL_SHIMMED_BUILDER=1
+        run: pack build getting-started --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_EOL_SHIMMED_BUILDER=1
       - name: Start getting started guide image
         # The `DYNO` env var is set to more accurately reflect the Heroku environment, since some of the getting
         # started guides use the presence of `DYNO` to determine whether to enable production mode or not.
@@ -141,60 +143,3 @@ jobs:
             [[ -f response.txt ]] && cat response.txt
             exit 1
           fi
-
-  publish:
-    runs-on: ubuntu-22.04
-    if: success() && github.ref == 'refs/heads/main'
-    needs: ["test-guides", "test-functions"]
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - builder: buildpacks-20
-            tag_public: heroku/buildpacks:20
-          - builder: builder-classic-22
-            tag_public: heroku/builder-classic:22
-          - builder: builder-20
-            tag_public: heroku/builder:20
-          - builder: builder-22
-            tag_public: heroku/builder:22
-          - builder: salesforce-functions
-            tag_private: heroku-22:builder-functions
-    steps:
-      - name: Restore Docker images from the cache
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}
-          path: images.tar.zst
-        env:
-          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
-      - name: Load Docker images into the Docker daemon
-        run: zstd -dc --long=31 images.tar.zst | docker load
-      - name: Log into Docker Hub
-        if: matrix.tag_public != ''
-        run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
-      - name: Log into internal registry
-        if: matrix.tag_private != ''
-        run: |
-          REGISTRY_TOKEN=$(
-            curl -sSf --retry 3 --retry-delay 1 --retry-all-errors --connect-timeout 3 \
-              -X POST -d '{"username":"${{ secrets.SERVICE_TOKEN_USER_NAME }}", "password":"${{ secrets.SERVICE_TOKEN_PASSWORD }}"}' \
-              '${{ secrets.SERVICE_TOKEN_ENDPOINT }}' \
-              | jq --exit-status -r '.raw_id_token'
-          )
-          echo "${REGISTRY_TOKEN}" | docker login '${{ secrets.REGISTRY_HOST }}' -u '${{ secrets.REGISTRY_USER }}' --password-stdin
-      - name: Tag builder and push to Docker Hub
-        if: matrix.tag_public != ''
-        run: |
-          PUBLIC_IMAGE_URI='${{ matrix.tag_public }}'
-          set -x
-          docker tag '${{ matrix.builder }}' "${PUBLIC_IMAGE_URI}"
-          docker push "${PUBLIC_IMAGE_URI}"
-      - name: Tag builder and push to internal registry
-        if: matrix.tag_private != ''
-        run: |
-          PRIVATE_IMAGE_URI='${{ secrets.REGISTRY_HOST }}/s/${{ secrets.SERVICE_TOKEN_USER_NAME }}/${{ matrix.tag_private }}'
-          set -x
-          docker tag '${{ matrix.builder }}' "${PRIVATE_IMAGE_URI}"
-          docker push "${PRIVATE_IMAGE_URI}"
