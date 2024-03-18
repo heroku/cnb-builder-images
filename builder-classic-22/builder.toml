@@ -60,17 +60,20 @@ version = "0.17.5"
 
 [[order]]
   [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "2.0.0"
+  [[order.group]]
     id = "heroku/ruby"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
-  [[order.group]]
-    id = "heroku/builder-eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/clojure"
     version = "0.0.0"
@@ -78,11 +81,11 @@ version = "0.17.5"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
-  [[order.group]]
-    id = "heroku/builder-eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/python"
     version = "0.0.0"
@@ -90,11 +93,11 @@ version = "0.17.5"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
-  [[order.group]]
-    id = "heroku/builder-eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/java"
     version = "0.0.0"
@@ -102,11 +105,11 @@ version = "0.17.5"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
-  [[order.group]]
-    id = "heroku/builder-eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/gradle"
     version = "0.0.0"
@@ -114,11 +117,11 @@ version = "0.17.5"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
-  [[order.group]]
-    id = "heroku/builder-eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/scala"
     version = "0.0.0"
@@ -126,11 +129,11 @@ version = "0.17.5"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
-  [[order.group]]
-    id = "heroku/builder-eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/php"
     version = "0.0.0"
@@ -138,11 +141,11 @@ version = "0.17.5"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
-  [[order.group]]
-    id = "heroku/builder-eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/go"
     version = "0.0.0"
@@ -150,11 +153,11 @@ version = "0.17.5"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
-  [[order.group]]
-    id = "heroku/builder-eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/builder-eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/nodejs"
     version = "0.0.0"
@@ -162,6 +165,3 @@ version = "0.17.5"
     id = "heroku/procfile"
     version = "2.0.2"
     optional = true
-  [[order.group]]
-    id = "heroku/builder-eol-warning"
-    version = "1.0.0"

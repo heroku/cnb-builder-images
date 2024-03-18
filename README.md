@@ -17,15 +17,15 @@ For more information, see: [What is a builder?](https://buildpacks.io/docs/conce
 ## Available images
 
 > [!WARNING]
-> The `heroku/buildpacks:*` and `heroku/builder-classic:*` builder image variants are deprecated,
+> The `heroku/buildpacks:*` and `heroku/builder-classic:*` builder image variants have been sunset,
 > since they use classic Heroku buildpacks shimmed for compatibility with the CNB specification,
 > rather than Heroku's next-generation Cloud Native Buildpacks.
 
 | Builder Image                                       | Base Build Image                            | Base Run Image                        | Lifecycle Version | Buildpack Types  | Status      |
 |-----------------------------------------------------|---------------------------------------------|---------------------------------------|-------------------|------------------|-------------|
 | [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | [`heroku/heroku:18-cnb`][heroku-tags] | 0.16.1            | Shimmed + Native | End-of-life |
-| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.17.5            | Shimmed + Native | Deprecated  |
-| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.17.5            | Shimmed          | Deprecated  |
+| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.17.5            | Shimmed + Native | End-of-life |
+| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.17.5            | Shimmed          | End-of-life |
 | [`heroku/builder:20`][builder-tags]                 | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.19.0            | Native           | Available   |
 | [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.19.0            | Native           | Recommended |
 

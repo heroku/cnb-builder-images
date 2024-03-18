@@ -82,7 +82,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build getting started guide image
-        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never
+        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_EOL_SHIMMED_BUILDER=1
       - name: Start getting started guide image
         # The `DYNO` env var is set to more accurately reflect the Heroku environment, since some of the getting
         # started guides use the presence of `DYNO` to determine whether to enable production mode or not.

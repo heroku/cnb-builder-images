@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+ENV_DIR="${2}/env"
+ENV_VAR_NAME='ALLOW_EOL_SHIMMED_BUILDER'
+ALLOW_BUILD="$(cat "${ENV_DIR}/${ENV_VAR_NAME}" 2> /dev/null || true)"
+
 ANSI_RED="\033[1;31m"
 ANSI_RESET="\033[0m"
 
@@ -15,10 +19,20 @@ function display_error() {
   echo >&2
 }
 
-display_error "$(cat <<'EOF'
+if [[ "${ALLOW_BUILD}" == "1" ]]; then
+  MSG_PREFIX="WARNING"
+  MSG_FOOTER="Allowing the build to continue since ${ENV_VAR_NAME} is set."
+  EXIT_CODE=0
+else
+  MSG_PREFIX="ERROR"
+  MSG_FOOTER="To ignore this error, set the env var ${ENV_VAR_NAME} to 1."
+  EXIT_CODE=1
+fi
+
+display_error "$(cat <<EOF
 #######################################################################
 
-WARNING: This builder image (heroku/buildpacks:20) is deprecated,
+${MSG_PREFIX}: This builder image (heroku/buildpacks:20) has been sunset,
 since it uses legacy shimmed classic Heroku buildpacks, rather than
 Heroku's next-generation Cloud Native Buildpacks.
 
@@ -36,8 +50,10 @@ CLI argument, or else change the default builder configuration using:
 If you are using a third-party platform to deploy your app, check their
 documentation for how to adjust the builder image used for your build.
 
+${MSG_FOOTER}
+
 #######################################################################
 EOF
 )"
 
-exit 0
+exit ${EXIT_CODE}
