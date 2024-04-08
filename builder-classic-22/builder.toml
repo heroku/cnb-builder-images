@@ -9,7 +9,7 @@ run-image = "heroku/heroku:22-cnb"
 # We have to use an older lifecycle version in this builder image since lifecycle 0.18.0
 # dropped support for Buildpack API versions <0.7, and cnb-shim is currently using v0.4:
 # https://github.com/heroku/cnb-shim/issues/69
-version = "0.17.5"
+version = "0.17.6"
 
 [[buildpacks]]
   id = "heroku/builder-eol-warning"
