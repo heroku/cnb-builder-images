@@ -11,7 +11,7 @@ run-image = "heroku/heroku:22-cnb"
 # - heroku/nodejs-function is still using the old Bash based NPM CNB (which is using Buildpack API 0.6)
 # - we know of at least one custom buildpack that's also using a legacy Buildpack API:
 #   https://github.com/CSGAMERSServices/puppeteer-heroku-buildpack
-version = "0.17.5"
+version = "0.17.6"
 
 [[buildpacks]]
   id = "heroku/java-function"
