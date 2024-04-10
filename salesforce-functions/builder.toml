@@ -19,12 +19,12 @@ version = "0.17.6"
 
 [[buildpacks]]
   id = "heroku/nodejs-function"
-  uri = "docker://docker.io/heroku/buildpack-nodejs-function@sha256:6600096e947e7ef8e1a0bd1599c7596868cf06355db526c0ab502333d1d72b7b"
+  uri = "docker://docker.io/heroku/buildpack-nodejs-function@sha256:feb0bd63e0b46833ea6b6e40e6d855757aa6cf7787abf2fe2f48138c6b2ef4c0"
 
 [[order]]
   [[order.group]]
     id = "heroku/nodejs-function"
-    version = "3.0.3"
+    version = "3.0.4"
 
 [[order]]
   [[order.group]]
