@@ -7,10 +7,9 @@ run-image = "heroku/heroku:22-cnb"
 
 [lifecycle]
 # We have to use an older lifecycle version in this builder image since lifecycle 0.18.0
-# dropped support for Buildpack API versions <0.7, and:
-# - heroku/nodejs-function is still using the old Bash based NPM CNB (which is using Buildpack API 0.6)
-# - we know of at least one custom buildpack that's also using a legacy Buildpack API:
-#   https://github.com/CSGAMERSServices/puppeteer-heroku-buildpack
+# dropped support for Buildpack API versions <0.7, and we know of at least one custom CNB
+# used by Functions customers that's using a legacy Buildpack API version:
+# https://github.com/CSGAMERSServices/puppeteer-heroku-buildpack
 version = "0.17.6"
 
 [[buildpacks]]
