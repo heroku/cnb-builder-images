@@ -245,6 +245,9 @@ jobs:
           - manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
             tag_public: "heroku/builder:24"
     steps:
+      - name: Log into Docker Hub
+        if: matrix.tag_public != ''
+        run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
       - name: Create and push manifest lists
         run: |
           docker manifest create "${{ matrix.tag_public }}" ${{ matrix.manifests }}
