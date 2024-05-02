@@ -26,7 +26,7 @@ jobs:
       fail-fast: false
       matrix:
         builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22", "salesforce-functions", "builder-24"]
-        platform: ["linux/amd64"],
+        platform: ["linux/amd64"]
         include:
             - builder: "builder-24"
               platform: "linux/arm64"
