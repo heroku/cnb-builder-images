@@ -83,11 +83,10 @@ jobs:
             language: go
             arch: arm64
     steps:
-      - name: Checkout getting started guide
+      # Checkout is needed for the setup_docker_ci script
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: main
-          repository: heroku/${{ matrix.language }}-getting-started.git
+        if: ${{ matrix.arch == 'arm64' }}
       - name: Setup Docker
         if: ${{ matrix.arch == 'arm64' }}
         run: |
@@ -95,6 +94,11 @@ jobs:
           sudo usermod -aG docker $USER
           sudo apt-get install acl
           sudo setfacl --modify user:$USER:rw /var/run/docker.sock
+      - name: Checkout getting started guide
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          repository: heroku/${{ matrix.language }}-getting-started.git
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.6.0
       - name: Restore Docker images from the cache
