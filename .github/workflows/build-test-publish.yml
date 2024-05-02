@@ -234,10 +234,12 @@ jobs:
   publish-image-manifest-lists:
     runs-on: ubuntu-22.04
     needs: publish-image-manifests
-    matrix:
-      include:
-        - manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
-          tag_public: "heroku/builder:24"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+            - manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
+              tag_public: "heroku/builder:24"
     steps:
       - name: Setup Docker
         if: ${{ matrix.arch == 'arm64' }}
