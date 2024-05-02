@@ -158,7 +158,7 @@ jobs:
 
   publish-image-manifests:
     runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
-    if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/builder-24')
+    if: success() # && github.ref == 'refs/heads/main'
     needs: ["test-guides", "test-functions"]
     strategy:
       fail-fast: false
