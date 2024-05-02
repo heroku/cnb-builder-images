@@ -44,7 +44,7 @@ version = "0.17.6"
 # https://github.com/heroku/cnb-shim/issues/74
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:2549eee29b64c5dc063a3966c65baf1f264389645f54d416a320aa9e20b09592"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:2de0917544af55f26631a5a9e3f812b1da6c05067abfd75dc9a87a1da7172586"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -67,7 +67,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "2.0.2"
+    version = "3.1.1"
     optional = true
 
 [[order]]
@@ -79,7 +79,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "2.0.2"
+    version = "3.1.1"
     optional = true
 
 [[order]]
@@ -91,7 +91,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "2.0.2"
+    version = "3.1.1"
     optional = true
 
 [[order]]
@@ -103,7 +103,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "2.0.2"
+    version = "3.1.1"
     optional = true
 
 [[order]]
@@ -115,7 +115,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "2.0.2"
+    version = "3.1.1"
     optional = true
 
 [[order]]
@@ -127,7 +127,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "2.0.2"
+    version = "3.1.1"
     optional = true
 
 [[order]]
@@ -139,7 +139,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "2.0.2"
+    version = "3.1.1"
     optional = true
 
 [[order]]
@@ -151,7 +151,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "2.0.2"
+    version = "3.1.1"
     optional = true
 
 [[order]]
@@ -163,5 +163,5 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "2.0.2"
+    version = "3.1.1"
     optional = true
