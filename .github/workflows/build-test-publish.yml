@@ -21,7 +21,7 @@ defaults:
 jobs:
 
   create:
-    runs-on: ${{ matrix.platform == 'linux/arm64' && 'pub-hk-ubuntu-22.04-arm-large' || ubuntu-22.04 }}
+    runs-on: ${{ matrix.platform == 'linux/arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     strategy:
       fail-fast: false
       matrix:
