@@ -64,7 +64,7 @@ jobs:
           path: images.tar.zst
 
   test-guides:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     needs: create
     strategy:
       fail-fast: false
@@ -76,12 +76,25 @@ jobs:
           - builder: builder-classic-22
             language: clojure
             arch: amd64
+          - builder: builder-24
+            language: go
+            arch: amd64
+          - builder: builder-24
+            language: go
+            arch: arm64
     steps:
       - name: Checkout getting started guide
         uses: actions/checkout@v4
         with:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
+      - name: Setup Docker
+        if: ${{ matrix.arch == 'arm64' }}
+        run: |
+          bin/setup_docker_ci
+          sudo usermod -aG docker $USER
+          sudo apt-get install acl
+          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.6.0
       - name: Restore Docker images from the cache
