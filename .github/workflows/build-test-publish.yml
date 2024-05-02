@@ -158,7 +158,7 @@ jobs:
 
   publish:
     runs-on: ubuntu-22.04
-    if: success() && github.ref == 'refs/heads/main'
+    if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/builder-24')
     needs: ["test-guides", "test-functions"]
     strategy:
       fail-fast: false
@@ -186,6 +186,13 @@ jobs:
             tag_public: heroku/builder:24_linux-arm64
             arch: arm64
     steps:
+      - name: Setup Docker
+        if: ${{ matrix.arch == 'arm64' }}
+        run: |
+          bin/setup_docker_ci
+          sudo usermod -aG docker $USER
+          sudo apt-get install acl
+          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
         with:
