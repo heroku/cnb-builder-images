@@ -156,8 +156,8 @@ jobs:
             exit 1
           fi
 
-  publish:
-    runs-on: ubuntu-22.04
+  publish-image-manifests:
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     if: success() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/builder-24')
     needs: ["test-guides", "test-functions"]
     strategy:
@@ -230,3 +230,23 @@ jobs:
           set -x
           docker tag '${{ matrix.builder }}' "${PRIVATE_IMAGE_URI}"
           docker push "${PRIVATE_IMAGE_URI}"
+
+  publish-image-manifest-lists:
+    runs-on: ubuntu-22.04
+    needs: publish-image-manifests
+    matrix:
+      include:
+        - manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
+          tag_public: "heroku/builder:24"
+    steps:
+      - name: Setup Docker
+        if: ${{ matrix.arch == 'arm64' }}
+        run: |
+          bin/setup_docker_ci
+          sudo usermod -aG docker $USER
+          sudo apt-get install acl
+          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
+      - name: Create and push manifest lists
+        run: |
+          docker manifest create "${{ matrix.tag_public }}" ${{ matrix.manifests }}
+          docker manifest push "${{ matrix.tag_public }}"
