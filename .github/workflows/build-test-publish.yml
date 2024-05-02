@@ -60,7 +60,7 @@ jobs:
       - name: Save Docker images to the cache
         uses: actions/cache/save@v4
         with:
-          key: ${{ github.run_id}}-${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
           path: images.tar.zst
 
   test-guides:
@@ -71,9 +71,11 @@ jobs:
       matrix:
         builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala"]
+        arch: ["amd64"]
         include:
           - builder: builder-classic-22
             language: clojure
+            arch: amd64
     steps:
       - name: Checkout getting started guide
         uses: actions/checkout@v4
@@ -86,7 +88,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
           path: images.tar.zst
         env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
@@ -117,6 +119,7 @@ jobs:
       matrix:
         builder: ["salesforce-functions"]
         language: ["java", "javascript", "typescript"]
+        arch: ["amd64"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -132,7 +135,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
           path: images.tar.zst
         env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
@@ -163,20 +166,31 @@ jobs:
         include:
           - builder: buildpacks-20
             tag_public: heroku/buildpacks:20
+            arch: amd64
           - builder: builder-classic-22
             tag_public: heroku/builder-classic:22
+            arch: amd64
           - builder: builder-20
             tag_public: heroku/builder:20
+            arch: amd64
           - builder: builder-22
             tag_public: heroku/builder:22
+            arch: amd64
           - builder: salesforce-functions
             tag_private: heroku-22:builder-functions
+            arch: amd64
+          - builder: builder-24
+            tag_public: heroku/builder:24_linux-amd64
+            arch: amd64
+          - builder: builder-24
+            tag_public: heroku/builder:24_linux-arm64
+            arch: arm64
     steps:
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
           path: images.tar.zst
         env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
