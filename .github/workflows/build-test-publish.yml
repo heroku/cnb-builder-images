@@ -186,6 +186,10 @@ jobs:
             tag_public: heroku/builder:24_linux-arm64
             arch: arm64
     steps:
+      # Checkout is needed for the setup_docker_ci script
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: ${{ matrix.arch == 'arm64' }}
       - name: Setup Docker
         if: ${{ matrix.arch == 'arm64' }}
         run: |
