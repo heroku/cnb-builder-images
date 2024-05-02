@@ -28,11 +28,18 @@ jobs:
         builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22", "salesforce-functions", "builder-24"]
         arch: ["amd64"]
         include:
-            - builder: "builder-24"
-              arch: "arm64"
+          - builder: "builder-24"
+            arch: "arm64"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Docker
+        if: ${{ matrix.arch == 'arm64' }}
+        run: |
+          bin/setup_docker_ci
+          sudo usermod -aG docker $USER
+          sudo apt-get install acl
+          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.6.0
       - name: Create builder image
