@@ -1,0 +1,13 @@
+description = "Heroku-24 (Ubuntu 24.04) base image with buildpacks that support amd and arm architectures"
+
+[stack]
+id = "heroku-24"
+build-image = "heroku/heroku:24-build"
+run-image = "heroku/heroku:24"
+
+[lifecycle]
+version = "0.19.3"
+
+[[buildpacks]]
+  id = "heroku/procfile"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:c4dd6aa0043c326f91f921a5ceab4ea6a892a5b4042b46d3f35ac975fa6562ca"
