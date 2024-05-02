@@ -21,15 +21,15 @@ defaults:
 jobs:
 
   create:
-    runs-on: ${{ matrix.platform == 'linux/arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     strategy:
       fail-fast: false
       matrix:
         builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22", "salesforce-functions", "builder-24"]
-        platform: ["linux/amd64"]
+        arch: ["amd64"]
         include:
             - builder: "builder-24"
-              platform: "linux/arm64"
+              arch: "arm64"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
