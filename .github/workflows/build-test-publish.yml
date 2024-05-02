@@ -238,16 +238,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-            - manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
-              tag_public: "heroku/builder:24"
+          - manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
+            tag_public: "heroku/builder:24"
     steps:
-      - name: Setup Docker
-        if: ${{ matrix.arch == 'arm64' }}
-        run: |
-          bin/setup_docker_ci
-          sudo usermod -aG docker $USER
-          sudo apt-get install acl
-          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Create and push manifest lists
         run: |
           docker manifest create "${{ matrix.tag_public }}" ${{ matrix.manifests }}
