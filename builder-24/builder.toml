@@ -10,4 +10,17 @@ version = "0.19.3"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:c4dd6aa0043c326f91f921a5ceab4ea6a892a5b4042b46d3f35ac975fa6562ca"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:2de0917544af55f26631a5a9e3f812b1da6c05067abfd75dc9a87a1da7172586"
+
+[[buildpacks]]
+  id = "heroku/go"
+  uri = "docker://docker.io/heroku/buildpack-go@sha256:5e5d1f7507dd37dadf625fe897e3f45ee39151e8dc9755e8e1f852e30a6cc3b9"
+
+[[order]]
+  [[order.group]]
+    id = "heroku/go"
+    version = "0.2.1"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "3.0.1"
+    optional = true
