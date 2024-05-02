@@ -40,7 +40,7 @@ version = "0.17.6"
 # https://github.com/heroku/cnb-shim/issues/74
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:68677d7f97b504b3a87a2eabe010dcefc7a7a51564e179c9d219dbae895a4a64"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:2549eee29b64c5dc063a3966c65baf1f264389645f54d416a320aa9e20b09592"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -63,7 +63,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.1.0"
+    version = "2.0.2"
     optional = true
 
 [[order]]
@@ -75,7 +75,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.1.0"
+    version = "2.0.2"
     optional = true
 
 [[order]]
@@ -87,7 +87,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.1.0"
+    version = "2.0.2"
     optional = true
 
 [[order]]
@@ -99,7 +99,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.1.0"
+    version = "2.0.2"
     optional = true
 
 [[order]]
@@ -111,7 +111,7 @@ version = "0.17.6"
     version = "0.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.1.0"
+    version = "2.0.2"
     optional = true
 
 [[order]]
@@ -123,7 +123,7 @@ version = "0.17.6"
     version = "3.0.5"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.1.0"
+    version = "2.0.2"
     optional = true
 
 [[order]]
@@ -135,5 +135,5 @@ version = "0.17.6"
     version = "4.1.1"
   [[order.group]]
     id = "heroku/procfile"
-    version = "3.1.0"
+    version = "2.0.2"
     optional = true
