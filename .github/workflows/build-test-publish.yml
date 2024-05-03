@@ -21,14 +21,26 @@ defaults:
 jobs:
 
   create:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22", "salesforce-functions"]
+        builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22", "salesforce-functions", "builder-24"]
+        arch: ["amd64"]
+        include:
+          - builder: "builder-24"
+            arch: "arm64"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      # Docker is not installed on GHA arm runners
+      - name: Setup Docker
+        if: matrix.arch == 'arm64'
+        run: |
+          bin/setup_docker_ci
+          sudo usermod -aG docker $USER
+          sudo apt-get install acl
+          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.6.0
       - name: Create builder image
@@ -49,21 +61,41 @@ jobs:
       - name: Save Docker images to the cache
         uses: actions/cache/save@v4
         with:
-          key: ${{ github.run_id}}-${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
           path: images.tar.zst
 
   test-guides:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     needs: create
     strategy:
       fail-fast: false
       matrix:
         builder: ["buildpacks-20", "builder-classic-22", "builder-20", "builder-22"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala"]
+        arch: ["amd64"]
         include:
           - builder: builder-classic-22
             language: clojure
+            arch: amd64
+          - builder: builder-24
+            language: go
+            arch: amd64
+          - builder: builder-24
+            language: go
+            arch: arm64
     steps:
+      # Checkout is needed only for the setup_docker_ci script
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: matrix.arch == 'arm64'
+      # Docker is not installed on GHA arm runners
+      - name: Setup Docker
+        if: matrix.arch == 'arm64'
+        run: |
+          bin/setup_docker_ci
+          sudo usermod -aG docker $USER
+          sudo apt-get install acl
+          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Checkout getting started guide
         uses: actions/checkout@v4
         with:
@@ -75,7 +107,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
           path: images.tar.zst
         env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
@@ -121,7 +153,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}-amd64
           path: images.tar.zst
         env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
@@ -142,8 +174,8 @@ jobs:
             exit 1
           fi
 
-  publish:
-    runs-on: ubuntu-22.04
+  publish-images:
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     if: success() && github.ref == 'refs/heads/main'
     needs: ["test-guides", "test-functions"]
     strategy:
@@ -152,20 +184,43 @@ jobs:
         include:
           - builder: buildpacks-20
             tag_public: heroku/buildpacks:20
+            arch: amd64
           - builder: builder-classic-22
             tag_public: heroku/builder-classic:22
+            arch: amd64
           - builder: builder-20
             tag_public: heroku/builder:20
+            arch: amd64
           - builder: builder-22
             tag_public: heroku/builder:22
+            arch: amd64
           - builder: salesforce-functions
             tag_private: heroku-22:builder-functions
+            arch: amd64
+          - builder: builder-24
+            tag_public: heroku/builder:24_linux-amd64
+            arch: amd64
+          - builder: builder-24
+            tag_public: heroku/builder:24_linux-arm64
+            arch: arm64
     steps:
+      # Checkout is needed only for the setup_docker_ci script
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: matrix.arch == 'arm64'
+      # Docker is not installed on GHA arm runners
+      - name: Setup Docker
+        if: matrix.arch == 'arm64'
+        run: |
+          bin/setup_docker_ci
+          sudo usermod -aG docker $USER
+          sudo apt-get install acl
+          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
           path: images.tar.zst
         env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
@@ -198,3 +253,21 @@ jobs:
           set -x
           docker tag '${{ matrix.builder }}' "${PRIVATE_IMAGE_URI}"
           docker push "${PRIVATE_IMAGE_URI}"
+
+  publish-indices:
+    runs-on: ubuntu-22.04
+    needs: publish-images
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
+            tag_public: "heroku/builder:24"
+    steps:
+      - name: Log in to Docker Hub
+        if: matrix.tag_public != ''
+        run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
+      - name: Create and push manifest lists
+        run: |
+          docker manifest create "${{ matrix.tag_public }}" ${{ matrix.manifests }}
+          docker manifest push "${{ matrix.tag_public }}"
