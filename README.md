@@ -7,29 +7,22 @@
 
 This repository is responsible for building and publishing builder images for [Heroku's Cloud Native Buildpacks project](https://github.com/heroku/buildpacks), which is in preview.
 
-A builder image is a packaged set of buildpacks, base images and a [`lifecycle`](https://github.com/buildpacks/lifecycle)
-binary that orchestrates the build. These builder images use Heroku's [base images](https://github.com/heroku/base-images)
-as their base.
+A builder image is a packaged set of buildpacks, base images and a [lifecycle](https://github.com/buildpacks/lifecycle)
+binary that orchestrates the build. For more information, see: [What is a builder?](https://buildpacks.io/docs/for-platform-operators/concepts/builder/)
 
-For more information, see: [What is a builder?](https://buildpacks.io/docs/for-platform-operators/concepts/builder/)
+These builder images use the build and run variants of Heroku's [base images](https://github.com/heroku/base-images)
+during the build and as the default base of the built app image, respectively. For a list of the packages contained
+in each base image, see [this Dev Center article](https://devcenter.heroku.com/articles/stack-packages).
 
 ## Available images
 
-> [!WARNING]
-> The `heroku/buildpacks:*` and `heroku/builder-classic:*` builder image variants have been sunset,
-> since they use classic Heroku buildpacks shimmed for compatibility with the CNB specification,
-> rather than Heroku's next-generation Cloud Native Buildpacks.
+| Builder Image                     | OS           | Supported Architectures | Default Run Image                   | Lifecycle Version | Status         |
+|-----------------------------------|--------------|-------------------------|-------------------------------------|-------------------|----------------|
+| [heroku/builder:20][builder-tags] | Ubuntu 20.04 | AMD64                   | [heroku/heroku:20-cnb][heroku-tags] | 0.19.3            | Available      |
+| [heroku/builder:22][builder-tags] | Ubuntu 22.04 | AMD64                   | [heroku/heroku:22-cnb][heroku-tags] | 0.19.3            | Recommended    |
+| [heroku/builder:24][builder-tags] | Ubuntu 24.04 | AMD64 + ARM64           | [heroku/heroku:24][heroku-tags]     | 0.19.3            | In Development |
 
-| Builder Image                                       | Base Build Image                            | Base Run Image                        | Lifecycle Version | Buildpack Types  | Status         |
-|-----------------------------------------------------|---------------------------------------------|---------------------------------------|-------------------|------------------|----------------|
-| [`heroku/buildpacks:18`][buildpacks-tags]           | [`heroku/heroku:18-cnb-build`][heroku-tags] | [`heroku/heroku:18-cnb`][heroku-tags] | 0.16.1            | Shimmed + Native | End-of-life    |
-| [`heroku/buildpacks:20`][buildpacks-tags]           | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.17.6            | Shimmed + Native | End-of-life    |
-| [`heroku/builder-classic:22`][builder-classic-tags] | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.17.6            | Shimmed          | End-of-life    |
-| [`heroku/builder:20`][builder-tags]                 | [`heroku/heroku:20-cnb-build`][heroku-tags] | [`heroku/heroku:20-cnb`][heroku-tags] | 0.19.3            | Native           | Available      |
-| [`heroku/builder:22`][builder-tags]                 | [`heroku/heroku:22-cnb-build`][heroku-tags] | [`heroku/heroku:22-cnb`][heroku-tags] | 0.19.3            | Native           | Recommended    |
-| [`heroku/builder:24`][builder-tags]                 | [`heroku/heroku:24-build`][heroku-tags]     | [`heroku/heroku:24`][heroku-tags]     | 0.19.3            | Native           | In Development |
-
-The builder images above include buildpack support for the following languages: Go, Java, Node.js, PHP, Python, Ruby & Scala. The `heroku/builder-classic:22` builder image variant additionally supports Clojure.
+The builder images above (excluding `heroku/builder:24`, whilst it's in development) include buildpack support for the following languages: Go, Java, Node.js, PHP, Python, Ruby & Scala.
 
 Check the [lifecycle API version support matrix](https://github.com/buildpacks/lifecycle#supported-apis) to determine
 which Platform and Buildpack API versions are compatible with the `lifecycle` version included in each builder.
@@ -64,12 +57,10 @@ For buildpack-specific bugs or feature requests, file an issue against the appro
 - https://github.com/heroku/buildpacks-ruby
 - https://github.com/heroku/buildpacks-procfile
 
-For base image related bugs or feature requests (for example requests for additional system libraries), use:
+For base image related bugs or feature requests (such as requests for additional system libraries), use:
 https://github.com/heroku/base-images
 
 For any other bug or feature request, file an issue in this repository.
 
 [builder-tags]: https://hub.docker.com/r/heroku/builder/tags
-[builder-classic-tags]: https://hub.docker.com/r/heroku/builder-classic/tags
-[buildpacks-tags]: https://hub.docker.com/r/heroku/buildpacks/tags
 [heroku-tags]: https://hub.docker.com/r/heroku/heroku/tags
