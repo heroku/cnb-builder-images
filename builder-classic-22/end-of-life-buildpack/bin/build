@@ -36,11 +36,10 @@ ${MSG_PREFIX}: This builder image (heroku/builder-classic:22) has been sunset,
 since it uses legacy shimmed classic Heroku buildpacks, rather than
 Heroku's next-generation Cloud Native Buildpacks.
 
-As such, this image is no longer supported and will soon stop receiving
-security updates.
+As such, this image is no longer supported and does not receive any
+security updates or fixes.
 
-Please switch to one of our newer 'heroku/builder:*' builder images,
-such as 'heroku/builder:22':
+Please switch to one of our newer 'heroku/builder:*' builder images:
 https://github.com/heroku/cnb-builder-images#available-images
 
 If you are using the Pack CLI, you will need to adjust your '--builder'
