@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
       # Docker is not installed on GHA arm runners
       - name: Setup Docker
-        if: ${{ matrix.arch == 'arm64' }}
+        if: matrix.arch == 'arm64'
         run: |
           bin/setup_docker_ci
           sudo usermod -aG docker $USER
@@ -87,10 +87,10 @@ jobs:
       # Checkout is needed only for the setup_docker_ci script
       - name: Checkout
         uses: actions/checkout@v4
-        if: ${{ matrix.arch == 'arm64' }}
+        if: matrix.arch == 'arm64'
       # Docker is not installed on GHA arm runners
       - name: Setup Docker
-        if: ${{ matrix.arch == 'arm64' }}
+        if: matrix.arch == 'arm64'
         run: |
           bin/setup_docker_ci
           sudo usermod -aG docker $USER
@@ -207,10 +207,10 @@ jobs:
       # Checkout is needed only for the setup_docker_ci script
       - name: Checkout
         uses: actions/checkout@v4
-        if: ${{ matrix.arch == 'arm64' }}
+        if: matrix.arch == 'arm64'
       # Docker is not installed on GHA arm runners
       - name: Setup Docker
-        if: ${{ matrix.arch == 'arm64' }}
+        if: matrix.arch == 'arm64'
         run: |
           bin/setup_docker_ci
           sudo usermod -aG docker $USER
