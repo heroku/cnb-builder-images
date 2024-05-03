@@ -33,6 +33,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      # Docker is not installed on GHA arm runners
       - name: Setup Docker
         if: ${{ matrix.arch == 'arm64' }}
         run: |
@@ -83,10 +84,11 @@ jobs:
             language: go
             arch: arm64
     steps:
-      # Checkout is needed for the setup_docker_ci script
+      # Checkout is needed only for the setup_docker_ci script
       - name: Checkout
         uses: actions/checkout@v4
         if: ${{ matrix.arch == 'arm64' }}
+      # Docker is not installed on GHA arm runners
       - name: Setup Docker
         if: ${{ matrix.arch == 'arm64' }}
         run: |
@@ -136,7 +138,6 @@ jobs:
       matrix:
         builder: ["salesforce-functions"]
         language: ["java", "javascript", "typescript"]
-        arch: ["amd64"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -152,7 +153,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
+          key: ${{ github.run_id}}-${{ matrix.builder }}-amd64
           path: images.tar.zst
         env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
@@ -173,7 +174,7 @@ jobs:
             exit 1
           fi
 
-  publish-image-manifests:
+  publish-images:
     runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     if: success() # && github.ref == 'refs/heads/main'
     needs: ["test-guides", "test-functions"]
@@ -203,10 +204,11 @@ jobs:
             tag_public: heroku/builder:24_linux-arm64
             arch: arm64
     steps:
-      # Checkout is needed for the setup_docker_ci script
+      # Checkout is needed only for the setup_docker_ci script
       - name: Checkout
         uses: actions/checkout@v4
         if: ${{ matrix.arch == 'arm64' }}
+      # Docker is not installed on GHA arm runners
       - name: Setup Docker
         if: ${{ matrix.arch == 'arm64' }}
         run: |
@@ -252,9 +254,9 @@ jobs:
           docker tag '${{ matrix.builder }}' "${PRIVATE_IMAGE_URI}"
           docker push "${PRIVATE_IMAGE_URI}"
 
-  publish-image-manifest-lists:
+  publish-indices:
     runs-on: ubuntu-22.04
-    needs: publish-image-manifests
+    needs: publish-images
     strategy:
       fail-fast: false
       matrix:
@@ -262,7 +264,7 @@ jobs:
           - manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
             tag_public: "heroku/builder:24"
     steps:
-      - name: Log into Docker Hub
+      - name: Log in to Docker Hub
         if: matrix.tag_public != ''
         run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
       - name: Create and push manifest lists
