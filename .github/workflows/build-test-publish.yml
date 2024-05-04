@@ -21,15 +21,21 @@ defaults:
 jobs:
 
   create:
-    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     strategy:
       fail-fast: false
       matrix:
-        builder: ["builder-20", "builder-22", "salesforce-functions", "builder-24"]
-        arch: ["amd64"]
-        include:
-          - builder: "builder-24"
-            arch: "arm64"
+        builder: ["builder-20", "builder-22", "builder-24", "salesforce-functions"]
+        arch: ["amd64", "arm64"]
+        exclude:
+          # Builders prior to Heroku-24 don't support ARM. We're using an exclude rather than
+          # an include so that the ARM jobs don't appear out of sequence in the GitHub UI.
+          - builder: builder-20
+            arch: arm64
+          - builder: builder-22
+            arch: arm64
+          - builder: salesforce-functions
+            arch: arm64
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,40 +70,29 @@ jobs:
           key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
           path: images.tar.zst
 
-  test-guides:
+  test:
     runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     needs: create
     strategy:
       fail-fast: false
       matrix:
-        builder: ["builder-20", "builder-22"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala"]
-        arch: ["amd64"]
-        include:
-          - builder: builder-24
-            language: go
-            arch: amd64
-          - builder: builder-24
-            language: go
+        builder: ["builder-20", "builder-22", "builder-24"]
+        arch: ["amd64", "arm64"]
+        exclude:
+          - builder: builder-20
             arch: arm64
-          - builder: builder-24
-            language: python
-            arch: amd64
-          - builder: builder-24
-            language: python
+          - builder: builder-22
             arch: arm64
+          # TODO: Remove these temporary exclusions as each language is added to builder-24.
           - builder: builder-24
-            language: node-js
-            arch: amd64
+            language: gradle
           - builder: builder-24
-            language: node-js
-            arch: arm64
+            language: java
           - builder: builder-24
-            language: ruby
-            arch: amd64
+            language: php
           - builder: builder-24
-            language: ruby
-            arch: arm64
+            language: scala
     steps:
       # Checkout is needed only for the setup_docker_ci script
       - name: Checkout
@@ -129,7 +124,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build getting started guide image
-        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_EOL_SHIMMED_BUILDER=1
+        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never
       - name: Start getting started guide image
         # The `DYNO` env var is set to more accurately reflect the Heroku environment, since some of the getting
         # started guides use the presence of `DYNO` to determine whether to enable production mode or not.
@@ -151,7 +146,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["salesforce-functions"]
         language: ["java", "javascript", "typescript"]
     steps:
       - name: Checkout
@@ -168,14 +162,14 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}-amd64
+          key: ${{ github.run_id}}-salesforce-functions-amd64
           path: images.tar.zst
         env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build example function image
-        run: pack build example-function --path salesforce-functions/examples/${{ matrix.language }} --builder ${{ matrix.builder }} --trust-builder --pull-policy never
+        run: pack build example-function --path salesforce-functions/examples/${{ matrix.language }} --builder salesforce-functions --trust-builder --pull-policy never
       - name: Start example function image
         run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 --env DYNO=web.1 example-function
       - name: Test example function web server response
@@ -189,29 +183,29 @@ jobs:
             exit 1
           fi
 
-  publish-images:
+  publish-image:
     runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
     if: success() && github.ref == 'refs/heads/main'
-    needs: ["test-guides", "test-functions"]
+    needs: ["test", "test-functions"]
     strategy:
       fail-fast: false
       matrix:
         include:
           - builder: builder-20
+            arch: amd64
             tag_public: heroku/builder:20
-            arch: amd64
           - builder: builder-22
+            arch: amd64
             tag_public: heroku/builder:22
-            arch: amd64
           - builder: salesforce-functions
+            arch: amd64
             tag_private: heroku-22:builder-functions
-            arch: amd64
           - builder: builder-24
+            arch: amd64
             tag_public: heroku/builder:24_linux-amd64
-            arch: amd64
           - builder: builder-24
-            tag_public: heroku/builder:24_linux-arm64
             arch: arm64
+            tag_public: heroku/builder:24_linux-arm64
     steps:
       # Checkout is needed only for the setup_docker_ci script
       - name: Checkout
@@ -263,15 +257,15 @@ jobs:
           docker tag '${{ matrix.builder }}' "${PRIVATE_IMAGE_URI}"
           docker push "${PRIVATE_IMAGE_URI}"
 
-  publish-indices:
+  publish-manifest:
     runs-on: ubuntu-22.04
-    needs: publish-images
+    needs: publish-image
     strategy:
       fail-fast: false
       matrix:
         include:
-          - manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
-            tag_public: "heroku/builder:24"
+          - tag_public: "heroku/builder:24"
+            manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
     steps:
       - name: Log in to Docker Hub
         if: matrix.tag_public != ''
