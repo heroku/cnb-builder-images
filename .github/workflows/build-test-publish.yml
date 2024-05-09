@@ -86,6 +86,12 @@ jobs:
           - builder: builder-24
             language: python
             arch: arm64
+          - builder: builder-24
+            language: node-js
+            arch: amd64
+          - builder: builder-24
+            language: node-js
+            arch: arm64
     steps:
       # Checkout is needed only for the setup_docker_ci script
       - name: Checkout
