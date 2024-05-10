@@ -14,7 +14,7 @@ version = "0.19.4"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:f9fe481e6758b31121f0eae37af7248a800c0fb5107ff96a45d16c1e7e76bb99"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:405b4498a6cc54ade11c96ae8141e23e7cc66fca7f30d5aa028570f301869c99"
 
 [[buildpacks]]
   id = "heroku/procfile"
@@ -36,7 +36,7 @@ version = "0.19.4"
 [[order]]
   [[order.group]]
     id = "heroku/nodejs"
-    version = "3.2.0"
+    version = "3.2.1"
   [[order.group]]
     id = "heroku/procfile"
     version = "3.1.1"
