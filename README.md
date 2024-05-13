@@ -18,9 +18,9 @@ in each base image, see [this Dev Center article](https://devcenter.heroku.com/a
 
 | Builder Image                     | OS           | Supported Architectures | Default Run Image                   | Lifecycle Version | Status         |
 |-----------------------------------|--------------|-------------------------|-------------------------------------|-------------------|----------------|
-| [heroku/builder:20][builder-tags] | Ubuntu 20.04 | AMD64                   | [heroku/heroku:20-cnb][heroku-tags] | 0.19.4            | Available      |
-| [heroku/builder:22][builder-tags] | Ubuntu 22.04 | AMD64                   | [heroku/heroku:22-cnb][heroku-tags] | 0.19.4            | Recommended    |
-| [heroku/builder:24][builder-tags] | Ubuntu 24.04 | AMD64 + ARM64           | [heroku/heroku:24][heroku-tags]     | 0.19.4            | In Development |
+| [heroku/builder:20][builder-tags] | Ubuntu 20.04 | AMD64                   | [heroku/heroku:20-cnb][heroku-tags] | 0.19.5            | Available      |
+| [heroku/builder:22][builder-tags] | Ubuntu 22.04 | AMD64                   | [heroku/heroku:22-cnb][heroku-tags] | 0.19.5            | Recommended    |
+| [heroku/builder:24][builder-tags] | Ubuntu 24.04 | AMD64 + ARM64           | [heroku/heroku:24][heroku-tags]     | 0.19.5            | In Development |
 
 The builder images above (excluding `heroku/builder:24`, whilst it's in development) include buildpack support for the following languages: Go, Java, Node.js, PHP, Python, Ruby & Scala.
 
