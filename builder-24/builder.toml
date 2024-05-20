@@ -24,10 +24,36 @@ version = "0.19.6"
   id = "heroku/python"
   uri = "docker://docker.io/heroku/buildpack-python@sha256:a64c75016e01aced71f98262eba7cdd132170f43df5281c94d624cbb1d230da2"
 
+[[buildpacks]]
+  id = "heroku/ruby"
+  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:b98b873adf2fc51dce9ae09331486cfe2f799ec233eb7128d1f5068e6e63e25a"
+
 [[order]]
   [[order.group]]
     id = "heroku/python"
     version = "0.10.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "3.1.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs-engine"
+    version = "3.2.1"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs-yarn"
+    version = "3.2.1"
+    optional = true
+  # TODO: Enable once `heroku/jvm` supports Heroku-24.
+  # [[order.group]]
+  #   id = "heroku/jvm"
+  #   version = "TBD"
+  #   optional = true
+  [[order.group]]
+    id = "heroku/ruby"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "3.1.1"
