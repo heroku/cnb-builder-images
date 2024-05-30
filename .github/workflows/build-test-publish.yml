@@ -35,18 +35,10 @@ jobs:
             arch: arm64
           - builder: salesforce-functions
             arch: arm64
-    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-medium' || 'ubuntu-22.04' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Docker is not installed on GHA arm runners
-      - name: Setup Docker
-        if: matrix.arch == 'arm64'
-        run: |
-          bin/setup_docker_ci
-          sudo usermod -aG docker $USER
-          sudo apt-get install acl
-          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@v5.6.0
       - name: Create builder image
@@ -71,7 +63,7 @@ jobs:
           path: images.tar.zst
 
   test:
-    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-medium' || 'ubuntu-22.04' }}
     needs: create
     strategy:
       fail-fast: false
@@ -93,14 +85,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         if: matrix.arch == 'arm64'
-      # Docker is not installed on GHA arm runners
-      - name: Setup Docker
-        if: matrix.arch == 'arm64'
-        run: |
-          bin/setup_docker_ci
-          sudo usermod -aG docker $USER
-          sudo apt-get install acl
-          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Checkout getting started guide
         uses: actions/checkout@v4
         with:
@@ -179,7 +163,7 @@ jobs:
           fi
 
   publish-image:
-    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-large' || 'ubuntu-22.04' }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-medium' || 'ubuntu-22.04' }}
     if: success() && github.ref == 'refs/heads/main'
     needs: ["test", "test-functions"]
     strategy:
@@ -206,14 +190,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         if: matrix.arch == 'arm64'
-      # Docker is not installed on GHA arm runners
-      - name: Setup Docker
-        if: matrix.arch == 'arm64'
-        run: |
-          bin/setup_docker_ci
-          sudo usermod -aG docker $USER
-          sudo apt-get install acl
-          sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
         with:
