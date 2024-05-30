@@ -81,10 +81,6 @@ jobs:
             language: php
 
     steps:
-      # Checkout is needed only for the setup_docker_ci script
-      - name: Checkout
-        uses: actions/checkout@v4
-        if: matrix.arch == 'arm64'
       - name: Checkout getting started guide
         uses: actions/checkout@v4
         with:
@@ -186,10 +182,6 @@ jobs:
             arch: arm64
             tag_public: heroku/builder:24_linux-arm64
     steps:
-      # Checkout is needed only for the setup_docker_ci script
-      - name: Checkout
-        uses: actions/checkout@v4
-        if: matrix.arch == 'arm64'
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
         with:
