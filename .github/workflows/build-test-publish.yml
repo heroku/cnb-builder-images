@@ -48,7 +48,7 @@ jobs:
           sudo apt-get install acl
           sudo setfacl --modify user:$USER:rw /var/run/docker.sock
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5.6.0
+        uses: buildpacks/github-actions/setup-pack@v5.7.0
       - name: Create builder image
         run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
       # We export the run image too (and not just the generated builder image), since it adds virtually
@@ -107,7 +107,7 @@ jobs:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5.6.0
+        uses: buildpacks/github-actions/setup-pack@v5.7.0
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
         with:
@@ -146,7 +146,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5.6.0
+        uses: buildpacks/github-actions/setup-pack@v5.7.0
         with:
           # Using an older version of Pack CLI here (that only supports Platform API <= 0.9),
           # for testing parity with the Platform API version used by Kodon for Functions:
