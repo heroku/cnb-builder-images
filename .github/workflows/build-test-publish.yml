@@ -76,9 +76,6 @@ jobs:
             arch: arm64
           - builder: builder-22
             arch: arm64
-          # TODO: Remove these temporary exclusions as each language is added to builder-24.
-          - builder: builder-24
-            language: php
 
     steps:
       - name: Checkout getting started guide
