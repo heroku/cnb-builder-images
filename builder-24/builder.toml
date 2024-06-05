@@ -1,4 +1,4 @@
-description = "Heroku-24 (Ubuntu 24.04) base image with buildpacks that support amd and arm architectures"
+description = "Ubuntu 24.04 AMD64+ARM64 base image with buildpacks for Go, Java, Node.js, PHP, Python, Ruby & Scala."
 
 [stack]
 id = "heroku-24"
