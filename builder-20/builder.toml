@@ -6,7 +6,7 @@ build-image = "heroku/heroku:20-cnb-build"
 run-image = "heroku/heroku:20-cnb"
 
 [lifecycle]
-version = "0.19.6"
+version = "0.19.7"
 
 [[buildpacks]]
   id = "heroku/go"
