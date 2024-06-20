@@ -165,19 +165,22 @@ jobs:
         include:
           - builder: builder-20
             arch: amd64
-            tag_public: heroku/builder:20
+            tag_docker_hub: heroku/builder:20
           - builder: builder-22
             arch: amd64
-            tag_public: heroku/builder:22
+            tag_docker_hub: heroku/builder:22
+            tag_ecr_public: heroku/builder:22
           - builder: salesforce-functions
             arch: amd64
             tag_private: heroku-22:builder-functions
           - builder: builder-24
             arch: amd64
-            tag_public: heroku/builder:24_linux-amd64
+            tag_docker_hub: heroku/builder:24_linux-amd64
+            tag_ecr_public: heroku/builder:24_linux-amd64
           - builder: builder-24
             arch: arm64
-            tag_public: heroku/builder:24_linux-arm64
+            tag_docker_hub: heroku/builder:24_linux-arm64
+            tag_ecr_public: heroku/builder:24_linux-arm64
     steps:
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
@@ -190,7 +193,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Log into Docker Hub
-        if: matrix.tag_public != ''
+        if: matrix.tag_docker_hub != ''
         run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
       - name: Log into internal registry
         if: matrix.tag_private != ''
@@ -202,13 +205,25 @@ jobs:
               | jq --exit-status -r '.raw_id_token'
           )
           echo "${REGISTRY_TOKEN}" | docker login '${{ secrets.REGISTRY_HOST }}' -u '${{ secrets.REGISTRY_USER }}' --password-stdin
+      - name: Configure AWS credentials
+        if: matrix.tag_ecr_public != ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ config.aws_account_id }}:role/${{ config.aws_ecr_role }}
+          aws-region: aws-region-1
+      - name: Login to Amazon ECR Public
+        if: matrix.tag_ecr_public != ''
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
       - name: Tag builder and push to Docker Hub
-        if: matrix.tag_public != ''
+        if: matrix.tag_docker_hub != ''
         run: |
-          PUBLIC_IMAGE_URI='${{ matrix.tag_public }}'
+          DOCKER_HUB_IMAGE_URI='${{ matrix.tag_docker_hub }}'
           set -x
-          docker tag '${{ matrix.builder }}' "${PUBLIC_IMAGE_URI}"
-          docker push "${PUBLIC_IMAGE_URI}"
+          docker tag '${{ matrix.builder }}' "${DOCKER_HUB_IMAGE_URI}"
+          docker push "${DOCKER_HUB_IMAGE_URI}"
       - name: Tag builder and push to internal registry
         if: matrix.tag_private != ''
         run: |
@@ -216,6 +231,13 @@ jobs:
           set -x
           docker tag '${{ matrix.builder }}' "${PRIVATE_IMAGE_URI}"
           docker push "${PRIVATE_IMAGE_URI}"
+      - name: Tag builder and push to public ECR
+        if: matrix.tag_ecr_public != ''
+        run: |
+          ECR_PUBLIC_IMAGE_URI='public.ecr.amazonaws.com/${{ matrix.tag_ecr_public }}'
+          set -x
+          docker tag '${{ matrix.builder }}' "${ECR_PUBLIC_IMAGE_URI}"
+          docker push "${ECR_PUBLIC_IMAGE_URI}"
 
   publish-manifest:
     runs-on: ubuntu-24.04
@@ -224,13 +246,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - tag_public: "heroku/builder:24"
+          - tag_docker_hub: "heroku/builder:24"
             manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
     steps:
       - name: Log in to Docker Hub
-        if: matrix.tag_public != ''
+        if: matrix.tag_docker_hub != ''
         run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
       - name: Create and push manifest lists
         run: |
-          docker manifest create "${{ matrix.tag_public }}" ${{ matrix.manifests }}
-          docker manifest push "${{ matrix.tag_public }}"
+          docker manifest create "${{ matrix.tag_docker_hub }}" ${{ matrix.manifests }}
+          docker manifest push "${{ matrix.tag_docker_hub }}"
