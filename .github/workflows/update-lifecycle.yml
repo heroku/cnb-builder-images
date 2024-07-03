@@ -12,18 +12,18 @@ jobs:
     runs-on: pub-hk-ubuntu-22.04-small
     steps:
       - name: Get token for GH application (Linguist)
-        uses: heroku/use-app-token-action@main
+        uses: actions/create-github-app-token@v1
         id: generate-token
         with:
-          app_id: ${{ vars.LINGUIST_GH_APP_ID }}
-          private_key: ${{ secrets.LINGUIST_GH_PRIVATE_KEY }}
+          app-id: ${{ vars.LINGUIST_GH_APP_ID }}
+          private-key: ${{ secrets.LINGUIST_GH_PRIVATE_KEY }}
 
       - name: Checkout
         uses: actions/checkout@v4
         with:
           # We always want the version bump and resultant PR to target main, not the branch of the workflow_dispatch.
           ref: main
-          token: ${{ steps.generate-token.outputs.app_token }}
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: Record existing lifecycle version
         id: existing-version
@@ -35,7 +35,7 @@ jobs:
         id: latest-version
         run: echo "version=$(gh release view --repo buildpacks/lifecycle --json tagName --jq '.tagName | sub("v"; "")')" >> "${GITHUB_OUTPUT}"
         env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.app_token }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       - name: Update builder manifests with latest lifecycle version
         # This only updates manifests that were on the same version as builder-22, to ensure
@@ -50,7 +50,7 @@ jobs:
         id: pr
         uses: peter-evans/create-pull-request@v6.1.0
         with:
-          token: ${{ steps.generate-token.outputs.app_token }}
+          token: ${{ steps.generate-token.outputs.token }}
           title: Update lifecycle from v${{ steps.existing-version.outputs.version }} to v${{ steps.latest-version.outputs.version }}
           body: |
             Release notes:
@@ -75,4 +75,4 @@ jobs:
         if: steps.pr.outputs.pull-request-operation == 'created'
         run: gh pr merge --auto --squash "${{ steps.pr.outputs.pull-request-number }}"
         env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.app_token }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
