@@ -35,7 +35,7 @@ jobs:
             arch: arm64
           - builder: salesforce-functions
             arch: arm64
-    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-medium' || 'ubuntu-22.04' }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-24.04-arm-medium' || 'ubuntu-24.04' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -63,7 +63,7 @@ jobs:
           path: images.tar.zst
 
   test:
-    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-medium' || 'ubuntu-22.04' }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-24.04-arm-medium' || 'ubuntu-24.04' }}
     needs: create
     strategy:
       fail-fast: false
@@ -113,7 +113,7 @@ jobs:
           fi
 
   test-functions:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: create
     strategy:
       fail-fast: false
@@ -156,7 +156,7 @@ jobs:
           fi
 
   publish-image:
-    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-22.04-arm-medium' || 'ubuntu-22.04' }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-24.04-arm-medium' || 'ubuntu-24.04' }}
     if: success() && github.ref == 'refs/heads/main'
     needs: ["test", "test-functions"]
     strategy:
@@ -218,7 +218,7 @@ jobs:
           docker push "${PRIVATE_IMAGE_URI}"
 
   publish-manifest:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: publish-image
     strategy:
       fail-fast: false
