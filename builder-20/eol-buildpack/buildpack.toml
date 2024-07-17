@@ -1,0 +1,8 @@
+api = "0.9"
+
+[buildpack]
+  id = "heroku/eol-warning"
+  version = "1.0.0"
+
+[[stacks]]
+  id = "*"
