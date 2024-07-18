@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ANSI_RED="\033[1;31m"
+ANSI_RESET="\033[0m"
+
+function display_error() {
+  echo >&2
+  while IFS= read -r line; do
+    echo -e "${ANSI_RED}${line}${ANSI_RESET}" >&2
+  done <<< "${1}"
+  echo >&2
+}
+
+# Banner generated via https://www.ascii-art-generator.org/ with "big" font
+# and 70 width.
+read -r -d '' EOL_MESSAGE <<'EOF' || true
+#######################################################################
+ _                    _               ___   ___    ______ ____  _
+| |                  | |             |__ \ / _ \  |  ____/ __ \| |
+| |__   ___ _ __ ___ | | ___   _ ______ ) | | | | | |__ | |  | | |
+| '_ \ / _ \ '__/ _ \| |/ / | | |______/ /| | | | |  __|| |  | | |
+| | | |  __/ | | (_) |   <| |_| |     / /_| |_| | | |___| |__| | |____
+|_| |_|\___|_|  \___/|_|\_\\\__,_|    |____|\___/  |______\____/|______|
+
+This builder image ('heroku/bulder:20') is deprecated, since it is
+based on the deprecated 'heroku/heroku:20' base image.
+
+Starting April 30th, 2025, this image will no longer receive security
+updates. Shortly after, this builder will be disabled and made
+unavailable.
+
+To continue receiving security updates and avoid interruption, upgrade
+to one of our newer builders, such as 'heroku/builder:22' or
+'heroku/builder:24':
+https://github.com/heroku/cnb-builder-images#available-images
+
+If you are using the Pack CLI, you will need to adjust your '--builder'
+CLI argument or change the default builder configuration:
+https://buildpacks.io/docs/tools/pack/cli/pack_config_default-builder/
+
+If you are using a third-party platform to deploy your app, check the
+platform documentation for instructions on changing the builder.
+#######################################################################
+EOF
+
+display_error "${EOL_MESSAGE}"
+
+exit 0

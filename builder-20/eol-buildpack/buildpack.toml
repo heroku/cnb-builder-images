@@ -1,0 +1,10 @@
+api = "0.10"
+
+[buildpack]
+  id = "heroku/eol-warning"
+  version = "1.0.0"
+  name = "heroku/builder:20 End-of-Life Warning"
+  homepage = "https://github.com/heroku/cnb-builder-images"
+
+[[buildpack.licenses]]
+  type = "BSD-3-Clause"
