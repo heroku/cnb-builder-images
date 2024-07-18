@@ -13,6 +13,8 @@ function display_error() {
   echo >&2
 }
 
+# Banner generated via https://www.ascii-art-generator.org/ with "big" font
+# and 70 width.
 read -r -d '' EOL_MESSAGE <<'EOF' || true
 #######################################################################
  _                    _               ___   ___    ______ ____  _
