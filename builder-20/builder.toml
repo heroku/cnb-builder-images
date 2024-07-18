@@ -44,7 +44,6 @@ version = "0.19.7"
   id = "heroku/scala"
   uri = "docker://docker.io/heroku/buildpack-scala@sha256:0c50dda170abd417da3aadde8dd7be5f1e724f6b87137a730e946d814c6b9e92"
 
-
 [[order]]
   [[order.group]]
     id = "heroku/python"
