@@ -32,7 +32,7 @@ unavailable.
 To continue receiving security updates and avoid interruption, upgrade
 to one of our newer builders, such as 'heroku/builder:22' or
 'heroku/builder:24':
-https://github.com/heroku/cnb-builder-images#heroku-cnb-builder-images
+https://github.com/heroku/cnb-builder-images#available-images
 
 If you are using the Pack CLI, you will need to adjust your '--builder'
 CLI argument or change the default builder configuration:
