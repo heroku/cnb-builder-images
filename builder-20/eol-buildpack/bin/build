@@ -2,15 +2,15 @@
 
 set -euo pipefail
 
+ANSI_RED="\033[1;31m"
+ANSI_RESET="\033[0m"
+
 function display_error() {
-  local ansi_red="\033[1;31m"
-  local ansi_reset="\033[0m"
-  local message=$1
-  echo
+  echo >&2
   while IFS= read -r line; do
-    echo -e "${ansi_red}${line}${ansi_reset}" >&2
-  done <<< "$message"
-  echo
+    echo -e "${ANSI_RED}${line}${ANSI_RESET}" >&2
+  done <<< "${1}"
+  echo >&2
 }
 
 read -r -d '' EOL_MESSAGE <<'EOF' || true
@@ -44,4 +44,5 @@ platform documentation for instructions on changing the builder.
 EOF
 
 display_error "${EOL_MESSAGE}"
+
 exit 0
