@@ -24,7 +24,7 @@ read -r -d '' EOL_MESSAGE <<'EOF' || true
 | | | |  __/ | | (_) |   <| |_| |     / /_| |_| | | |___| |__| | |____
 |_| |_|\___|_|  \___/|_|\_\\\__,_|    |____|\___/  |______\____/|______|
 
-This builder image ('heroku/bulder:20') is deprecated, since it is
+This builder image ('heroku/builder:20') is deprecated, since it is
 based on the deprecated 'heroku/heroku:20' base image.
 
 Starting April 30th, 2025, this image will no longer receive security
