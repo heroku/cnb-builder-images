@@ -210,7 +210,7 @@ jobs:
         if: matrix.tag_ecr_public != ''
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ config.aws_account_id }}:role/${{ config.aws_ecr_role }}
+          role-to-assume: arn:aws:iam::${{ config.AWS_ACCOUNT_ID }}:role/${{ config.AWS_ECR_ROLE }}
           aws-region: aws-region-1
       - name: Login to Amazon ECR Public
         if: matrix.tag_ecr_public != ''
