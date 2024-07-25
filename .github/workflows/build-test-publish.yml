@@ -248,7 +248,7 @@ jobs:
       matrix:
         include:
           - tag_docker_hub: "heroku/builder:24"
-            tag_public_ecr: "heroku/builder:24"
+            tag_ecr_public: "heroku/builder:24"
             manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
     steps:
       - name: Log in to Docker Hub
