@@ -248,12 +248,35 @@ jobs:
       matrix:
         include:
           - tag_docker_hub: "heroku/builder:24"
+            tag_public_ecr: "heroku/builder:24"
             manifests: "heroku/builder:24_linux-amd64 heroku/builder:24_linux-arm64"
     steps:
       - name: Log in to Docker Hub
         if: matrix.tag_docker_hub != ''
         run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
-      - name: Create and push manifest lists
+      - name: Configure AWS credentials
+        if: matrix.tag_ecr_public != ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ECR_ROLE }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Login to Amazon ECR Public
+        if: matrix.tag_ecr_public != ''
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
+      - name: Create and push manifest lists to Docker Hub
+        if: matrix.tag_docker_hub != ''
         run: |
-          docker manifest create "${{ matrix.tag_docker_hub }}" ${{ matrix.manifests }}
-          docker manifest push "${{ matrix.tag_docker_hub }}"
+          DOCKER_HUB_IMAGE_URI='${{ matrix.tag_docker_hub }}'
+          set -x
+          docker manifest create "$DOCKER_HUB_IMAGE_URI" ${{ matrix.manifests }}
+          docker manifest push "$DOCKER_HUB_IMAGE_URI"
+      - name: Create and push manifest lists to public ECR
+        if: matrix.tag_ecr_public != ''
+        run: |
+          ECR_PUBLIC_IMAGE_URI='public.ecr.aws/${{ matrix.tag_ecr_public }}'
+          set -x
+          docker manifest create "$ECR_PUBLIC_IMAGE_URI" ${{ matrix.manifests }}
+          docker manifest push "$ECR_PUBLIC_IMAGE_URI"
