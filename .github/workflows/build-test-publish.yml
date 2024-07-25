@@ -158,7 +158,7 @@ jobs:
 
   publish-image:
     runs-on: ${{ matrix.arch == 'arm64' && 'pub-hk-ubuntu-24.04-arm-medium' || 'ubuntu-24.04' }}
-    if: success() && github.ref == 'refs/heads/public-ecr'
+    if: success() # && github.ref == 'refs/heads/main'
     needs: ["test", "test-functions"]
     strategy:
       fail-fast: false
