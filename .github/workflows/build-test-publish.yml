@@ -235,7 +235,7 @@ jobs:
       - name: Tag builder and push to public ECR
         if: matrix.tag_ecr_public != ''
         run: |
-          ECR_PUBLIC_IMAGE_URI='public.ecr.ams/${{ matrix.tag_ecr_public }}'
+          ECR_PUBLIC_IMAGE_URI='public.ecr.aws/${{ matrix.tag_ecr_public }}'
           set -x
           docker tag '${{ matrix.builder }}' "${ECR_PUBLIC_IMAGE_URI}"
           docker push "${ECR_PUBLIC_IMAGE_URI}"
