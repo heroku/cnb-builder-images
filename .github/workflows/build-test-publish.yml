@@ -249,8 +249,8 @@ jobs:
         include:
           - tag_uri: "docker.io/heroku/builder:24"
             manifest_uris: "docker.io/heroku/builder:24_linux-amd64 docker.io/heroku/builder:24_linux-arm64"
-          - tag_uri: "public.aws.ecr/heroku/builder:24"
-            manifest_uris: "public.aws.ecr/heroku/builder:24_linux-amd64 public.aws.ecr/heroku/builder:24_linux-arm64"
+          - tag_uri: "public.ecr.aws/heroku/builder:24"
+            manifest_uris: "public.ecr.aws/heroku/builder:24_linux-amd64 public.ecr.aws/heroku/builder:24_linux-arm64"
     steps:
       - name: Log in to Docker Hub
         run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
