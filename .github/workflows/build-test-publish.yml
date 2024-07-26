@@ -240,7 +240,7 @@ jobs:
           docker tag '${{ matrix.builder }}' "${ECR_PUBLIC_IMAGE_URI}"
           docker push "${ECR_PUBLIC_IMAGE_URI}"
 
-  publish-manifests:
+  publish-manifest:
     runs-on: ubuntu-24.04
     needs: publish-image
     strategy:
