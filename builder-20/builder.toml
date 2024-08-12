@@ -2,8 +2,17 @@ description = "[DEPRECATED] Ubuntu 20.04 AMD64 base image with buildpacks for Go
 
 [stack]
 id = "heroku-20"
-build-image = "heroku/heroku:20-cnb-build"
-run-image = "heroku/heroku:20-cnb"
+build-image = "docker.io/heroku/heroku:20-cnb-build"
+run-image = "docker.io/heroku/heroku:20-cnb"
+run-image-mirrors = ["public.ecr.aws/heroku/heroku:20-cnb"]
+
+[build]
+image = "docker.io/heroku/heroku:20-cnb-build"
+
+[run]
+[[run.images]]
+image = "docker.io/heroku/heroku:20-cnb"
+mirrors = ["public.ecr.aws/heroku/heroku:20-cnb"]
 
 [lifecycle]
 version = "0.20.0"

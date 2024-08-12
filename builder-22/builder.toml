@@ -2,8 +2,17 @@ description = "Ubuntu 22.04 AMD64 base image with buildpacks for Go, Java, Node.
 
 [stack]
 id = "heroku-22"
-build-image = "heroku/heroku:22-cnb-build"
-run-image = "heroku/heroku:22-cnb"
+build-image = "docker.io/heroku/heroku:22-cnb-build"
+run-image = "docker.io/heroku/heroku:22-cnb"
+run-image-mirrors = ["public.ecr.aws/heroku/heroku:22-cnb"]
+
+[build]
+image = "docker.io/heroku/heroku:22-cnb-build"
+
+[run]
+[[run.images]]
+image = "docker.io/heroku/heroku:22-cnb"
+mirrors = ["public.ecr.aws/heroku/heroku:22-cnb"]
 
 [lifecycle]
 version = "0.20.0"
