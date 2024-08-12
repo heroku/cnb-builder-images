@@ -2,11 +2,20 @@ description = "Ubuntu 24.04 AMD64+ARM64 base image with buildpacks for Go, Java,
 
 [stack]
 id = "heroku-24"
-build-image = "heroku/heroku:24-build"
-run-image = "heroku/heroku:24"
+build-image = "docker.io/heroku/heroku:24-build"
+run-image = "docker.io/heroku/heroku:24"
+run-image-mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [lifecycle]
 version = "0.20.0"
+
+[build]
+image = "docker.io/heroku/heroku:24-build"
+
+[run]
+[[run.images]]
+image = "docker.io/heroku/heroku:24"
+mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/go"
