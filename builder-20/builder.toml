@@ -23,7 +23,7 @@ version = "0.20.0"
 
 [[buildpacks]]
   id = "heroku/go"
-  uri = "docker://docker.io/heroku/buildpack-go@sha256:30c89628b937eaf7c3e63e6f5ced41dcf182c9ae87ae80999875600e440ea8bf"
+  uri = "docker://docker.io/heroku/buildpack-go@sha256:69ccc6af465bcb3f7a131f3f15ebc975c73f17e33d4216162bd6a52811f7e114"
 
 [[buildpacks]]
   id = "heroku/java"
@@ -128,7 +128,7 @@ version = "0.20.0"
 [[order]]
   [[order.group]]
     id = "heroku/go"
-    version = "0.4.2"
+    version = "0.4.3"
   [[order.group]]
     id = "heroku/procfile"
     version = "3.1.2"
