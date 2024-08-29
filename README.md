@@ -16,11 +16,14 @@ in each base image, see [this Dev Center article](https://devcenter.heroku.com/a
 
 ## Available images
 
-| Builder Image                     | OS           | Architectures | Supported Language Buildpacks                      | Status      |
-|-----------------------------------|--------------|---------------|----------------------------------------------------|-------------|
-| [heroku/builder:20][builder-tags] | Ubuntu 20.04 | AMD64         | Go, Java, Node.js, PHP, Python, Ruby & Scala       | Deprecated  |
-| [heroku/builder:22][builder-tags] | Ubuntu 22.04 | AMD64         | .NET, Go, Java, Node.js, PHP, Python, Ruby & Scala | Available   |
-| [heroku/builder:24][builder-tags] | Ubuntu 24.04 | AMD64 + ARM64 | .NET, Go, Java, Node.js, PHP, Python, Ruby & Scala | Recommended |
+| Builder Image                     | OS           | Supported Architectures | Default Run Image                   | Lifecycle Version | Status      |
+|-----------------------------------|--------------|-------------------------|-------------------------------------|-------------------|-------------|
+| [heroku/builder:20][builder-tags] | Ubuntu 20.04 | AMD64                   | [heroku/heroku:20-cnb][heroku-tags] | 0.20.1            | Deprecated  |
+| [heroku/builder:22][builder-tags] | Ubuntu 22.04 | AMD64                   | [heroku/heroku:22-cnb][heroku-tags] | 0.20.1            | Available   |
+| [heroku/builder:24][builder-tags] | Ubuntu 24.04 | AMD64 + ARM64           | [heroku/heroku:24][heroku-tags]     | 0.20.1            | Recommended |
+
+The builder images above include buildpack support for the following languages: Go, Java, Node.js, PHP, Python, Ruby & Scala.
+Additionally, `heroku/builder:22` and `heroku/builder:24` includes buildpack support for .NET applications.
 
 Check the [lifecycle API version support matrix](https://github.com/buildpacks/lifecycle#supported-apis) to determine
 which Platform and Buildpack API versions are compatible with the `lifecycle` version included in each builder.
@@ -68,3 +71,4 @@ For anything else (including more general feature requests or questions), use:
 https://github.com/heroku/buildpacks/discussions
 
 [builder-tags]: https://hub.docker.com/r/heroku/builder/tags
+[heroku-tags]: https://hub.docker.com/r/heroku/heroku/tags
