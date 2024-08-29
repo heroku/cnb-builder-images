@@ -1,4 +1,4 @@
-description = "Ubuntu 24.04 AMD64+ARM64 base image with buildpacks for Go, Java, Node.js, PHP, Python, Ruby & Scala."
+description = "Ubuntu 24.04 AMD64+ARM64 base image with buildpacks for .NET, Go, Java, Node.js, PHP, Python, Ruby & Scala."
 
 [stack]
 id = "heroku-24"
@@ -16,6 +16,10 @@ image = "docker.io/heroku/heroku:24-build"
 [[run.images]]
 image = "docker.io/heroku/heroku:24"
 mirrors = ["public.ecr.aws/heroku/heroku:24"]
+
+[[buildpacks]]
+  id = "heroku/dotnet"
+  uri = "docker://docker.io/heroku/buildpack-dotnet@sha256:0ff6cbece898f615c70e129058f8ef88c94fea8ed2f5cf210606ce5ed924d171"
 
 [[buildpacks]]
   id = "heroku/go"
@@ -119,6 +123,15 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
   [[order.group]]
     id = "heroku/php"
     version = "0.2.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "3.1.2"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/dotnet"
+    version = "0.1.2"
   [[order.group]]
     id = "heroku/procfile"
     version = "3.1.2"
