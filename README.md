@@ -23,7 +23,7 @@ in each base image, see [this Dev Center article](https://devcenter.heroku.com/a
 | [heroku/builder:24][builder-tags] | Ubuntu 24.04 | AMD64 + ARM64           | [heroku/heroku:24][heroku-tags]     | 0.20.1            | Recommended |
 
 The builder images above all include buildpack support for the following languages: Go, Java, Node.js, PHP, Python, Ruby & Scala.
-Additionally, `heroku/builder:24` include buildpack support for .NET applications.
+Additionally, `heroku/builder:24` includes buildpack support for .NET applications.
 
 Check the [lifecycle API version support matrix](https://github.com/buildpacks/lifecycle#supported-apis) to determine
 which Platform and Buildpack API versions are compatible with the `lifecycle` version included in each builder.
