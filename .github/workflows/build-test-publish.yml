@@ -81,7 +81,6 @@ jobs:
             language: dotnet
           - builder: builder-22
             language: dotnet
-          
 
     steps:
       - name: Checkout getting started guide
