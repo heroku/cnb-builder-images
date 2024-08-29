@@ -69,7 +69,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala"]
+        language: ["dotnet", "go", "gradle", "java", "node-js", "php", "python", "ruby", "scala"]
         builder: ["builder-20", "builder-22", "builder-24"]
         arch: ["amd64", "arm64"]
         exclude:
@@ -77,6 +77,11 @@ jobs:
             arch: arm64
           - builder: builder-22
             arch: arm64
+          - builder: builder-20
+            language: dotnet
+          - builder: builder-22
+            language: dotnet
+          
 
     steps:
       - name: Checkout getting started guide

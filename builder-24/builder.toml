@@ -18,6 +18,10 @@ image = "docker.io/heroku/heroku:24"
 mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
+  id = "heroku/dotnet"
+  uri = "docker://docker.io/heroku/buildpack-dotnet@sha256:0ff6cbece898f615c70e129058f8ef88c94fea8ed2f5cf210606ce5ed924d171"
+
+[[buildpacks]]
   id = "heroku/go"
   uri = "docker://docker.io/heroku/buildpack-go@sha256:69ccc6af465bcb3f7a131f3f15ebc975c73f17e33d4216162bd6a52811f7e114"
 
@@ -119,6 +123,15 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
   [[order.group]]
     id = "heroku/php"
     version = "0.2.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "3.1.2"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/dotnet"
+    version = "0.1.2"
   [[order.group]]
     id = "heroku/procfile"
     version = "3.1.2"

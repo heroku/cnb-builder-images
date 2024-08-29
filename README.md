@@ -52,6 +52,7 @@ pack config default-builder heroku/builder:24
 
 For language/buildpack-specific bugs or feature requests, file an issue against the appropriate buildpack repository:
 
+- https://github.com/heroku/buildpacks-dotnet
 - https://github.com/heroku/buildpacks-go
 - https://github.com/heroku/buildpacks-jvm
 - https://github.com/heroku/buildpacks-nodejs
