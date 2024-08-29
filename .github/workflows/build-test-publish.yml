@@ -79,8 +79,6 @@ jobs:
             arch: arm64
           - builder: builder-20
             language: dotnet
-          - builder: builder-22
-            language: dotnet
 
     steps:
       - name: Checkout getting started guide
