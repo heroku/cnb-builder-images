@@ -85,15 +85,6 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[order]]
   [[order.group]]
-    id = "heroku/nodejs"
-    version = "3.2.13"
-  [[order.group]]
-    id = "heroku/procfile"
-    version = "3.1.2"
-    optional = true
-
-[[order]]
-  [[order.group]]
     id = "heroku/java"
     version = "6.0.1"
   [[order.group]]
@@ -132,6 +123,16 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
   [[order.group]]
     id = "heroku/dotnet"
     version = "0.1.2"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "3.1.2"
+    optional = true
+
+# this group is intentionally at the end, because projects in other languages often have e.g. a package.json
+[[order]]
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "3.2.13"
   [[order.group]]
     id = "heroku/procfile"
     version = "3.1.2"
