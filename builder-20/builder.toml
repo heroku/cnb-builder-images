@@ -27,7 +27,7 @@ version = "0.20.2"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "docker://docker.io/heroku/buildpack-java@sha256:a553ae4d8f8dd564599991959020961e7f8881e575169bcaf3a6bbcac697b943"
+  uri = "docker://docker.io/heroku/buildpack-java@sha256:16e222b2343151eebb7b52f018d94371a444bd9adeb99f32ee4b2af46e9f2578"
 
 [[buildpacks]]
   id = "heroku/nodejs"
@@ -51,7 +51,7 @@ version = "0.20.2"
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "docker://docker.io/heroku/buildpack-scala@sha256:3a898ab1beb3eecc3f5e2bdbbdefe086e83108c918d2942011486042db8aaded"
+  uri = "docker://docker.io/heroku/buildpack-scala@sha256:6b5419aee9f1715c9f193074fabe7e3671bb68c56f13b772a87cafae36b80405"
 
 [[order]]
   [[order.group]]
@@ -76,7 +76,7 @@ version = "0.20.2"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
-    version = "6.0.2"
+    version = "6.0.3"
     optional = true
   [[order.group]]
     id = "heroku/ruby"
@@ -104,7 +104,7 @@ version = "0.20.2"
 [[order]]
   [[order.group]]
     id = "heroku/java"
-    version = "6.0.2"
+    version = "6.0.3"
   [[order.group]]
     id = "heroku/procfile"
     version = "3.1.2"
@@ -116,7 +116,7 @@ version = "0.20.2"
 [[order]]
   [[order.group]]
     id = "heroku/scala"
-    version = "6.0.2"
+    version = "6.0.3"
   [[order.group]]
     id = "heroku/procfile"
     version = "3.1.2"
