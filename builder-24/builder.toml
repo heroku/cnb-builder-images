@@ -19,7 +19,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/deb-packages"
-  uri = "docker://docker.io/heroku/buildpack-deb-packages@sha256:e78f94e020067a5b68a885eb89a1000f584f21757e4b5fb7cff6047b57d22544"
+  uri = "docker://docker.io/heroku/buildpack-deb-packages@sha256:8d80c4541b510802c5e6b0fe2e4fc816ff18807b4049e9c351760a9d966ce8aa"
 
 [[buildpacks]]
   id = "heroku/dotnet"
@@ -60,7 +60,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.0.1"
+    version = "0.0.2"
     optional = true
   [[order.group]]
     id = "heroku/python"
@@ -73,7 +73,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.0.1"
+    version = "0.0.2"
     optional = true
   [[order.group]]
     id = "heroku/nodejs-engine"
@@ -98,7 +98,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.0.1"
+    version = "0.0.2"
     optional = true
   [[order.group]]
     id = "heroku/java"
@@ -111,7 +111,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.0.1"
+    version = "0.0.2"
     optional = true
   [[order.group]]
     id = "heroku/scala"
@@ -124,7 +124,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.0.1"
+    version = "0.0.2"
     optional = true
   [[order.group]]
     id = "heroku/go"
@@ -137,7 +137,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.0.1"
+    version = "0.0.2"
     optional = true
   [[order.group]]
     id = "heroku/php"
@@ -150,7 +150,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.0.1"
+    version = "0.0.2"
     optional = true
   [[order.group]]
     id = "heroku/dotnet"
@@ -164,7 +164,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.0.1"
+    version = "0.0.2"
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
