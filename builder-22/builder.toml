@@ -15,7 +15,7 @@ image = "docker.io/heroku/heroku:22-cnb"
 mirrors = ["public.ecr.aws/heroku/heroku:22-cnb"]
 
 [lifecycle]
-version = "0.20.3"
+version = "0.20.4"
 
 [[buildpacks]]
   id = "heroku/deb-packages"
