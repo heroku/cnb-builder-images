@@ -51,7 +51,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/ruby"
-  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:636daa054da47cc01c4413aa03d902f888ac08198e90742ba2662262d772a67a"
+  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:4647996e0a8e7c37c79d0c1e0b9f049d1f23e5ac0be65e13adff95f33cea5efa"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -89,7 +89,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/ruby"
-    version = "4.0.2"
+    version = "5.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "3.1.2"
