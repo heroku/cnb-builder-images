@@ -39,7 +39,7 @@ version = "0.20.6"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:1ef903ca2474595eb35f24e2506c5bbafe81757ea298d225c0e133f64df7b75e"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:c3dabbd86ae62c92796fed892a19f3d07635a11b803d2aa0bf0dca9a388566ef"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -59,7 +59,7 @@ version = "0.20.6"
     version = "0.24.1"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.0.0"
+    version = "4.1.0"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -83,7 +83,7 @@ version = "0.20.6"
     version = "5.0.1"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.0.0"
+    version = "4.1.0"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -95,7 +95,7 @@ version = "0.20.6"
     version = "6.0.4"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.0.0"
+    version = "4.1.0"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -107,7 +107,7 @@ version = "0.20.6"
     version = "6.0.4"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.0.0"
+    version = "4.1.0"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -119,7 +119,7 @@ version = "0.20.6"
     version = "0.5.4"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.0.0"
+    version = "4.1.0"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -131,7 +131,7 @@ version = "0.20.6"
     version = "0.2.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.0.0"
+    version = "4.1.0"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -144,7 +144,7 @@ version = "0.20.6"
     version = "3.4.11"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.0.0"
+    version = "4.1.0"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
