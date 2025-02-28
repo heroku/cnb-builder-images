@@ -47,7 +47,7 @@ version = "0.20.6"
 
 [[buildpacks]]
   id = "heroku/ruby"
-  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:3cd1cae3138fe93051e101c5677b62eb0c675e739b132283b5b5b5c5add9c8aa"
+  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:cac24ba470c16cb0a153801f2b15ffebf77995a346f404767519174061aac78d"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -80,7 +80,7 @@ version = "0.20.6"
     optional = true
   [[order.group]]
     id = "heroku/ruby"
-    version = "5.0.1"
+    version = "5.1.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.1.0"
