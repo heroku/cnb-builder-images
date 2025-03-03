@@ -35,7 +35,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:cd64ea84d02236aaae0123d0c0e6bdf73913166321128102001df71568db940c"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:f583e585115d12c8dd29321ac7d4ea767e3a5e7056c818f15173f31ae0f42ce5"
 
 [[buildpacks]]
   id = "heroku/php"
@@ -77,11 +77,11 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/nodejs-engine"
-    version = "3.4.11"
+    version = "3.5.0"
     optional = true
   [[order.group]]
     id = "heroku/nodejs-yarn"
-    version = "3.4.11"
+    version = "3.5.0"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
@@ -168,7 +168,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "3.4.11"
+    version = "3.5.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.1.0"
