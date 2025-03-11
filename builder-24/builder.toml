@@ -23,7 +23,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/dotnet"
-  uri = "docker://docker.io/heroku/buildpack-dotnet@sha256:39716b9e30743c7902905d0f3c55185030fac5cff58bacc8913b589df9930ded"
+  uri = "docker://docker.io/heroku/buildpack-dotnet@sha256:a4c90b951331936ce2e4b3ed7c16095da6d4105f498127c50d3be747e5ae969d"
 
 [[buildpacks]]
   id = "heroku/go"
@@ -154,7 +154,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/dotnet"
-    version = "0.3.1"
+    version = "0.3.2"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.1.0"
