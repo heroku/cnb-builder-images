@@ -48,7 +48,7 @@ jobs:
       # Note: This step will skip creating a PR if there are no changes to commit.
       - name: Create or update pull request
         id: pr
-        uses: peter-evans/create-pull-request@v7.0.7
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
           token: ${{ steps.generate-token.outputs.token }}
           title: Update lifecycle from v${{ steps.existing-version.outputs.version }} to v${{ steps.latest-version.outputs.version }}
