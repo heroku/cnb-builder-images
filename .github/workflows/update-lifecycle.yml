@@ -6,6 +6,9 @@ on:
     - cron: '0 8 * * MON'
   workflow_dispatch:
 
+# Disable all GITHUB_TOKEN permissions, since the GitHub App token is used instead.
+permissions: {}
+
 jobs:
   update-lifecycle:
     name: Update lifecycle
