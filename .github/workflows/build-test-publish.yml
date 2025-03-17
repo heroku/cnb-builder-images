@@ -41,7 +41,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5.8.8
+        uses: buildpacks/github-actions/setup-pack@0f05ba41fb74d56ab4cb27485f538a8d65b4122e # v5.8.9
       - name: Create builder image
         run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
       # We export the run image too (and not just the generated builder image), since it adds virtually
@@ -87,7 +87,7 @@ jobs:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5.8.8
+        uses: buildpacks/github-actions/setup-pack@0f05ba41fb74d56ab4cb27485f538a8d65b4122e # v5.8.9
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
         with:
@@ -126,7 +126,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@v5.8.8
+        uses: buildpacks/github-actions/setup-pack@0f05ba41fb74d56ab4cb27485f538a8d65b4122e # v5.8.9
         with:
           # Using an older version of Pack CLI here (that only supports Platform API <= 0.9),
           # for testing parity with the Platform API version used by Kodon for Functions:
@@ -210,14 +210,14 @@ jobs:
           echo "${REGISTRY_TOKEN}" | docker login '${{ secrets.REGISTRY_HOST }}' -u '${{ secrets.REGISTRY_USER }}' --password-stdin
       - name: Configure AWS credentials
         if: matrix.tag_ecr_public != ''
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722 # v4.1.0
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ECR_ROLE }}
           aws-region: ${{ vars.AWS_REGION }}
       - name: Log in to Amazon ECR Public
         if: matrix.tag_ecr_public != ''
         id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
         with:
           registry-type: public
       - name: Tag builder and push to Docker Hub
@@ -257,13 +257,13 @@ jobs:
       - name: Log in to Docker Hub
         run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722 # v4.1.0
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ECR_ROLE }}
           aws-region: ${{ vars.AWS_REGION }}
       - name: Log in to Amazon ECR Public
         id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
         with:
           registry-type: public
       - name: Create and push manifest lists
