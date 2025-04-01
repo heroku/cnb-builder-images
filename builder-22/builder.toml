@@ -19,7 +19,7 @@ version = "0.20.7"
 
 [[buildpacks]]
   id = "heroku/deb-packages"
-  uri = "docker://docker.io/heroku/buildpack-deb-packages@sha256:c795dcbb359d04ae70a786feb15b18e4d3cee9a81d6a0da75ac3492b611d83dd"
+  uri = "docker://docker.io/heroku/buildpack-deb-packages@sha256:7d0a8f14d684436af11070a89e7b20a5e457166dfeed686cb915d46488684c1d"
 
 [[buildpacks]]
   id = "heroku/dotnet"
@@ -60,7 +60,7 @@ version = "0.20.7"
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.1.2"
+    version = "0.1.3"
     optional = true
   [[order.group]]
     id = "heroku/python"
@@ -73,7 +73,7 @@ version = "0.20.7"
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.1.2"
+    version = "0.1.3"
     optional = true
   [[order.group]]
     id = "heroku/nodejs-engine"
@@ -98,7 +98,7 @@ version = "0.20.7"
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.1.2"
+    version = "0.1.3"
     optional = true
   [[order.group]]
     id = "heroku/java"
@@ -111,7 +111,7 @@ version = "0.20.7"
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.1.2"
+    version = "0.1.3"
     optional = true
   [[order.group]]
     id = "heroku/scala"
@@ -124,7 +124,7 @@ version = "0.20.7"
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.1.2"
+    version = "0.1.3"
     optional = true
   [[order.group]]
     id = "heroku/go"
@@ -137,7 +137,7 @@ version = "0.20.7"
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.1.2"
+    version = "0.1.3"
     optional = true
   [[order.group]]
     id = "heroku/php"
@@ -150,7 +150,7 @@ version = "0.20.7"
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.1.2"
+    version = "0.1.3"
     optional = true
   [[order.group]]
     id = "heroku/dotnet"
@@ -164,7 +164,7 @@ version = "0.20.7"
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
-    version = "0.1.2"
+    version = "0.1.3"
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
