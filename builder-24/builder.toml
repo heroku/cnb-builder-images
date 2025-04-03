@@ -43,7 +43,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:d30273d441a9d8b78e5e3c8b2c90c4000b59280a216599174596e31ee7428623"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:6ace71a217485b2932c8e4a311a502b68fde1a3c81e23576e29a9a1dba9a489a"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -67,7 +67,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "0.25.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.0"
+    version = "4.2.1"
     optional = true
 
 [[order]]
@@ -92,7 +92,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "7.0.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.0"
+    version = "4.2.1"
     optional = true
 
 [[order]]
@@ -105,7 +105,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "6.1.1"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.0"
+    version = "4.2.1"
     optional = true
 
 [[order]]
@@ -118,7 +118,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "6.1.1"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.0"
+    version = "4.2.1"
     optional = true
 
 [[order]]
@@ -131,7 +131,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "0.5.7"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.0"
+    version = "4.2.1"
     optional = true
 
 [[order]]
@@ -144,7 +144,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "0.2.1"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.0"
+    version = "4.2.1"
     optional = true
 
 [[order]]
@@ -157,7 +157,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "0.4.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.0"
+    version = "4.2.1"
     optional = true
 
 # this group is intentionally at the end, because projects in other languages often have e.g. a package.json
@@ -171,5 +171,5 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "3.5.2"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.0"
+    version = "4.2.1"
     optional = true
