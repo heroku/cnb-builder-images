@@ -14,7 +14,7 @@ version = "0.17.6"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "docker://docker.io/heroku/buildpack-java-function@sha256:cca37f578a41ce3de574e31571c34f832cace892ff9e86fc9fb105728e06c26e"
+  uri = "docker://docker.io/heroku/buildpack-java-function@sha256:d91da75aafa009b6430c3ed97dc311457c6cd13d76f3af7f40e0bbe5fef4a8f1"
 
 [[buildpacks]]
   id = "heroku/nodejs-function"
@@ -28,4 +28,4 @@ version = "0.17.6"
 [[order]]
   [[order.group]]
     id = "heroku/java-function"
-    version = "6.1.1"
+    version = "6.1.2"
