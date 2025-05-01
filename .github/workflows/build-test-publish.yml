@@ -99,7 +99,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build getting started guide image
-        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never
+        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_EOL_HEROKU_BUILDER_20=1
       - name: Start getting started guide image
         run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
       - name: Test getting started web server response

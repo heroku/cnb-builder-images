@@ -55,17 +55,20 @@ version = "0.20.8"
 
 [[order]]
   [[order.group]]
+    id = "heroku/eol-warning"
+    version = "2.0.0"
+  [[order.group]]
     id = "heroku/python"
     version = "0.26.1"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
     optional = true
-  [[order.group]]
-    id = "heroku/eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/nodejs-engine"
     version = "3.6.1"
@@ -85,11 +88,11 @@ version = "0.20.8"
     id = "heroku/procfile"
     version = "4.2.1"
     optional = true
-  [[order.group]]
-    id = "heroku/eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/java"
     version = "6.2.1"
@@ -97,11 +100,11 @@ version = "0.20.8"
     id = "heroku/procfile"
     version = "4.2.1"
     optional = true
-  [[order.group]]
-    id = "heroku/eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/scala"
     version = "6.2.1"
@@ -109,11 +112,11 @@ version = "0.20.8"
     id = "heroku/procfile"
     version = "4.2.1"
     optional = true
-  [[order.group]]
-    id = "heroku/eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/go"
     version = "1.0.0"
@@ -121,11 +124,11 @@ version = "0.20.8"
     id = "heroku/procfile"
     version = "4.2.1"
     optional = true
-  [[order.group]]
-    id = "heroku/eol-warning"
-    version = "1.0.0"
 
 [[order]]
+  [[order.group]]
+    id = "heroku/eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/php"
     version = "1.0.1"
@@ -133,12 +136,12 @@ version = "0.20.8"
     id = "heroku/procfile"
     version = "4.2.1"
     optional = true
-  [[order.group]]
-    id = "heroku/eol-warning"
-    version = "1.0.0"
 
 # this group is intentionally at the end, because projects in other languages often have e.g. a package.json
 [[order]]
+  [[order.group]]
+    id = "heroku/eol-warning"
+    version = "2.0.0"
   [[order.group]]
     id = "heroku/nodejs"
     version = "3.6.1"
@@ -146,6 +149,3 @@ version = "0.20.8"
     id = "heroku/procfile"
     version = "4.2.1"
     optional = true
-  [[order.group]]
-    id = "heroku/eol-warning"
-    version = "1.0.0"

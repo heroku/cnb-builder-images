@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+ENV_DIR="${2}/env"
+ENV_VAR_NAME='ALLOW_EOL_HEROKU_BUILDER_20'
+ALLOW_BUILD="$(cat "${ENV_DIR}/${ENV_VAR_NAME}" 2> /dev/null || true)"
+
 ANSI_RED="\033[1;31m"
 ANSI_RESET="\033[0m"
 
@@ -13,9 +17,17 @@ function display_error() {
   echo >&2
 }
 
+if [[ "${ALLOW_BUILD}" == "1" ]]; then
+  MSG_FOOTER="Allowing the build to continue since ${ENV_VAR_NAME} is set."
+  EXIT_CODE=0
+else
+  MSG_FOOTER="To ignore this error, set the env var ${ENV_VAR_NAME} to 1."
+  EXIT_CODE=1
+fi
+
 # Banner generated via https://www.ascii-art-generator.org/ with "big" font
 # and 70 width.
-read -r -d '' EOL_MESSAGE <<'EOF' || true
+read -r -d '' EOL_MESSAGE <<EOF || true
 #######################################################################
  _                    _               ___   ___    ______ ____  _
 | |                  | |             |__ \ / _ \  |  ____/ __ \| |
@@ -24,7 +36,7 @@ read -r -d '' EOL_MESSAGE <<'EOF' || true
 | | | |  __/ | | (_) |   <| |_| |     / /_| |_| | | |___| |__| | |____
 |_| |_|\___|_|  \___/|_|\_\\\__,_|    |____|\___/  |______\____/|______|
 
-This builder image ('heroku/builder:20') is deprecated, since it is
+This builder image ('heroku/builder:20') has been sunset, since it is
 based on the deprecated 'heroku/heroku:20' base image.
 
 Starting April 30th, 2025, this image will no longer receive security
@@ -42,9 +54,12 @@ https://buildpacks.io/docs/tools/pack/cli/pack_config_default-builder/
 
 If you are using a third-party platform to deploy your app, check the
 platform documentation for instructions on changing the builder.
+
+${MSG_FOOTER}
+
 #######################################################################
 EOF
 
 display_error "${EOL_MESSAGE}"
 
-exit 0
+exit ${EXIT_CODE}
