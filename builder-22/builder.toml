@@ -23,7 +23,7 @@ version = "0.20.9"
 
 [[buildpacks]]
   id = "heroku/dotnet"
-  uri = "docker://docker.io/heroku/buildpack-dotnet@sha256:d0ec0f9aee599f698710e245bb85b595b3ada1ec797976839e0f44bc4d7ef4fe"
+  uri = "docker://docker.io/heroku/buildpack-dotnet@sha256:04b9b97794eb224167c41c4737017f10e6f6f7b866921aeb8badc48867347ba9"
 
 [[buildpacks]]
   id = "heroku/go"
@@ -154,7 +154,7 @@ version = "0.20.9"
     optional = true
   [[order.group]]
     id = "heroku/dotnet"
-    version = "0.5.1"
+    version = "0.5.2"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
