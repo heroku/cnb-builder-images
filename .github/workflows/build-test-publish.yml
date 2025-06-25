@@ -25,13 +25,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["builder-20", "builder-22", "builder-24", "salesforce-functions"]
+        builder: ["builder-22", "builder-24", "salesforce-functions"]
         arch: ["amd64", "arm64"]
         exclude:
           # Builders prior to Heroku-24 don't support ARM. We're using an exclude rather than
           # an include so that the ARM jobs don't appear out of sequence in the GitHub UI.
-          - builder: builder-20
-            arch: arm64
           - builder: builder-22
             arch: arm64
           - builder: salesforce-functions
@@ -70,15 +68,11 @@ jobs:
       fail-fast: false
       matrix:
         language: ["dotnet", "go", "gradle", "java", "node-js", "php", "python", "ruby", "scala"]
-        builder: ["builder-20", "builder-22", "builder-24"]
+        builder: ["builder-22", "builder-24"]
         arch: ["amd64", "arm64"]
         exclude:
-          - builder: builder-20
-            arch: arm64
           - builder: builder-22
             arch: arm64
-          - builder: builder-20
-            language: dotnet
 
     steps:
       - name: Checkout getting started guide
@@ -99,7 +93,7 @@ jobs:
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
       - name: Build getting started guide image
-        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never --env ALLOW_EOL_HEROKU_BUILDER_20=1
+        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never
       - name: Start getting started guide image
         run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
       - name: Test getting started web server response
@@ -164,9 +158,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - builder: builder-20
-            arch: amd64
-            tag_docker_hub: heroku/builder:20
           - builder: builder-22
             arch: amd64
             tag_docker_hub: heroku/builder:22
