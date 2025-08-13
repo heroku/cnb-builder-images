@@ -24,14 +24,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["builder-22", "builder-24", "salesforce-functions"]
+        builder: ["builder-22", "builder-24"]
         arch: ["amd64", "arm64"]
         exclude:
           # Builders prior to Heroku-24 don't support ARM. We're using an exclude rather than
           # an include so that the ARM jobs don't appear out of sequence in the GitHub UI.
           - builder: builder-22
-            arch: arm64
-          - builder: salesforce-functions
             arch: arm64
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     steps:
@@ -117,53 +115,10 @@ jobs:
             exit 1
           fi
 
-  test-functions:
-    runs-on: ubuntu-24.04
-    needs: create
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ["java", "javascript", "typescript"]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@8203df0b7ac31e358daa391b1949da5650e7f4f0 # v5.9.3
-        with:
-          # Using an older version of Pack CLI here (that only supports Platform API <= 0.9),
-          # for testing parity with the Platform API version used by Kodon for Functions:
-          # https://github.com/buildpacks/pack/blob/v0.27.0/internal/build/lifecycle_executor.go#L30
-          # https://github.com/heroku/kodon/blob/functions_eol/internal/constants/constants.go#L75
-          pack-version: "0.27.0"
-      - name: Restore Docker images from the cache
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          key: ${{ github.run_id}}-salesforce-functions-amd64
-          path: images.tar.zst
-        env:
-          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
-      - name: Load Docker images into the Docker daemon
-        run: zstd -dc --long=31 images.tar.zst | docker load
-      - name: Build example function image
-        run: pack build example-function --path salesforce-functions/examples/${{ matrix.language }} --builder salesforce-functions --trust-builder --pull-policy never
-      - name: Start example function image
-        run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
-      - name: Test example function web server response
-        run: |
-          if curl -sSfL --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 -X POST -H 'x-health-check: true' http://localhost:8080 -o response.txt; then
-            echo "Successful response from function"
-          else
-            echo "Function did not respond successfully"
-            docker logs example-function
-            [[ -f response.txt ]] && cat response.txt
-            exit 1
-          fi
-
   publish-image:
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     if: success() && github.ref == 'refs/heads/main'
-    needs: ["test", "test-functions"]
+    needs: test
     strategy:
       fail-fast: false
       matrix:
@@ -172,9 +127,6 @@ jobs:
             arch: amd64
             tag_docker_hub: heroku/builder:22
             tag_ecr_public: heroku/builder:22
-          - builder: salesforce-functions
-            arch: amd64
-            tag_private: heroku-22:builder-functions
           - builder: builder-24
             arch: amd64
             tag_docker_hub: heroku/builder:24_linux-amd64
@@ -197,16 +149,6 @@ jobs:
       - name: Log into Docker Hub
         if: matrix.tag_docker_hub != ''
         run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
-      - name: Log into internal registry
-        if: matrix.tag_private != ''
-        run: |
-          REGISTRY_TOKEN=$(
-            curl -sSf --retry 3 --retry-delay 1 --retry-all-errors --connect-timeout 3 \
-              -X POST -d '{"username":"${{ secrets.SERVICE_TOKEN_USER_NAME }}", "password":"${{ secrets.SERVICE_TOKEN_PASSWORD }}"}' \
-              '${{ secrets.SERVICE_TOKEN_ENDPOINT }}' \
-              | jq --exit-status -r '.raw_id_token'
-          )
-          echo "${REGISTRY_TOKEN}" | docker login '${{ secrets.REGISTRY_HOST }}' -u '${{ secrets.REGISTRY_USER }}' --password-stdin
       - name: Configure AWS credentials
         if: matrix.tag_ecr_public != ''
         uses: aws-actions/configure-aws-credentials@b47578312673ae6fa5b5096b330d9fbac3d116df # v4.2.1
@@ -226,13 +168,6 @@ jobs:
           set -x
           docker tag '${{ matrix.builder }}' "${DOCKER_HUB_IMAGE_URI}"
           docker push "${DOCKER_HUB_IMAGE_URI}"
-      - name: Tag builder and push to internal registry
-        if: matrix.tag_private != ''
-        run: |
-          PRIVATE_IMAGE_URI='${{ secrets.REGISTRY_HOST }}/s/${{ secrets.SERVICE_TOKEN_USER_NAME }}/${{ matrix.tag_private }}'
-          set -x
-          docker tag '${{ matrix.builder }}' "${PRIVATE_IMAGE_URI}"
-          docker push "${PRIVATE_IMAGE_URI}"
       - name: Tag builder and push to public ECR
         if: matrix.tag_ecr_public != ''
         run: |
