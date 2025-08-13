@@ -3,9 +3,9 @@ name: Build, Test, Publish
 on:
   pull_request:
   push:
-    branches: ["main"]
+    branches: ["salesforce-functions"]
   schedule:
-    - cron: "0 0 * * 1-5"
+    - cron: "0 8 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -24,15 +24,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["builder-22", "builder-24", "salesforce-functions"]
-        arch: ["amd64", "arm64"]
-        exclude:
-          # Builders prior to Heroku-24 don't support ARM. We're using an exclude rather than
-          # an include so that the ARM jobs don't appear out of sequence in the GitHub UI.
-          - builder: builder-22
-            arch: arm64
-          - builder: salesforce-functions
-            arch: arm64
+        builder: ["salesforce-functions"]
+        arch: ["amd64"]
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     steps:
       - name: Checkout
@@ -59,63 +52,6 @@ jobs:
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
           path: images.tar.zst
-
-  test:
-    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
-    needs: create
-    strategy:
-      fail-fast: false
-      matrix:
-        language:
-          [
-            "dotnet",
-            "go",
-            "gradle",
-            "java",
-            "nodejs",
-            "php",
-            "python",
-            "ruby",
-            "scala",
-          ]
-        builder: ["builder-22", "builder-24"]
-        arch: ["amd64", "arm64"]
-        exclude:
-          - builder: builder-22
-            arch: arm64
-
-    steps:
-      - name: Checkout getting started guide
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          repository: heroku/${{ matrix.language }}-getting-started.git
-      - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@8203df0b7ac31e358daa391b1949da5650e7f4f0 # v5.9.3
-      - name: Restore Docker images from the cache
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          key: ${{ github.run_id}}-${{ matrix.builder }}-${{ matrix.arch }}
-          path: images.tar.zst
-        env:
-          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
-      - name: Load Docker images into the Docker daemon
-        run: zstd -dc --long=31 images.tar.zst | docker load
-      - name: Build getting started guide image
-        run: pack build getting-started --force-color --builder ${{ matrix.builder }} --trust-builder --pull-policy never
-      - name: Start getting started guide image
-        run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
-      - name: Test getting started web server response
-        run: |
-          if curl -sSfL --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 http://localhost:8080 -o response.txt; then
-            echo "Successful response from server"
-          else
-            echo "Server did not respond successfully"
-            docker logs getting-started
-            [[ -f response.txt ]] && cat response.txt
-            exit 1
-          fi
 
   test-functions:
     runs-on: ubuntu-24.04
@@ -162,27 +98,15 @@ jobs:
 
   publish-image:
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
-    if: success() && github.ref == 'refs/heads/main'
-    needs: ["test", "test-functions"]
+    if: success() && github.ref == 'refs/heads/salesforce-functions'
+    needs: test-functions
     strategy:
       fail-fast: false
       matrix:
         include:
-          - builder: builder-22
-            arch: amd64
-            tag_docker_hub: heroku/builder:22
-            tag_ecr_public: heroku/builder:22
           - builder: salesforce-functions
             arch: amd64
             tag_private: heroku-22:builder-functions
-          - builder: builder-24
-            arch: amd64
-            tag_docker_hub: heroku/builder:24_linux-amd64
-            tag_ecr_public: heroku/builder:24_linux-amd64
-          - builder: builder-24
-            arch: arm64
-            tag_docker_hub: heroku/builder:24_linux-arm64
-            tag_ecr_public: heroku/builder:24_linux-arm64
     steps:
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v4
@@ -194,11 +118,7 @@ jobs:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
       - name: Load Docker images into the Docker daemon
         run: zstd -dc --long=31 images.tar.zst | docker load
-      - name: Log into Docker Hub
-        if: matrix.tag_docker_hub != ''
-        run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
       - name: Log into internal registry
-        if: matrix.tag_private != ''
         run: |
           REGISTRY_TOKEN=$(
             curl -sSf --retry 3 --retry-delay 1 --retry-all-errors --connect-timeout 3 \
@@ -207,66 +127,9 @@ jobs:
               | jq --exit-status -r '.raw_id_token'
           )
           echo "${REGISTRY_TOKEN}" | docker login '${{ secrets.REGISTRY_HOST }}' -u '${{ secrets.REGISTRY_USER }}' --password-stdin
-      - name: Configure AWS credentials
-        if: matrix.tag_ecr_public != ''
-        uses: aws-actions/configure-aws-credentials@b47578312673ae6fa5b5096b330d9fbac3d116df # v4.2.1
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ECR_ROLE }}
-          aws-region: ${{ vars.AWS_REGION }}
-      - name: Log in to Amazon ECR Public
-        if: matrix.tag_ecr_public != ''
-        id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
-        with:
-          registry-type: public
-      - name: Tag builder and push to Docker Hub
-        if: matrix.tag_docker_hub != ''
-        run: |
-          DOCKER_HUB_IMAGE_URI='${{ matrix.tag_docker_hub }}'
-          set -x
-          docker tag '${{ matrix.builder }}' "${DOCKER_HUB_IMAGE_URI}"
-          docker push "${DOCKER_HUB_IMAGE_URI}"
       - name: Tag builder and push to internal registry
-        if: matrix.tag_private != ''
         run: |
           PRIVATE_IMAGE_URI='${{ secrets.REGISTRY_HOST }}/s/${{ secrets.SERVICE_TOKEN_USER_NAME }}/${{ matrix.tag_private }}'
           set -x
           docker tag '${{ matrix.builder }}' "${PRIVATE_IMAGE_URI}"
           docker push "${PRIVATE_IMAGE_URI}"
-      - name: Tag builder and push to public ECR
-        if: matrix.tag_ecr_public != ''
-        run: |
-          ECR_PUBLIC_IMAGE_URI='public.ecr.aws/${{ matrix.tag_ecr_public }}'
-          set -x
-          docker tag '${{ matrix.builder }}' "${ECR_PUBLIC_IMAGE_URI}"
-          docker push "${ECR_PUBLIC_IMAGE_URI}"
-
-  publish-manifest:
-    runs-on: ubuntu-24.04
-    needs: publish-image
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - tag_uri: "docker.io/heroku/builder:24"
-            manifest_uris: "docker.io/heroku/builder:24_linux-amd64 docker.io/heroku/builder:24_linux-arm64"
-          - tag_uri: "public.ecr.aws/heroku/builder:24"
-            manifest_uris: "public.ecr.aws/heroku/builder:24_linux-amd64 public.ecr.aws/heroku/builder:24_linux-arm64"
-    steps:
-      - name: Log in to Docker Hub
-        run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@b47578312673ae6fa5b5096b330d9fbac3d116df # v4.2.1
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ECR_ROLE }}
-          aws-region: ${{ vars.AWS_REGION }}
-      - name: Log in to Amazon ECR Public
-        id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
-        with:
-          registry-type: public
-      - name: Create and push manifest lists
-        run: |
-          set -x
-          docker manifest create "${{ matrix.tag_uri }}" ${{ matrix.manifest_uris }}
-          docker manifest push "${{ matrix.tag_uri }}"
