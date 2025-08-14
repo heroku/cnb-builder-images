@@ -32,7 +32,7 @@ jobs:
         id: existing-version
         # Having to use grep instead of yq due to:
         # https://github.com/mikefarah/yq/issues/1758
-        run: echo "version=$(grep --perl-regexp --null-data --only-matching '\[lifecycle\]\nversion = "\K([^"]+)' builder-22/builder.toml)" >> "${GITHUB_OUTPUT}"
+        run: echo "version=$(grep --perl-regexp --null-data --only-matching '\[lifecycle\]\nversion = "\K([^"]+)' builder-24/builder.toml)" >> "${GITHUB_OUTPUT}"
 
       - name: Determine latest lifecycle version
         id: latest-version
@@ -41,7 +41,7 @@ jobs:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       - name: Update builder manifests with latest lifecycle version
-        # This only updates manifests that were on the same version as builder-22, to ensure
+        # This only updates manifests that were on the same version as builder-24, to ensure
         # that any legacy builder images pinned to older lifecycle versions are not updated too.
         run: sed --in-place --expression 's/^version = "${{ steps.existing-version.outputs.version }}"$/version = "${{ steps.latest-version.outputs.version }}"/' */builder.toml
 
