@@ -34,7 +34,7 @@ jobs:
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@f6d0ae15b2e1f021664bf3ee3fc4f9105c1ee4c7 # v5.9.4
       - name: Create builder image
@@ -84,7 +84,7 @@ jobs:
 
     steps:
       - name: Checkout getting started guide
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
