@@ -35,7 +35,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:77faf2aa8d9fe2a65fe7522f82ccf90d1a78cd045f22e6b0b4b9553dc919d31d"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:433acf36f38550240e750df134100606512dfd17f8bb24aaa945a61172529d11"
 
 [[buildpacks]]
   id = "heroku/php"
@@ -56,6 +56,18 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 [[buildpacks]]
   id = "heroku/scala"
   uri = "docker://docker.io/heroku/buildpack-scala@sha256:1b16cfca86d29b083a3627a1b2525ed1baea869d91b9c69c94cc28147435033e"
+
+# NOTE: This is a reference to heroku/nodejs-engine@4.1.4 which is needed temporarily 
+#       until the heroku/ruby CNB can be updated to use heroku/nodejs@5.0.0
+[[buildpacks]]
+  id = "heroku/nodejs-engine"
+  uri = "docker.io/heroku/buildpack-nodejs-engine@sha256:0b0e53c4ff8ae91421a5ec398f0e7184947d130d2691f3009b5295161f9f5fe6"
+
+# NOTE: This is a reference to heroku/nodejs-yarn@4.1.4 which is needed temporarily 
+#       until the heroku/ruby CNB can be updated to use heroku/nodejs@5.0.0
+[[buildpacks]]
+  id = "heroku/nodejs-yarn"
+  uri = "docker.io/heroku/buildpack-nodejs-yarn@sha256:94a448d8e7d0543767417a7ca2374afbecabbf77c91ba27b82b3be98928c5a17"
 
 [[order]]
   [[order.group]]
@@ -168,7 +180,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "4.1.4"
+    version = "5.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
