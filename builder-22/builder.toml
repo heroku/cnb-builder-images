@@ -51,23 +51,11 @@ version = "0.20.13"
 
 [[buildpacks]]
   id = "heroku/ruby"
-  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:7bc0ab43f532cbcc49db5b42e2f94bf3c25d7e99890ef290fa0cff3d1844706f"
+  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:7b2e9da8a889f1bf8e3620f925926e0021b758634763333cb9ea11418f2b0286"
 
 [[buildpacks]]
   id = "heroku/scala"
   uri = "docker://docker.io/heroku/buildpack-scala@sha256:1b16cfca86d29b083a3627a1b2525ed1baea869d91b9c69c94cc28147435033e"
-
-# NOTE: This is a reference to heroku/nodejs-engine@4.1.4 which is needed temporarily 
-#       until the heroku/ruby CNB can be updated to use heroku/nodejs@5.0.0
-[[buildpacks]]
-  id = "heroku/nodejs-engine"
-  uri = "docker.io/heroku/buildpack-nodejs-engine@sha256:0b0e53c4ff8ae91421a5ec398f0e7184947d130d2691f3009b5295161f9f5fe6"
-  
-# NOTE: This is a reference to heroku/nodejs-yarn@4.1.4 which is needed temporarily 
-#       until the heroku/ruby CNB can be updated to use heroku/nodejs@5.0.0
-[[buildpacks]]
-  id = "heroku/nodejs-yarn"
-  uri = "docker.io/heroku/buildpack-nodejs-yarn@sha256:94a448d8e7d0543767417a7ca2374afbecabbf77c91ba27b82b3be98928c5a17"
 
 [[order]]
   [[order.group]]
@@ -88,12 +76,8 @@ version = "0.20.13"
     version = "0.2.0"
     optional = true
   [[order.group]]
-    id = "heroku/nodejs-engine"
-    version = "4.1.4"
-    optional = true
-  [[order.group]]
-    id = "heroku/nodejs-yarn"
-    version = "4.1.4"
+    id = "heroku/nodejs"
+    version = "5.0.1"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
@@ -101,7 +85,7 @@ version = "0.20.13"
     optional = true
   [[order.group]]
     id = "heroku/ruby"
-    version = "11.0.0"
+    version = "12.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
