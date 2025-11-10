@@ -7,7 +7,7 @@ run-image = "docker.io/heroku/heroku:24"
 run-image-mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [lifecycle]
-version = "0.20.16"
+version = "0.20.18"
 
 [build]
 image = "docker.io/heroku/heroku:24-build"
