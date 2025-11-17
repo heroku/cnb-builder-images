@@ -2,10 +2,7 @@
 
 [![CI](https://github.com/heroku/cnb-builder-images/actions/workflows/build-test-publish.yml/badge.svg)](https://github.com/heroku/cnb-builder-images/actions/workflows/build-test-publish.yml)
 
-> [!IMPORTANT]
-> These images are in preview and under active development: [heroku/roadmap#20](https://github.com/heroku/roadmap/issues/20)
-
-This repository is responsible for building and publishing builder images for [Heroku's Cloud Native Buildpacks project](https://github.com/heroku/buildpacks), which is in preview.
+This repository is responsible for building and publishing builder images for [Heroku's Cloud Native Buildpacks project](https://github.com/heroku/buildpacks).
 
 A builder image is a packaged set of buildpacks, base images and a [lifecycle](https://github.com/buildpacks/lifecycle)
 binary that orchestrates the build. For more information, see: [What is a builder?](https://buildpacks.io/docs/for-platform-operators/concepts/builder/)
