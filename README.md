@@ -48,14 +48,15 @@ pack config default-builder heroku/builder:24
 
 For language/buildpack-specific bugs or feature requests, file an issue against the appropriate buildpack repository:
 
+- https://github.com/heroku/buildpacks-deb-packages
 - https://github.com/heroku/buildpacks-dotnet
 - https://github.com/heroku/buildpacks-go
 - https://github.com/heroku/buildpacks-jvm
 - https://github.com/heroku/buildpacks-nodejs
 - https://github.com/heroku/buildpacks-php
+- https://github.com/heroku/buildpacks-procfile
 - https://github.com/heroku/buildpacks-python
 - https://github.com/heroku/buildpacks-ruby
-- https://github.com/heroku/buildpacks-procfile
 
 For base image related bugs or feature requests (such as requests for additional system libraries), use:
 https://github.com/heroku/base-images
