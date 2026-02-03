@@ -67,7 +67,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/website-nextjs"
-  uri = "docker://docker.io/heroku/buildpack-website-nextjs@"
+  uri = "docker://docker.io/heroku/buildpack-website-nextjs@sha256:3d11cd5c214b0c70733d7fecf8478b55d8067c3c2fc071b733bf9f4e2291b3db"
 
 [[buildpacks]]
   id = "heroku/website-public-html"
@@ -75,7 +75,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/website-vite"
-  uri = "docker://docker.io/heroku/buildpack-website-vite@"
+  uri = "docker://docker.io/heroku/buildpack-website-vite@sha256:0f85491ec23cbc56bb10f016104441d3e9d7b5720915d03942e2155db18c51d7"
 
 [[order]]
   [[order.group]]
