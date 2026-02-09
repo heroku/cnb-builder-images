@@ -57,6 +57,26 @@ version = "0.21.1"
   id = "heroku/scala"
   uri = "docker://docker.io/heroku/buildpack-scala@sha256:0d25c94222de9f64de1a43b5c9ee7645c82dec7b4d8620f6e45294d345a3b3cd"
 
+[[buildpacks]]
+  id = "heroku/static-web-server"
+  uri = "docker://docker.io/heroku/buildpack-static-web-server@sha256:95707c3796877a74fa02c8374fc9bd3c52f71c6196efedd2abe14975f342b089"
+
+[[buildpacks]]
+  id = "heroku/website-ember"
+  uri = "docker://docker.io/heroku/buildpack-website-ember@sha256:469a4dba05c44825c81b5dabed76e21cad6f34921cf73e1a7add0718793f6527"
+
+[[buildpacks]]
+  id = "heroku/website-nextjs"
+  uri = "docker://docker.io/heroku/buildpack-website-nextjs@sha256:3d11cd5c214b0c70733d7fecf8478b55d8067c3c2fc071b733bf9f4e2291b3db"
+
+[[buildpacks]]
+  id = "heroku/website-public-html"
+  uri = "docker://docker.io/heroku/buildpack-website-public-html@sha256:dc03f3276568e0ba1e40558a8e8b1fd1711802250fdff17c5ba324a540e24c3e"
+
+[[buildpacks]]
+  id = "heroku/website-vite"
+  uri = "docker://docker.io/heroku/buildpack-website-vite@sha256:0f85491ec23cbc56bb10f016104441d3e9d7b5720915d03942e2155db18c51d7"
+
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
@@ -156,7 +176,9 @@ version = "0.21.1"
     version = "4.2.1"
     optional = true
 
-# this group is intentionally at the end, because projects in other languages often have e.g. a package.json
+# For Node-based web frameworks & static site generators,
+# the Front-end Web buildpacks parse package.json to detect specific dependencies.
+# This group is intentionally near the end, because projects in other languages often have a package.json
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
@@ -165,6 +187,83 @@ version = "0.21.1"
   [[order.group]]
     id = "heroku/nodejs"
     version = "5.3.5"
+  [[order.group]]
+    id = "heroku/static-web-server"
+    version = "2.2.0"
+  [[order.group]]
+    id = "heroku/website-vite"
+    version = "2.2.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "0.3.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "5.3.5"
+  [[order.group]]
+    id = "heroku/static-web-server"
+    version = "2.2.0"
+  [[order.group]]
+    id = "heroku/website-ember"
+    version = "2.2.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "0.3.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "5.3.5"
+  [[order.group]]
+    id = "heroku/static-web-server"
+    version = "2.2.0"
+  [[order.group]]
+    id = "heroku/website-nextjs"
+    version = "2.2.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+# This group is intentionally near the end, after the specific package.json dependency detection for Front-end Web buildpacks
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "0.3.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "5.3.5"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+# For no-framework "vanilla" static websites,
+# the Front-end Web buildpacks detects public/index.html to support framework-less websites.
+# This group is intentionally at the end, because projects in other languages may include a public directory with HTML files.
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "0.3.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/static-web-server"
+    version = "2.2.0"
+  [[order.group]]
+    id = "heroku/website-public-html"
+    version = "2.2.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"

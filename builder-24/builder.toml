@@ -176,9 +176,9 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "4.2.1"
     optional = true
 
-# For Node-based frameworks & static site generators,
-# the Front-end Web buildpacks parses package.json to detects specific dependencies.
-# this group is intentionally near the end, because projects in other languages often have e.g. a package.json
+# For Node-based web frameworks & static site generators,
+# the Front-end Web buildpacks parse package.json to detect specific dependencies.
+# This group is intentionally near the end, because projects in other languages often have a package.json
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
@@ -236,7 +236,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "4.2.1"
     optional = true
 
-# this group is intentionally near the end, after the specific package.json dependency detection for Front-end Web buildpacks
+# This group is intentionally near the end, after the specific package.json dependency detection for Front-end Web buildpacks
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
@@ -250,9 +250,9 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "4.2.1"
     optional = true
 
-# For no-framework "vanilla" static sites,
+# For no-framework "vanilla" static websites,
 # the Front-end Web buildpacks detects public/index.html to support framework-less websites.
-# this group is intentionally at the end, because projects in other languages may include a public directory with HTML files.
+# This group is intentionally at the end, because projects in other languages may include a public directory with HTML files.
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
