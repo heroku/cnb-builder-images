@@ -23,11 +23,11 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/dotnet"
-  uri = "docker://docker.io/heroku/buildpack-dotnet@sha256:4182996ccc7b16fe99ed6cef9e5da5f84f6507782d052a9b269f0cb47a10f9a1"
+  uri = "docker://docker.io/heroku/buildpack-dotnet@sha256:c99bb1556a333b633097eb9e080f6cb59918ff00fb6658b54395bc658f3aa69d"
 
 [[buildpacks]]
   id = "heroku/go"
-  uri = "docker://docker.io/heroku/buildpack-go@sha256:3d2ba862de5893d4fbfd59ed8c903f56df35dfcecd6dfe047a2cbf88049510e9"
+  uri = "docker://docker.io/heroku/buildpack-go@sha256:ded434c11f08abca6ec9de51ba66ed3c99771016a876133271ffda31fd2fe8b7"
 
 [[buildpacks]]
   id = "heroku/java"
@@ -35,7 +35,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:aad811dafe78e7573b5bbbe5eb70d60296ecacee1ccf8eddf34c90068cbaaf8a"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:41d5c88d8605a84f9ae464c869d40705b6d5cb1b5ea83702ce05a8def41cc5c2"
 
 [[buildpacks]]
   id = "heroku/php"
@@ -47,7 +47,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/python"
-  uri = "docker://docker.io/heroku/buildpack-python@sha256:2644569a1485da3d05c418ce3b0ab6272ac03c97f0c2025fdad64bf08b0622ba"
+  uri = "docker://docker.io/heroku/buildpack-python@sha256:e40c9c5c9c7ae2a28cf3b2d24e26a95d47da40e813bcda781d2c482c8b530a66"
 
 [[buildpacks]]
   id = "heroku/ruby"
@@ -84,7 +84,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/python"
-    version = "4.1.0"
+    version = "5.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
@@ -97,7 +97,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.3.5"
+    version = "5.4.3"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
@@ -144,7 +144,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/go"
-    version = "2.1.8"
+    version = "2.1.10"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
@@ -170,7 +170,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/dotnet"
-    version = "1.0.2"
+    version = "1.0.3"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
@@ -244,7 +244,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.3.5"
+    version = "5.4.3"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
