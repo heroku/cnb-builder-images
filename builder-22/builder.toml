@@ -59,23 +59,23 @@ version = "0.21.1"
 
 [[buildpacks]]
   id = "heroku/static-web-server"
-  uri = "docker://docker.io/heroku/buildpack-static-web-server@sha256:95707c3796877a74fa02c8374fc9bd3c52f71c6196efedd2abe14975f342b089"
+  uri = "docker://docker.io/heroku/buildpack-static-web-server@sha256:5a0ec2ff08091c74b00857b30a6268f8f4184d0b6cf6a4c83e4f3ab5f1631226"
 
 [[buildpacks]]
   id = "heroku/website-ember"
-  uri = "docker://docker.io/heroku/buildpack-website-ember@sha256:469a4dba05c44825c81b5dabed76e21cad6f34921cf73e1a7add0718793f6527"
+  uri = "docker://docker.io/heroku/buildpack-website-ember@sha256:5c9d9564dc87958c61c6d727c52b0e05db1c48dae9ae51a052ae7971d9a47c7b"
 
 [[buildpacks]]
   id = "heroku/website-nextjs"
-  uri = "docker://docker.io/heroku/buildpack-website-nextjs@sha256:3d11cd5c214b0c70733d7fecf8478b55d8067c3c2fc071b733bf9f4e2291b3db"
+  uri = "docker://docker.io/heroku/buildpack-website-nextjs@sha256:9635de8379b65bb54adb56f048617bac1146ed296c7eb56618eccc9f18419247"
 
 [[buildpacks]]
   id = "heroku/website-public-html"
-  uri = "docker://docker.io/heroku/buildpack-website-public-html@sha256:dc03f3276568e0ba1e40558a8e8b1fd1711802250fdff17c5ba324a540e24c3e"
+  uri = "docker://docker.io/heroku/buildpack-website-public-html@sha256:bd175fa4091a7cd9b765597a8cdb43470a508bde20371eb7eff704c69d215201"
 
 [[buildpacks]]
   id = "heroku/website-vite"
-  uri = "docker://docker.io/heroku/buildpack-website-vite@sha256:0f85491ec23cbc56bb10f016104441d3e9d7b5720915d03942e2155db18c51d7"
+  uri = "docker://docker.io/heroku/buildpack-website-vite@sha256:df85de45c25cbfb8129a699c022ec9f9d634551dd680b6ba40828e176f8209ef"
 
 [[order]]
   [[order.group]]
@@ -189,10 +189,10 @@ version = "0.21.1"
     version = "5.4.3"
   [[order.group]]
     id = "heroku/static-web-server"
-    version = "2.2.0"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/website-vite"
-    version = "2.2.0"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
@@ -208,10 +208,10 @@ version = "0.21.1"
     version = "5.4.3"
   [[order.group]]
     id = "heroku/static-web-server"
-    version = "2.2.0"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/website-ember"
-    version = "2.2.0"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
@@ -227,10 +227,10 @@ version = "0.21.1"
     version = "5.4.3"
   [[order.group]]
     id = "heroku/static-web-server"
-    version = "2.2.0"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/website-nextjs"
-    version = "2.2.0"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
@@ -260,10 +260,10 @@ version = "0.21.1"
     optional = true
   [[order.group]]
     id = "heroku/static-web-server"
-    version = "2.2.0"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/website-public-html"
-    version = "2.2.0"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
