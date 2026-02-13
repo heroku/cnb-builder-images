@@ -1,4 +1,4 @@
-description = "Ubuntu 22.04 AMD64 base image with buildpacks for .NET, Go, Java, Node.js, PHP, Python, Ruby & Scala."
+description = "Ubuntu 22.04 AMD64 base image with buildpacks for .NET, Go, Java, Node.js, PHP, Python, Ruby, Scala, & front-end websites."
 
 [stack]
 id = "heroku-22"
@@ -56,6 +56,26 @@ version = "0.21.1"
 [[buildpacks]]
   id = "heroku/scala"
   uri = "docker://docker.io/heroku/buildpack-scala@sha256:0d25c94222de9f64de1a43b5c9ee7645c82dec7b4d8620f6e45294d345a3b3cd"
+
+[[buildpacks]]
+  id = "heroku/static-web-server"
+  uri = "docker://docker.io/heroku/buildpack-static-web-server@sha256:5a0ec2ff08091c74b00857b30a6268f8f4184d0b6cf6a4c83e4f3ab5f1631226"
+
+[[buildpacks]]
+  id = "heroku/website-ember"
+  uri = "docker://docker.io/heroku/buildpack-website-ember@sha256:5c9d9564dc87958c61c6d727c52b0e05db1c48dae9ae51a052ae7971d9a47c7b"
+
+[[buildpacks]]
+  id = "heroku/website-nextjs"
+  uri = "docker://docker.io/heroku/buildpack-website-nextjs@sha256:9635de8379b65bb54adb56f048617bac1146ed296c7eb56618eccc9f18419247"
+
+[[buildpacks]]
+  id = "heroku/website-public-html"
+  uri = "docker://docker.io/heroku/buildpack-website-public-html@sha256:bd175fa4091a7cd9b765597a8cdb43470a508bde20371eb7eff704c69d215201"
+
+[[buildpacks]]
+  id = "heroku/website-vite"
+  uri = "docker://docker.io/heroku/buildpack-website-vite@sha256:df85de45c25cbfb8129a699c022ec9f9d634551dd680b6ba40828e176f8209ef"
 
 [[order]]
   [[order.group]]
@@ -156,7 +176,9 @@ version = "0.21.1"
     version = "4.2.1"
     optional = true
 
-# this group is intentionally at the end, because projects in other languages often have e.g. a package.json
+# For Node-based web frameworks & static site generators,
+# the Front-end Web buildpacks parse package.json to detect specific dependencies.
+# This group is intentionally near the end, because projects in other languages often have a package.json
 [[order]]
   [[order.group]]
     id = "heroku/deb-packages"
@@ -165,6 +187,83 @@ version = "0.21.1"
   [[order.group]]
     id = "heroku/nodejs"
     version = "5.4.3"
+  [[order.group]]
+    id = "heroku/static-web-server"
+    version = "3.0.0"
+  [[order.group]]
+    id = "heroku/website-vite"
+    version = "3.0.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "0.3.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "5.4.3"
+  [[order.group]]
+    id = "heroku/static-web-server"
+    version = "3.0.0"
+  [[order.group]]
+    id = "heroku/website-ember"
+    version = "3.0.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "0.3.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "5.4.3"
+  [[order.group]]
+    id = "heroku/static-web-server"
+    version = "3.0.0"
+  [[order.group]]
+    id = "heroku/website-nextjs"
+    version = "3.0.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+# This group is intentionally near the end, after the specific package.json dependency detection for Front-end Web buildpacks
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "0.3.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "5.4.3"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+# For no-framework "vanilla" static websites,
+# the Front-end Web buildpacks detects public/index.html to support framework-less websites.
+# This group is intentionally at the end, because projects in other languages may include a public directory with HTML files.
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "0.3.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/static-web-server"
+    version = "3.0.0"
+  [[order.group]]
+    id = "heroku/website-public-html"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
