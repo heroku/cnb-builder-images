@@ -57,6 +57,7 @@ For language/buildpack-specific bugs or feature requests, file an issue against 
 - https://github.com/heroku/buildpacks-procfile
 - https://github.com/heroku/buildpacks-python
 - https://github.com/heroku/buildpacks-ruby
+- https://github.com/heroku/buildpacks-frontend-web
 
 For base image related bugs or feature requests (such as requests for additional system libraries), use:
 https://github.com/heroku/base-images
