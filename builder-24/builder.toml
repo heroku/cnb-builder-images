@@ -59,19 +59,23 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/static-web-server"
-  uri = "docker://docker.io/heroku/buildpack-static-web-server@sha256:5a0ec2ff08091c74b00857b30a6268f8f4184d0b6cf6a4c83e4f3ab5f1631226"
+  uri = "docker://docker.io/heroku/buildpack-static-web-server@sha256:1371c4fdc087cf6ad9c6f16e490abee9c7110cc6f47784bc9a5bf5ca4347f9f2"
 
 [[buildpacks]]
   id = "heroku/website-ember"
-  uri = "docker://docker.io/heroku/buildpack-website-ember@sha256:5c9d9564dc87958c61c6d727c52b0e05db1c48dae9ae51a052ae7971d9a47c7b"
+  uri = "docker://docker.io/heroku/buildpack-website-ember@sha256:4248774c9849117b86343aece9a4b87c7ab7050883734b3903d2988b1d463f96"
+
+[[buildpacks]]
+  id = "heroku/website-cra"
+  uri = "docker://docker.io/heroku/buildpack-website-cra@sha256:050dfc8fc3f18a2720ed65a22c3941b6fe0a8f09adc2b06c5675f1d977f67010"
 
 [[buildpacks]]
   id = "heroku/website-nextjs"
-  uri = "docker://docker.io/heroku/buildpack-website-nextjs@sha256:9635de8379b65bb54adb56f048617bac1146ed296c7eb56618eccc9f18419247"
+  uri = "docker://docker.io/heroku/buildpack-website-nextjs@sha256:338db5e349aada717033e8745507f2fe26fc61d57bed4058bfc254d1be7dd466"
 
 [[buildpacks]]
   id = "heroku/website-public-html"
-  uri = "docker://docker.io/heroku/buildpack-website-public-html@sha256:bd175fa4091a7cd9b765597a8cdb43470a508bde20371eb7eff704c69d215201"
+  uri = "docker://docker.io/heroku/buildpack-website-public-html@sha256:dd7084ee067887529d91f3ef3012d1f158845983ff3042b89a049de0ca1d1135"
 
 [[order]]
   [[order.group]]
@@ -185,10 +189,10 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "5.4.3"
   [[order.group]]
     id = "heroku/static-web-server"
-    version = "3.0.0"
+    version = "3.1.0"
   [[order.group]]
     id = "heroku/website-ember"
-    version = "3.0.0"
+    version = "3.1.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
@@ -204,10 +208,29 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     version = "5.4.3"
   [[order.group]]
     id = "heroku/static-web-server"
-    version = "3.0.0"
+    version = "3.1.0"
   [[order.group]]
     id = "heroku/website-nextjs"
-    version = "3.0.0"
+    version = "3.1.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "0.3.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "5.4.3"
+  [[order.group]]
+    id = "heroku/static-web-server"
+    version = "3.1.0"
+  [[order.group]]
+    id = "heroku/website-cra"
+    version = "3.1.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
@@ -237,10 +260,10 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/static-web-server"
-    version = "3.0.0"
+    version = "3.1.0"
   [[order.group]]
     id = "heroku/website-public-html"
-    version = "3.0.0"
+    version = "3.1.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
