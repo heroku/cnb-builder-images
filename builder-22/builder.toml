@@ -15,7 +15,7 @@ image = "docker.io/heroku/heroku:22-cnb"
 mirrors = ["public.ecr.aws/heroku/heroku:22-cnb"]
 
 [lifecycle]
-version = "0.21.1"
+version = "0.21.4"
 
 [[buildpacks]]
   id = "heroku/deb-packages"
@@ -35,11 +35,11 @@ version = "0.21.1"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:41d5c88d8605a84f9ae464c869d40705b6d5cb1b5ea83702ce05a8def41cc5c2"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:0c2cc6079b4db1e2723396f2eee2d0849afa09211d42dc3bad6c7e02f2bd9a4f"
 
 [[buildpacks]]
   id = "heroku/php"
-  uri = "docker://docker.io/heroku/buildpack-php@sha256:bc2ec8207f25d8f69aa9555b1eb5fb043ffc5ab3f5d7f3ee67dcb674da69ca0b"
+  uri = "docker://docker.io/heroku/buildpack-php@sha256:45d01000397cfce8c1543e6b4f7e8123f3076f14320bba8a6a41d5182c08ddbd"
 
 [[buildpacks]]
   id = "heroku/procfile"
@@ -97,7 +97,7 @@ version = "0.21.1"
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.4.3"
+    version = "5.5.0"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
@@ -157,7 +157,7 @@ version = "0.21.1"
     optional = true
   [[order.group]]
     id = "heroku/php"
-    version = "1.3.2"
+    version = "1.3.3"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
@@ -186,7 +186,7 @@ version = "0.21.1"
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.4.3"
+    version = "5.5.0"
   [[order.group]]
     id = "heroku/static-web-server"
     version = "3.1.0"
@@ -205,7 +205,7 @@ version = "0.21.1"
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.4.3"
+    version = "5.5.0"
   [[order.group]]
     id = "heroku/static-web-server"
     version = "3.1.0"
@@ -224,7 +224,7 @@ version = "0.21.1"
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.4.3"
+    version = "5.5.0"
   [[order.group]]
     id = "heroku/static-web-server"
     version = "3.1.0"
@@ -244,7 +244,7 @@ version = "0.21.1"
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.4.3"
+    version = "5.5.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.1"
