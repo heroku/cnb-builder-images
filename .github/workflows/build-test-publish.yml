@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["builder-22", "builder-24"]
+        builder: ["builder-22", "builder-24", "builder-26"]
         arch: ["amd64", "arm64"]
         exclude:
           # Builders prior to Heroku-24 don't support ARM. We're using an exclude rather than
@@ -76,11 +76,18 @@ jobs:
             "ruby",
             "scala",
           ]
-        builder: ["builder-22", "builder-24"]
+        builder: ["builder-22", "builder-24", "builder-26"]
         arch: ["amd64", "arm64"]
         exclude:
           - builder: builder-22
             arch: arm64
+          # TODO: Remove these once their respective language CNBs gain Heroku-26 support.
+          - builder: builder-26
+            language: php
+          - builder: builder-26
+            language: python
+          - builder: builder-26
+            language: ruby
 
     steps:
       - name: Checkout getting started guide
@@ -135,6 +142,14 @@ jobs:
             arch: arm64
             tag_docker_hub: heroku/builder:24_linux-arm64
             tag_ecr_public: heroku/builder:24_linux-arm64
+          - builder: builder-26
+            arch: amd64
+            tag_docker_hub: heroku/builder:26_linux-amd64
+            tag_ecr_public: heroku/builder:26_linux-amd64
+          - builder: builder-26
+            arch: arm64
+            tag_docker_hub: heroku/builder:26_linux-arm64
+            tag_ecr_public: heroku/builder:26_linux-arm64
     steps:
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v5
@@ -187,6 +202,10 @@ jobs:
             manifest_uris: "docker.io/heroku/builder:24_linux-amd64 docker.io/heroku/builder:24_linux-arm64"
           - tag_uri: "public.ecr.aws/heroku/builder:24"
             manifest_uris: "public.ecr.aws/heroku/builder:24_linux-amd64 public.ecr.aws/heroku/builder:24_linux-arm64"
+          - tag_uri: "docker.io/heroku/builder:26"
+            manifest_uris: "docker.io/heroku/builder:26_linux-amd64 docker.io/heroku/builder:26_linux-arm64"
+          - tag_uri: "public.ecr.aws/heroku/builder:26"
+            manifest_uris: "public.ecr.aws/heroku/builder:26_linux-amd64 public.ecr.aws/heroku/builder:26_linux-arm64"
     steps:
       - name: Log in to Docker Hub
         run: echo '${{ secrets.DOCKER_HUB_TOKEN }}' | docker login -u '${{ secrets.DOCKER_HUB_USER }}' --password-stdin

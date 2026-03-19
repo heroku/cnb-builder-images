@@ -5,3 +5,4 @@ SHELL=/bin/bash -o pipefail
 build:
 	@pack builder create heroku/builder:22 --config builder-22/builder.toml --pull-policy always
 	@pack builder create heroku/builder:24 --config builder-24/builder.toml --pull-policy always
+	@pack builder create heroku/builder:26 --config builder-26/builder.toml --pull-policy always
