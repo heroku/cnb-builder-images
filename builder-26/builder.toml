@@ -21,7 +21,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
 # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
 # [[buildpacks]]
 #   id = "heroku/deb-packages"
-#   uri = "docker://docker.io/heroku/buildpack-deb-packages@sha256:39167ecaee643641421d632b35998add6dc8ac08f49a39fc0f1063ad317fad82"
+#   uri = "docker://docker.io/heroku/buildpack-deb-packages@sha256:TODO"
 
 [[buildpacks]]
   id = "heroku/dotnet"
@@ -42,7 +42,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
 # TODO: Re-enable once the PHP CNB supports Heroku-26.
 # [[buildpacks]]
 #   id = "heroku/php"
-#   uri = "docker://docker.io/heroku/buildpack-php@sha256:108491cd0b3140f3298402591a63389c4278398d13772f15b3a2a3ce78a636af"
+#   uri = "docker://docker.io/heroku/buildpack-php@sha256:TODO"
 
 [[buildpacks]]
   id = "heroku/procfile"
@@ -51,12 +51,12 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
 # TODO: Re-enable once the Python CNB supports Heroku-26.
 # [[buildpacks]]
 #   id = "heroku/python"
-#   uri = "docker://docker.io/heroku/buildpack-python@sha256:9c215a42ab121edc46cf1bf911a65c7fd84e735d84b6cd18f9a2668f60e1924a"
+#   uri = "docker://docker.io/heroku/buildpack-python@sha256:TODO"
 
 # TODO: Re-enable once the Ruby CNB supports Heroku-26.
 # [[buildpacks]]
 #   id = "heroku/ruby"
-#   uri = "docker://docker.io/heroku/buildpack-ruby@sha256:e9cd782ecef23303f3ad8b73723ba1a53a0b83c67c4a835f94cf14ed330678c6"
+#   uri = "docker://docker.io/heroku/buildpack-ruby@sha256:TODO"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -66,43 +66,43 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
 # [[order]]
 #   [[order.group]]
 #     id = "heroku/deb-packages"
-#     version = "0.3.0"
+#     version = "TODO"
 #     optional = true
 #   [[order.group]]
 #     id = "heroku/python"
-#     version = "6.1.0"
+#     version = "TODO"
 #   [[order.group]]
 #     id = "heroku/procfile"
-#     version = "4.2.1"
+#     version = "TODO"
 #     optional = true
 
 # TODO: Re-enable once the Ruby CNB supports Heroku-26.
 # [[order]]
 #   [[order.group]]
 #     id = "heroku/deb-packages"
-#     version = "0.3.0"
+#     version = "TODO"
 #     optional = true
 #   [[order.group]]
 #     id = "heroku/nodejs"
-#     version = "5.5.4"
+#     version = "TODO"
 #     optional = true
 #   [[order.group]]
 #     id = "heroku/jvm"
-#     version = "7.0.10"
+#     version = "TODO"
 #     optional = true
 #   [[order.group]]
 #     id = "heroku/ruby"
-#     version = "12.3.0"
+#     version = "TODO"
 #   [[order.group]]
 #     id = "heroku/procfile"
-#     version = "4.2.1"
+#     version = "TODO"
 #     optional = true
 
 [[order]]
   # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
   # [[order.group]]
   #   id = "heroku/deb-packages"
-  #   version = "0.3.0"
+  #   version = "TODO"
   #   optional = true
   [[order.group]]
     id = "heroku/java"
@@ -116,7 +116,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
   # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
   # [[order.group]]
   #   id = "heroku/deb-packages"
-  #   version = "0.3.0"
+  #   version = "TODO"
   #   optional = true
   [[order.group]]
     id = "heroku/scala"
@@ -130,7 +130,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
   # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
   # [[order.group]]
   #   id = "heroku/deb-packages"
-  #   version = "0.3.0"
+  #   version = "TODO"
   #   optional = true
   [[order.group]]
     id = "heroku/go"
@@ -144,21 +144,21 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
 # [[order]]
 #   [[order.group]]
 #     id = "heroku/deb-packages"
-#     version = "0.3.0"
+#     version = "TODO"
 #     optional = true
 #   [[order.group]]
 #     id = "heroku/php"
-#     version = "1.5.1"
+#     version = "TODO"
 #   [[order.group]]
 #     id = "heroku/procfile"
-#     version = "4.2.1"
+#     version = "TODO"
 #     optional = true
 
 [[order]]
   # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
   # [[order.group]]
   #   id = "heroku/deb-packages"
-  #   version = "0.3.0"
+  #   version = "TODO"
   #   optional = true
   [[order.group]]
     id = "heroku/dotnet"
@@ -173,7 +173,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
   # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
   # [[order.group]]
   #   id = "heroku/deb-packages"
-  #   version = "0.3.0"
+  #   version = "TODO"
   #   optional = true
   [[order.group]]
     id = "heroku/nodejs"
