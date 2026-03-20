@@ -1,0 +1,184 @@
+# TODO: Update this description to match the other builders once all remaining CNBs have been added.
+description = "Experimental Ubuntu 26.04 AMD64+ARM64 base image with buildpacks for .NET, Go, Java, Node.js & Scala."
+
+[stack]
+id = "heroku-26"
+build-image = "docker.io/heroku/heroku:26-build"
+run-image = "docker.io/heroku/heroku:26"
+run-image-mirrors = ["public.ecr.aws/heroku/heroku:26"]
+
+[lifecycle]
+version = "0.21.5"
+
+[build]
+image = "docker.io/heroku/heroku:26-build"
+
+[run]
+[[run.images]]
+image = "docker.io/heroku/heroku:26"
+mirrors = ["public.ecr.aws/heroku/heroku:26"]
+
+# TODO: Re-enable once the .deb packages CNB supports Heroku-26.
+# [[buildpacks]]
+#   id = "heroku/deb-packages"
+#   uri = "docker://docker.io/heroku/buildpack-deb-packages@sha256:TODO"
+
+[[buildpacks]]
+  id = "heroku/dotnet"
+  uri = "docker://docker.io/heroku/buildpack-dotnet@sha256:3bdf5cd87fd552f7a1e55312340daa43f94b3b107de30d755161dcca9a787d17"
+
+[[buildpacks]]
+  id = "heroku/go"
+  uri = "docker://docker.io/heroku/buildpack-go@sha256:47b1a4553b954f232377c6d13b2b062c5cdc542962ad361a0f32cbec30016679"
+
+[[buildpacks]]
+  id = "heroku/java"
+  uri = "docker://docker.io/heroku/buildpack-java@sha256:ae7e93b0517c20188d2fc61de4c97a3dc5812507424ae4c41e5b17e1b5035c2c"
+
+[[buildpacks]]
+  id = "heroku/nodejs"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:e20dba79f7617752577db1552811235386f107a4c51d338de9c72468360eae19"
+
+# TODO: Re-enable once the PHP CNB supports Heroku-26.
+# [[buildpacks]]
+#   id = "heroku/php"
+#   uri = "docker://docker.io/heroku/buildpack-php@sha256:TODO"
+
+[[buildpacks]]
+  id = "heroku/procfile"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:6ace71a217485b2932c8e4a311a502b68fde1a3c81e23576e29a9a1dba9a489a"
+
+# TODO: Re-enable once the Python CNB supports Heroku-26.
+# [[buildpacks]]
+#   id = "heroku/python"
+#   uri = "docker://docker.io/heroku/buildpack-python@sha256:TODO"
+
+# TODO: Re-enable once the Ruby CNB supports Heroku-26.
+# [[buildpacks]]
+#   id = "heroku/ruby"
+#   uri = "docker://docker.io/heroku/buildpack-ruby@sha256:TODO"
+
+[[buildpacks]]
+  id = "heroku/scala"
+  uri = "docker://docker.io/heroku/buildpack-scala@sha256:a36e49a1bf9f8fa14d0e2fc87793213a840dbd5b8ea183b89b0e39ec91f35980"
+
+# TODO: Re-enable once the Python CNB supports Heroku-26.
+# [[order]]
+#   [[order.group]]
+#     id = "heroku/deb-packages"
+#     version = "TODO"
+#     optional = true
+#   [[order.group]]
+#     id = "heroku/python"
+#     version = "TODO"
+#   [[order.group]]
+#     id = "heroku/procfile"
+#     version = "TODO"
+#     optional = true
+
+# TODO: Re-enable once the Ruby CNB supports Heroku-26.
+# [[order]]
+#   [[order.group]]
+#     id = "heroku/deb-packages"
+#     version = "TODO"
+#     optional = true
+#   [[order.group]]
+#     id = "heroku/nodejs"
+#     version = "TODO"
+#     optional = true
+#   [[order.group]]
+#     id = "heroku/jvm"
+#     version = "TODO"
+#     optional = true
+#   [[order.group]]
+#     id = "heroku/ruby"
+#     version = "TODO"
+#   [[order.group]]
+#     id = "heroku/procfile"
+#     version = "TODO"
+#     optional = true
+
+[[order]]
+  # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
+  # [[order.group]]
+  #   id = "heroku/deb-packages"
+  #   version = "TODO"
+  #   optional = true
+  [[order.group]]
+    id = "heroku/java"
+    version = "7.0.10"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+[[order]]
+  # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
+  # [[order.group]]
+  #   id = "heroku/deb-packages"
+  #   version = "TODO"
+  #   optional = true
+  [[order.group]]
+    id = "heroku/scala"
+    version = "7.0.10"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+[[order]]
+  # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
+  # [[order.group]]
+  #   id = "heroku/deb-packages"
+  #   version = "TODO"
+  #   optional = true
+  [[order.group]]
+    id = "heroku/go"
+    version = "2.2.1"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+# TODO: Re-enable once the PHP CNB supports Heroku-26.
+# [[order]]
+#   [[order.group]]
+#     id = "heroku/deb-packages"
+#     version = "TODO"
+#     optional = true
+#   [[order.group]]
+#     id = "heroku/php"
+#     version = "TODO"
+#   [[order.group]]
+#     id = "heroku/procfile"
+#     version = "TODO"
+#     optional = true
+
+[[order]]
+  # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
+  # [[order.group]]
+  #   id = "heroku/deb-packages"
+  #   version = "TODO"
+  #   optional = true
+  [[order.group]]
+    id = "heroku/dotnet"
+    version = "1.0.5"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
+
+# this group is intentionally at the end, because projects in other languages often have e.g. a package.json
+[[order]]
+  # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
+  # [[order.group]]
+  #   id = "heroku/deb-packages"
+  #   version = "TODO"
+  #   optional = true
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "5.5.4"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.1"
+    optional = true
