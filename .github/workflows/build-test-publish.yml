@@ -173,7 +173,7 @@ jobs:
       - name: Log in to Amazon ECR Public
         if: matrix.tag_ecr_public != ''
         id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
+        uses: aws-actions/amazon-ecr-login@183a1442edf41672e66566b7fc560e297a290896 # v2.1.1
         with:
           registry-type: public
       - name: Tag builder and push to Docker Hub
@@ -216,7 +216,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - name: Log in to Amazon ECR Public
         id: login-ecr-public
-        uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
+        uses: aws-actions/amazon-ecr-login@183a1442edf41672e66566b7fc560e297a290896 # v2.1.1
         with:
           registry-type: public
       - name: Create and push manifest lists
