@@ -43,7 +43,7 @@ version = "0.21.7"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:6ace71a217485b2932c8e4a311a502b68fde1a3c81e23576e29a9a1dba9a489a"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:df5cf3fe9e25ac7956d3d4b77844e4d23fc182ef0de49599c2ec4e3b17316448"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -67,7 +67,7 @@ version = "0.21.7"
     version = "6.1.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 [[order]]
@@ -88,7 +88,7 @@ version = "0.21.7"
     version = "12.3.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 [[order]]
@@ -101,7 +101,7 @@ version = "0.21.7"
     version = "7.0.10"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 [[order]]
@@ -114,7 +114,7 @@ version = "0.21.7"
     version = "7.0.10"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 [[order]]
@@ -127,7 +127,7 @@ version = "0.21.7"
     version = "2.2.1"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 [[order]]
@@ -140,7 +140,7 @@ version = "0.21.7"
     version = "1.5.1"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 [[order]]
@@ -153,7 +153,7 @@ version = "0.21.7"
     version = "1.0.5"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 # this group is intentionally at the end, because projects in other languages often have e.g. a package.json
@@ -167,5 +167,5 @@ version = "0.21.7"
     version = "5.5.5"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
