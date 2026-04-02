@@ -46,7 +46,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:6ace71a217485b2932c8e4a311a502b68fde1a3c81e23576e29a9a1dba9a489a"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:df5cf3fe9e25ac7956d3d4b77844e4d23fc182ef0de49599c2ec4e3b17316448"
 
 # TODO: Re-enable once the Python CNB supports Heroku-26.
 # [[buildpacks]]
@@ -109,7 +109,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
     version = "7.0.10"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 [[order]]
@@ -123,7 +123,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
     version = "7.0.10"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 [[order]]
@@ -137,7 +137,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
     version = "2.2.1"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 # TODO: Re-enable once the PHP CNB supports Heroku-26.
@@ -165,7 +165,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
     version = "1.0.5"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
 
 # this group is intentionally at the end, because projects in other languages often have e.g. a package.json
@@ -180,5 +180,5 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
     version = "5.5.5"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.1"
+    version = "4.2.2"
     optional = true
