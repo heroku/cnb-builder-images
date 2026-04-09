@@ -37,7 +37,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:2818480c408bac03b715a81afe10b54715a7b0af3b517f16791fff4d31be2eb4"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:079febd2734740fb83561b2eb2dbe7c818d2e055e440aa575250b681b4e51653"
 
 # TODO: Re-enable once the PHP CNB supports Heroku-26.
 # [[buildpacks]]
@@ -177,7 +177,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
   #   optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.5.6"
+    version = "5.5.7"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.2"
