@@ -85,8 +85,6 @@ jobs:
           - builder: builder-26
             language: php
           - builder: builder-26
-            language: python
-          - builder: builder-26
             language: ruby
 
     steps:

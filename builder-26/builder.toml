@@ -1,5 +1,5 @@
 # TODO: Update this description to match the other builders once all remaining CNBs have been added.
-description = "Experimental Ubuntu 26.04 AMD64+ARM64 base image with buildpacks for .NET, Go, Java, Node.js & Scala."
+description = "Experimental Ubuntu 26.04 AMD64+ARM64 base image with buildpacks for .NET, Go, Java, Node.js, Python & Scala."
 
 [stack]
 id = "heroku-26"
@@ -48,10 +48,9 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
   id = "heroku/procfile"
   uri = "docker://docker.io/heroku/buildpack-procfile@sha256:df5cf3fe9e25ac7956d3d4b77844e4d23fc182ef0de49599c2ec4e3b17316448"
 
-# TODO: Re-enable once the Python CNB supports Heroku-26.
-# [[buildpacks]]
-#   id = "heroku/python"
-#   uri = "docker://docker.io/heroku/buildpack-python@sha256:TODO"
+[[buildpacks]]
+  id = "heroku/python"
+  uri = "docker://docker.io/heroku/buildpack-python@sha256:4cec39838fcb28093d812e1fc936c3e3387cadb84daf905c1a118f82e799f37f"
 
 # TODO: Re-enable once the Ruby CNB supports Heroku-26.
 # [[buildpacks]]
@@ -62,19 +61,19 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
   id = "heroku/scala"
   uri = "docker://docker.io/heroku/buildpack-scala@sha256:a36e49a1bf9f8fa14d0e2fc87793213a840dbd5b8ea183b89b0e39ec91f35980"
 
-# TODO: Re-enable once the Python CNB supports Heroku-26.
-# [[order]]
-#   [[order.group]]
-#     id = "heroku/deb-packages"
-#     version = "TODO"
-#     optional = true
-#   [[order.group]]
-#     id = "heroku/python"
-#     version = "TODO"
-#   [[order.group]]
-#     id = "heroku/procfile"
-#     version = "TODO"
-#     optional = true
+[[order]]
+  # TODO: Re-enable once the .deb packages CNB supports Heroku-26.
+  # [[order.group]]
+  #   id = "heroku/deb-packages"
+  #   version = "TODO"
+  #   optional = true
+  [[order.group]]
+    id = "heroku/python"
+    version = "6.4.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.2"
+    optional = true
 
 # TODO: Re-enable once the Ruby CNB supports Heroku-26.
 # [[order]]
