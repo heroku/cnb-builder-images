@@ -50,7 +50,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
 
 [[buildpacks]]
   id = "heroku/python"
-  uri = "docker://docker.io/heroku/buildpack-python@sha256:4cec39838fcb28093d812e1fc936c3e3387cadb84daf905c1a118f82e799f37f"
+  uri = "docker://docker.io/heroku/buildpack-python@sha256:50a65566a06386f73ee0858384ed6602d44d916b4c3d3ec2904c4389712a0884"
 
 # TODO: Re-enable once the Ruby CNB supports Heroku-26.
 # [[buildpacks]]
@@ -69,7 +69,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
   #   optional = true
   [[order.group]]
     id = "heroku/python"
-    version = "6.4.0"
+    version = "6.4.1"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.2"
