@@ -83,8 +83,6 @@ jobs:
             arch: arm64
           # TODO: Remove these once their respective language CNBs gain Heroku-26 support.
           - builder: builder-26
-            language: php
-          - builder: builder-26
             language: ruby
 
     steps:
