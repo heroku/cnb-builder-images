@@ -1,5 +1,4 @@
-# TODO: Update this description to match the other builders once all remaining CNBs have been added.
-description = "Experimental Ubuntu 26.04 AMD64+ARM64 base image with buildpacks for .NET, Go, Java, Node.js, PHP, Python & Scala."
+description = "Ubuntu 26.04 AMD64+ARM64 base image with buildpacks for .NET, Go, Java, Node.js, PHP, Python, Ruby & Scala."
 
 [stack]
 id = "heroku-26"
@@ -50,10 +49,9 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
   id = "heroku/python"
   uri = "docker://docker.io/heroku/buildpack-python@sha256:50a65566a06386f73ee0858384ed6602d44d916b4c3d3ec2904c4389712a0884"
 
-# TODO: Re-enable once the Ruby CNB supports Heroku-26.
-# [[buildpacks]]
-#   id = "heroku/ruby"
-#   uri = "docker://docker.io/heroku/buildpack-ruby@sha256:TODO"
+[[buildpacks]]
+  id = "heroku/ruby"
+  uri = "docker://docker.io/heroku/buildpack-ruby@sha256:833a53a0bee713c27898d9d365505a711128f1cd0d943c1d6c9459c9e9fa2505"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -72,27 +70,26 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
     version = "4.2.2"
     optional = true
 
-# TODO: Re-enable once the Ruby CNB supports Heroku-26.
-# [[order]]
-#   [[order.group]]
-#     id = "heroku/deb-packages"
-#     version = "TODO"
-#     optional = true
-#   [[order.group]]
-#     id = "heroku/nodejs"
-#     version = "TODO"
-#     optional = true
-#   [[order.group]]
-#     id = "heroku/jvm"
-#     version = "TODO"
-#     optional = true
-#   [[order.group]]
-#     id = "heroku/ruby"
-#     version = "TODO"
-#   [[order.group]]
-#     id = "heroku/procfile"
-#     version = "TODO"
-#     optional = true
+[[order]]
+  [[order.group]]
+    id = "heroku/deb-packages"
+    version = "1.0.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/nodejs"
+    version = "5.6.0"
+    optional = true
+  [[order.group]]
+    id = "heroku/jvm"
+    version = "7.0.11"
+    optional = true
+  [[order.group]]
+    id = "heroku/ruby"
+    version = "12.4.0"
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "4.2.2"
+    optional = true
 
 [[order]]
   [[order.group]]
