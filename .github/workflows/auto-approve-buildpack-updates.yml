@@ -1,0 +1,28 @@
+name: Auto-approve buildpack update PRs
+
+# Uses `pull_request` (not `pull_request_target`), so fork-source PRs run with
+# secrets stripped and a read-only `GITHUB_TOKEN`. `synchronize` is omitted,
+# so approval only fires on the initial PR open.
+on:
+  pull_request:
+    types:
+      - opened
+
+permissions:
+  pull-requests: write
+
+jobs:
+  auto-approve:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.user.login == 'heroku-linguist[bot]' &&
+      startsWith(github.event.pull_request.head.ref, 'update/heroku/buildpacks-')
+    # IP-allowlisted runner used because the heroku org's IP allow list
+    # rejects API calls from GitHub-hosted runners.
+    runs-on: pub-hk-ubuntu-24.04-ip
+    steps:
+      - name: Approve PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh pr review --approve "$PR_NUMBER" --repo "$GITHUB_REPOSITORY"
