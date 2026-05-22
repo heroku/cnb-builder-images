@@ -21,6 +21,8 @@ jobs:
     # rejects API calls from GitHub-hosted runners.
     runs-on: pub-hk-ubuntu-24.04-ip
     steps:
+      # Approves as `github-actions[bot]` rather than the Linguist user,
+      # since a user can't approve their own PR.
       - name: Approve PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
