@@ -43,7 +43,7 @@ version = "0.21.12"
 
 [[buildpacks]]
   id = "heroku/php"
-  uri = "docker://docker.io/heroku/buildpack-php@sha256:0def4f89d6cae8db0be5cea14b7d1d9829e0fb5d241b68b39a0667b28fa9a6f0"
+  uri = "docker://docker.io/heroku/buildpack-php@sha256:a6f52a291c4ee84250a1f5a94ea0a81fb52457ea9017aa0b2b3b2eafce060749"
 
 [[buildpacks]]
   id = "heroku/procfile"
@@ -156,7 +156,7 @@ version = "0.21.12"
     optional = true
   [[order.group]]
     id = "heroku/php"
-    version = "1.6.3"
+    version = "1.6.4"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.2"
