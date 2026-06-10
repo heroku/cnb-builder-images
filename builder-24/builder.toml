@@ -47,7 +47,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/python"
-  uri = "docker://docker.io/heroku/buildpack-python@sha256:738faf21f256dd03e433de11befee30bae4e0852caa52c95c787d95902f57ba5"
+  uri = "docker://docker.io/heroku/buildpack-python@sha256:b969211efc8cebdb56ccb6b9c6bcbabc6c6723a3960c1ead249d260960601877"
 
 [[buildpacks]]
   id = "heroku/ruby"
@@ -64,7 +64,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/python"
-    version = "6.5.2"
+    version = "6.5.3"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.2"
