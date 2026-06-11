@@ -259,22 +259,24 @@ jobs:
           fi
 
           api="https://api.honeycomb.io/1/markers/${HONEYCOMB_DATASET}"
-          body=$(jq -n --arg msg "$msg" --arg url "$COMMIT_URL" '{message: $msg, type: "builder-release", url: $url}')
-          auth=(-H "X-Honeycomb-Team: ${HONEYCOMB_API_KEY}" -H "Content-Type: application/json")
+          curl=(curl -sS --fail --connect-timeout 10 --retry 3 --retry-all-errors --max-time 30
+            -H "X-Honeycomb-Team: ${HONEYCOMB_API_KEY}" -H "Content-Type: application/json")
 
           # One marker per builder release; dedup on the commit URL (stable identity for
-          # this release) so a re-run of the workflow updates the existing marker rather
-          # than stacking a duplicate. Every path below warns on failure and never exits
-          # non-zero — a Honeycomb outage must not fail an already-successful release.
-          existing=$(curl -sS --retry 3 --retry-all-errors --max-time 30 "${auth[@]}" "${api}" \
-            | jq -r --arg url "$COMMIT_URL" 'map(select(.url == $url)) | first | .id // empty' 2>/dev/null) || existing=""
+          # this release). If a marker already exists (e.g. a re-run of the workflow), skip
+          # — the marker is unchanged, so there's nothing to update. Every call warns on
+          # failure and never exits non-zero: a Honeycomb outage must not fail an
+          # already-successful release.
+          existing=$("${curl[@]}" "${api}" \
+            | jq -r --arg url "$COMMIT_URL" 'map(select(.url == $url)) | first | .id // empty') \
+            || { echo "::warning::Failed to query Honeycomb markers (release succeeded regardless)"; exit 0; }
 
           if [[ -n "$existing" ]]; then
-            curl -sS --retry 3 --retry-all-errors --max-time 30 -X PUT "${api}/${existing}" "${auth[@]}" -d "${body}" \
-              >/dev/null && echo "Updated existing release marker (${existing})" \
-              || echo "::warning::Failed to update Honeycomb release marker (release succeeded regardless)"
-          else
-            curl -sS --retry 3 --retry-all-errors --max-time 30 -X POST "${api}" "${auth[@]}" -d "${body}" \
-              >/dev/null && echo "Created release marker for ${msg}" \
-              || echo "::warning::Failed to create Honeycomb release marker (release succeeded regardless)"
+            echo "Release marker already exists (${existing}) — skipping."
+            exit 0
           fi
+
+          body=$(jq -n --arg msg "$msg" --arg url "$COMMIT_URL" '{message: $msg, type: "builder-release", url: $url}')
+          "${curl[@]}" -X POST "${api}" -d "${body}" >/dev/null \
+            && echo "Created release marker for ${msg}" \
+            || echo "::warning::Failed to create Honeycomb release marker (release succeeded regardless)"
