@@ -217,3 +217,66 @@ jobs:
           set -x
           docker manifest create "${{ matrix.tag_uri }}" ${{ matrix.manifest_uris }}
           docker manifest push "${{ matrix.tag_uri }}"
+
+  post-honeycomb-marker:
+    name: Post Honeycomb release marker
+    needs: [publish-image, publish-manifest]
+    # Gate to genuine releases only: a push to main, never the nightly `schedule`
+    # rebuild or a `workflow_dispatch`, both of which republish unchanged images.
+    # The buildpack-update check below narrows it further.
+    if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        # Only the tip commit's author + subject are needed to confirm + label the release.
+        with:
+          fetch-depth: 1
+
+      - name: Post Honeycomb release marker
+        # No-op if the secret isn't configured (e.g. before it's added to the repo),
+        # rather than failing an otherwise-successful release. Secrets can't be used
+        # in an `if:`, so the key is mirrored to env and tested there — GitHub masks
+        # registered secrets in logs regardless, so the mirror is safe.
+        if: env.HONEYCOMB_API_KEY
+        env:
+          HONEYCOMB_API_KEY: ${{ secrets.HONEYCOMB_API_KEY }}
+          HONEYCOMB_DATASET: builds
+          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+        run: |
+          msg=$(git log -1 --format=%s)
+          author=$(git log -1 --format=%an)
+
+          # Builder releases reach main as a Linguist buildpack-update merge, authored by
+          # heroku-linguist[bot] and titled "Update heroku/buildpacks-<lang> to vX.Y.Z" by
+          # the release automation. Require both: the bot author excludes hand-pushed
+          # commits, and the subject excludes the bot's own lifecycle bumps ("Update
+          # lifecycle from ..."). Anything else reaches main too but isn't a release —
+          # skip it without failing.
+          if [[ "$author" != "heroku-linguist[bot]" || "$msg" != Update\ heroku/buildpacks-* ]]; then
+            echo "Not a buildpack-update release (author=${author}, subject=${msg}) — skipping marker."
+            exit 0
+          fi
+
+          api="https://api.honeycomb.io/1/markers/${HONEYCOMB_DATASET}"
+          curl=(curl -sS --fail --connect-timeout 10 --retry 3 --retry-all-errors --max-time 30
+            -H "X-Honeycomb-Team: ${HONEYCOMB_API_KEY}" -H "Content-Type: application/json")
+
+          # One marker per builder release; dedup on the commit URL (stable identity for
+          # this release). If a marker already exists (e.g. a re-run of the workflow), skip
+          # — the marker is unchanged, so there's nothing to update. Every call warns on
+          # failure and never exits non-zero: a Honeycomb outage must not fail an
+          # already-successful release.
+          existing=$("${curl[@]}" "${api}" \
+            | jq -r --arg url "$COMMIT_URL" 'map(select(.url == $url)) | first | .id // empty') \
+            || { echo "::warning::Failed to query Honeycomb markers (release succeeded regardless)"; exit 0; }
+
+          if [[ -n "$existing" ]]; then
+            echo "Release marker already exists (${existing}) — skipping."
+            exit 0
+          fi
+
+          body=$(jq -n --arg msg "$msg" --arg url "$COMMIT_URL" '{message: $msg, type: "builder-release", url: $url}')
+          "${curl[@]}" -X POST "${api}" -d "${body}" >/dev/null \
+            && echo "Created release marker for ${msg}" \
+            || echo "::warning::Failed to create Honeycomb release marker (release succeeded regardless)"
