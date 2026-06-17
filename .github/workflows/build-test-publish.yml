@@ -221,42 +221,25 @@ jobs:
   post-honeycomb-marker:
     name: Post Honeycomb release marker
     needs: [publish-image, publish-manifest]
-    # Gate to genuine releases only: a push to main, never the nightly `schedule`
-    # rebuild or a `workflow_dispatch`, both of which republish unchanged images.
-    # The buildpack-update check below narrows it further.
+    # Every push to main rebuilds and republishes the builder, so each one is a genuine
+    # release worth tracking. Excludes the nightly `schedule` rebuild and `workflow_dispatch`,
+    # both of which republish unchanged images.
     if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-        # Only the tip commit's author + subject are needed to confirm + label the release.
+        # Only the tip commit's subject is needed to label the release.
         with:
           fetch-depth: 1
 
       - name: Post Honeycomb release marker
-        # No-op if the secret isn't configured (e.g. before it's added to the repo),
-        # rather than failing an otherwise-successful release. Secrets can't be used
-        # in an `if:`, so the key is mirrored to env and tested there — GitHub masks
-        # registered secrets in logs regardless, so the mirror is safe.
-        if: env.HONEYCOMB_API_KEY
         env:
           HONEYCOMB_API_KEY: ${{ secrets.HONEYCOMB_API_KEY }}
           HONEYCOMB_DATASET: builds
           COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
         run: |
           msg=$(git log -1 --format=%s)
-          author=$(git log -1 --format=%an)
-
-          # Builder releases reach main as a Linguist buildpack-update merge, authored by
-          # heroku-linguist[bot] and titled "Update heroku/buildpacks-<lang> to vX.Y.Z" by
-          # the release automation. Require both: the bot author excludes hand-pushed
-          # commits, and the subject excludes the bot's own lifecycle bumps ("Update
-          # lifecycle from ..."). Anything else reaches main too but isn't a release —
-          # skip it without failing.
-          if [[ "$author" != "heroku-linguist[bot]" || "$msg" != Update\ heroku/buildpacks-* ]]; then
-            echo "Not a buildpack-update release (author=${author}, subject=${msg}) — skipping marker."
-            exit 0
-          fi
 
           api="https://api.honeycomb.io/1/markers/${HONEYCOMB_DATASET}"
           curl=(curl -sS --fail --connect-timeout 10 --retry 3 --retry-all-errors --max-time 30
