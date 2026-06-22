@@ -220,7 +220,7 @@ jobs:
 
   post-honeycomb-marker:
     name: Post Honeycomb release marker
-    needs: [publish-image, publish-manifest]
+    needs: publish-manifest
     # Every push to main rebuilds and republishes the builder, so each one is a genuine
     # release worth tracking. Excludes the nightly `schedule` rebuild and `workflow_dispatch`,
     # both of which republish unchanged images.
@@ -229,37 +229,39 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-        # Only the tip commit's subject is needed to label the release.
+        # Only the tip commit's subject and timestamp are needed to label the release.
         with:
           fetch-depth: 1
 
       - name: Post Honeycomb release marker
         env:
           HONEYCOMB_API_KEY: ${{ secrets.HONEYCOMB_API_KEY }}
-          HONEYCOMB_DATASET: builds
+          HONEYCOMB_DATASET: heroku-builds-production
           COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
         run: |
           msg=$(git log -1 --format=%s)
+          # Anchor the marker to the release commit time, not "now": this job may run delayed
+          # after a re-trigger, and the commit timestamp is stable across re-runs.
+          start_time=$(git log -1 --format=%ct)
 
           api="https://api.honeycomb.io/1/markers/${HONEYCOMB_DATASET}"
           curl=(curl -sS --fail --connect-timeout 10 --retry 3 --retry-all-errors --max-time 30
             -H "X-Honeycomb-Team: ${HONEYCOMB_API_KEY}" -H "Content-Type: application/json")
 
-          # One marker per builder release; dedup on the commit URL (stable identity for
-          # this release). If a marker already exists (e.g. a re-run of the workflow), skip
-          # — the marker is unchanged, so there's nothing to update. Every call warns on
-          # failure and never exits non-zero: a Honeycomb outage must not fail an
-          # already-successful release.
+          # One marker per builder release; dedup on the commit URL (stable identity for this
+          # release). If a marker already exists (e.g. a re-run of the workflow), skip — the
+          # marker is unchanged, so there's nothing to update. This job is the last in the
+          # workflow and runs after the release has already published, so letting it fail red
+          # on a Honeycomb error surfaces the problem (retry/bug) without blocking the release.
           existing=$("${curl[@]}" "${api}" \
-            | jq -r --arg url "$COMMIT_URL" 'map(select(.url == $url)) | first | .id // empty') \
-            || { echo "::warning::Failed to query Honeycomb markers (release succeeded regardless)"; exit 0; }
+            | jq -r --arg url "$COMMIT_URL" 'map(select(.url == $url)) | first | .id // empty')
 
           if [[ -n "$existing" ]]; then
             echo "Release marker already exists (${existing}) — skipping."
             exit 0
           fi
 
-          body=$(jq -n --arg msg "$msg" --arg url "$COMMIT_URL" '{message: $msg, type: "builder-release", url: $url}')
-          "${curl[@]}" -X POST "${api}" -d "${body}" >/dev/null \
-            && echo "Created release marker for ${msg}" \
-            || echo "::warning::Failed to create Honeycomb release marker (release succeeded regardless)"
+          body=$(jq -n --arg msg "$msg" --arg url "$COMMIT_URL" --argjson start "$start_time" \
+            '{message: $msg, type: "deploy", url: $url, start_time: $start}')
+          "${curl[@]}" -X POST "${api}" -d "${body}"
+          echo "Created release marker for ${msg}"
