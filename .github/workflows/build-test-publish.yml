@@ -34,7 +34,7 @@ jobs:
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Install Pack CLI
         uses: buildpacks/github-actions/setup-pack@812ff667850b930be2217c48e1f980e71bd3e14f # v5.12.3
       - name: Create builder image
@@ -84,7 +84,7 @@ jobs:
 
     steps:
       - name: Checkout getting started guide
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
@@ -228,7 +228,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         # Only the tip commit's subject and timestamp are needed to label the release.
         with:
           fetch-depth: 1
