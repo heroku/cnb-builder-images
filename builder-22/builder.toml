@@ -47,7 +47,7 @@ version = "0.21.13"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:df5cf3fe9e25ac7956d3d4b77844e4d23fc182ef0de49599c2ec4e3b17316448"
+  uri = "docker://docker.io/heroku/buildpack-procfile@sha256:f67a6be0cea63747736584b79209c59f9ec1170e15c67e0b4c192e500e2ecf48"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -71,7 +71,7 @@ version = "0.21.13"
     version = "6.5.3"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.2"
+    version = "4.2.3"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -95,7 +95,7 @@ version = "0.21.13"
     version = "12.4.0"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.2"
+    version = "4.2.3"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -111,7 +111,7 @@ version = "0.21.13"
     version = "7.0.11"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.2"
+    version = "4.2.3"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -127,7 +127,7 @@ version = "0.21.13"
     version = "7.0.11"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.2"
+    version = "4.2.3"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -143,7 +143,7 @@ version = "0.21.13"
     version = "2.2.4"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.2"
+    version = "4.2.3"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -159,7 +159,7 @@ version = "0.21.13"
     version = "1.6.4"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.2"
+    version = "4.2.3"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -175,7 +175,7 @@ version = "0.21.13"
     version = "1.0.12"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.2"
+    version = "4.2.3"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
@@ -192,7 +192,7 @@ version = "0.21.13"
     version = "5.7.9"
   [[order.group]]
     id = "heroku/procfile"
-    version = "4.2.2"
+    version = "4.2.3"
     optional = true
   [[order.group]]
     id = "heroku/eol-warning"
