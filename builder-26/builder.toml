@@ -27,7 +27,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
 
 [[buildpacks]]
   id = "heroku/go"
-  uri = "docker://docker.io/heroku/buildpack-go@sha256:edf1ef3afcf995c030c611abd61895b3d85f99f414feff1ad464d977dca51390"
+  uri = "docker://docker.io/heroku/buildpack-go@sha256:e71c6fb48be68fbb0fdac77164c9db5b657199703f5139210af87af9a4a652fd"
 
 [[buildpacks]]
   id = "heroku/java"
@@ -124,7 +124,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:26"]
     optional = true
   [[order.group]]
     id = "heroku/go"
-    version = "2.2.5"
+    version = "3.0.0"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.3"
