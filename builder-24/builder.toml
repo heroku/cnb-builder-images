@@ -31,7 +31,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "docker://docker.io/heroku/buildpack-java@sha256:ffcec832e829f935031a23103b7cdf30072e98dfe720afc66aea700eeeb2101f"
+  uri = "docker://docker.io/heroku/buildpack-java@sha256:284220b65dad2d90ff8d1782f14ed2ed97e984762886f3592c00a27fece1008f"
 
 [[buildpacks]]
   id = "heroku/nodejs"
@@ -55,7 +55,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "docker://docker.io/heroku/buildpack-scala@sha256:fb39a0f96cd3b7c7c470f02240843eaf4931405c7651062088923136065a4beb"
+  uri = "docker://docker.io/heroku/buildpack-scala@sha256:9085e31bb5d96b26475c4466e32a3dd4592483b61836d8c311eeaa3e90ec1f81"
 
 [[order]]
   [[order.group]]
@@ -81,7 +81,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/jvm"
-    version = "7.0.11"
+    version = "7.0.12"
     optional = true
   [[order.group]]
     id = "heroku/ruby"
@@ -98,7 +98,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/java"
-    version = "7.0.11"
+    version = "7.0.12"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.3"
@@ -111,7 +111,7 @@ mirrors = ["public.ecr.aws/heroku/heroku:24"]
     optional = true
   [[order.group]]
     id = "heroku/scala"
-    version = "7.0.11"
+    version = "7.0.12"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.3"
