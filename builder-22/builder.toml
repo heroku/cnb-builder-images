@@ -51,7 +51,7 @@ version = "0.21.14"
 
 [[buildpacks]]
   id = "heroku/python"
-  uri = "docker://docker.io/heroku/buildpack-python@sha256:0e9f64d954bcdbbd27b75c31da89396fe7f2ce632299246df6bb0a418e769378"
+  uri = "docker://docker.io/heroku/buildpack-python@sha256:e327e3b7edb8a827157e2569a4b6cac2bffa7314ceca1da19e48ddc57886ceef"
 
 [[buildpacks]]
   id = "heroku/ruby"
@@ -68,7 +68,7 @@ version = "0.21.14"
     optional = true
   [[order.group]]
     id = "heroku/python"
-    version = "6.5.4"
+    version = "6.5.5"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.3"
