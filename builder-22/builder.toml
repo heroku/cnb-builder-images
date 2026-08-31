@@ -15,7 +15,7 @@ image = "docker.io/heroku/heroku:22-cnb"
 mirrors = ["public.ecr.aws/heroku/heroku:22-cnb"]
 
 [lifecycle]
-version = "0.21.17"
+version = "0.21.18"
 
 [[buildpacks]]
   id = "heroku/eol-warning"
