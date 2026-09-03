@@ -19,7 +19,7 @@ in each base image, see [this Dev Center article](https://devcenter.heroku.com/a
 | [heroku/builder:24][builder-tags] | Ubuntu 24.04 | AMD64 + ARM64           | [heroku/heroku:24][heroku-tags]     | 0.21.18           | Available   |
 | [heroku/builder:26][builder-tags] | Ubuntu 26.04 | AMD64 + ARM64           | [heroku/heroku:26][heroku-tags]     | 0.21.18           | Recommended |
 
-The builder images above include buildpack support for the following languages: .NET, Go, Java, Node.js, PHP, Python, Ruby & Scala.
+The builder images above include buildpack support for .NET, Go, Java, Node.js, PHP, Python, Ruby, and Scala. The `heroku/builder:26` image also supports front-end websites.
 
 Check the [lifecycle API version support matrix](https://github.com/buildpacks/lifecycle#supported-apis) to determine
 which Platform and Buildpack API versions are compatible with the `lifecycle` version included in each builder.
@@ -58,6 +58,7 @@ For language/buildpack-specific bugs or feature requests, file an issue against 
 - https://github.com/heroku/buildpacks-procfile
 - https://github.com/heroku/buildpacks-python
 - https://github.com/heroku/buildpacks-ruby
+- https://github.com/heroku/buildpacks-frontend-web
 
 For base image related bugs or feature requests (such as requests for additional system libraries), use:
 https://github.com/heroku/base-images
