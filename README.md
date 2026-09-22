@@ -35,14 +35,14 @@ To build an app using these builder images locally:
 2. Install the Pack CLI: https://buildpacks.io/docs/tools/pack/
 3. In your console, navigate to the directory containing your app and then run:
    ```term
-   pack build --builder heroku/builder:24 my-output-image-name
+   pack build --builder heroku/builder:26 my-output-image-name
    ```
 
 To avoid having to specify the `--builder` each time, you can set a
 [default builder](https://buildpacks.io/docs/tools/pack/cli/pack_config_default-builder/). For example:
 
 ```term
-pack config default-builder heroku/builder:24
+pack config default-builder heroku/builder:26
 ```
 
 ## Reporting issues
