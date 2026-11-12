@@ -115,10 +115,159 @@ jobs:
             exit 1
           fi
 
+  # The Front-end Web CNBs are only present in builder-26, so this job (unlike the
+  # language `test` job above) doesn't fan out across builder-22/builder-24. There are no
+  # getting-started guides for these frameworks, so each project is scaffolded on the fly
+  # with its standard tooling, then built and served as a static site.
+  test-frontend-web:
+    name: test-frontend-web (${{ matrix.framework.name }}, ${{ matrix.arch }})
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    needs: create
+    strategy:
+      fail-fast: false
+      matrix:
+        # Front-end Web is only in builder-26 today, but this is kept as a matrix
+        # dimension (rather than hardcoded) to stay consistent with the create/test
+        # jobs and to make adding a future builder a one-line change.
+        builder: ["builder-26"]
+        arch: ["amd64", "arm64"]
+        # Each framework is scaffolded into `dir` with its standard tooling, then built
+        # and served. `buildpack` is the Front-end Web buildpack asserted to participate in
+        # detection (see the build step); `expected` is a stable string grepped from the
+        # served HTML to confirm the real site was returned (see the test step).
+        framework:
+          - name: create-react-app
+            dir: my-app
+            buildpack: heroku/website-cra
+            expected: "<title>React App</title>"
+          - name: ember
+            dir: ember-quickstart
+            buildpack: heroku/website-ember
+            expected: "<title>EmberQuickstart</title>"
+          - name: nextjs
+            dir: my-app
+            buildpack: heroku/website-nextjs
+            expected: "<title>Create Next App</title>"
+          - name: public-html
+            dir: my-site
+            buildpack: heroku/website-public-html
+            expected: "<title>Heroku Front-end Web</title>"
+    env:
+      FRAMEWORK: ${{ matrix.framework.name }}
+      APP_DIR: ${{ matrix.framework.dir }}
+      EXPECTED: ${{ matrix.framework.expected }}
+      BUILDPACK: ${{ matrix.framework.buildpack }}
+      BUILDER: ${{ matrix.builder }}
+    steps:
+      - name: Install Pack CLI
+        uses: buildpacks/github-actions/setup-pack@812ff667850b930be2217c48e1f980e71bd3e14f # v5.12.3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Restore Docker images from the cache
+        uses: actions/cache/restore@v5
+        with:
+          fail-on-cache-miss: true
+          key: ${{ github.run_id }}-${{ matrix.builder }}-${{ matrix.arch }}
+          path: images.tar.zst
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
+      - name: Load Docker images into the Docker daemon
+        run: zstd -dc --long=31 images.tar.zst | docker load
+      - name: Scaffold project
+        run: |
+          case "${FRAMEWORK}" in
+            create-react-app)
+              npx --yes create-react-app "${APP_DIR}"
+              ;;
+            ember)
+              # Ember rejects reserved names such as "app", and derives the page <title>
+              # from the app name, so the scaffold name is meaningful here.
+              npm install --global ember-cli
+              ember new "${APP_DIR}" --lang en --skip-git
+              ;;
+            nextjs)
+              npx --yes create-next-app@latest "${APP_DIR}" --yes
+              # A static export is opt-in, so enable it on the scaffolded config. See:
+              # https://nextjs.org/docs/app/guides/static-exports
+              cat > "${APP_DIR}/next.config.ts" <<'EOF'
+          import type { NextConfig } from "next";
+
+          const nextConfig: NextConfig = {
+            output: "export",
+          };
+
+          export default nextConfig;
+          EOF
+              ;;
+            public-html)
+              # The Public HTML buildpack detects public/index.html (not a root index.html).
+              mkdir -p "${APP_DIR}/public"
+              cat > "${APP_DIR}/public/index.html" <<'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <title>Heroku Front-end Web</title>
+            </head>
+            <body>
+              <h1>Heroku Front-end Web - Public HTML</h1>
+            </body>
+          </html>
+          EOF
+              ;;
+          esac
+          # The scaffolders run `npm install`, producing both node_modules and a lockfile.
+          # The build re-installs from the lockfile via `npm ci` (the Node.js buildpack only
+          # installs dependencies and runs the framework build when a lockfile is present), so
+          # keep the lockfile but drop node_modules to keep the `pack build` context lean.
+          # Do NOT swap the scaffolds to `--skip-install`: that drops the lockfile too, and the
+          # build then installs nothing and produces no static site.
+          rm -rf "${APP_DIR}/node_modules"
+      - name: Build image
+        # Tee the build output (without --force-color, so it stays greppable) to assert the
+        # expected Front-end Web buildpacks participated in detection rather than, say, the
+        # plain Node.js group. The default bash shell runs with pipefail, so a failed
+        # `pack build` still fails the step despite the pipe.
+        run: |
+          pack build frontend-web --path "${APP_DIR}" --builder "${BUILDER}" --trust-builder --pull-policy never 2>&1 | tee build.log
+          for bp in heroku/static-web-server "${BUILDPACK}"; do
+            if ! grep -qF "${bp}" build.log; then
+              echo "Expected buildpack '${bp}' did not participate in detection"
+              exit 1
+            fi
+          done
+      - name: Start image
+        run: docker run --name frontend-web --detach -p 8080:8080 --env PORT=8080 frontend-web
+      - name: Test web server response
+        run: |
+          if curl -sSfL --retry 10 --retry-delay 1 --retry-all-errors --connect-timeout 3 -D headers.txt http://localhost:8080 -o response.txt; then
+            echo "Successful response from server"
+          else
+            echo "Server did not respond successfully"
+            docker logs frontend-web
+            [[ -f response.txt ]] && cat response.txt
+            exit 1
+          fi
+          # Confirm the response was served by the static web server (Caddy) and not a
+          # dynamic Node.js process (e.g. `next start`), which would serve the same HTML.
+          if ! grep -qiE '^server:[[:space:]]*caddy' headers.txt; then
+            echo "Response was not served by the static web server (Caddy)"
+            cat headers.txt
+            exit 1
+          fi
+          if ! grep -qF "${EXPECTED}" response.txt; then
+            echo "Response did not contain expected content: ${EXPECTED}"
+            cat response.txt
+            exit 1
+          fi
+          echo "Static site served by Caddy with expected content: ${EXPECTED}"
+
   publish-image:
     runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     if: success() && github.ref == 'refs/heads/main'
-    needs: test
+    needs: [test, test-frontend-web]
     strategy:
       fail-fast: false
       matrix:
