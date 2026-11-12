@@ -36,7 +36,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@91cb4574e7b781941b4e3fa950e541e4b8754b3a # v6.2.2
+        uses: buildpacks/github-actions/setup-pack@50b58314ff7858c48496a3fee25308c8a18eae79 # v6.2.3
       - name: Create builder image
         run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
       # We export the run image too (and not just the generated builder image), since it adds virtually
@@ -89,7 +89,7 @@ jobs:
           ref: main
           repository: heroku/${{ matrix.language }}-getting-started.git
       - name: Install Pack CLI
-        uses: buildpacks/github-actions/setup-pack@91cb4574e7b781941b4e3fa950e541e4b8754b3a # v6.2.2
+        uses: buildpacks/github-actions/setup-pack@50b58314ff7858c48496a3fee25308c8a18eae79 # v6.2.3
       - name: Restore Docker images from the cache
         uses: actions/cache/restore@v6
         with:
