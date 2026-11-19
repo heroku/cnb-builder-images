@@ -39,7 +39,7 @@ version = "0.21.29"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:b7e2a169e8140983e3108b83c1a47d4c7b31fe09bcad1ca1a31b84d9c9f1e943"
+  uri = "docker://docker.io/heroku/buildpack-nodejs@sha256:c40ae5e5c80b356a056e4bda050b42a57ddaf8d1fb19eb9a5bac76626c3ee7f9"
 
 [[buildpacks]]
   id = "heroku/php"
@@ -84,7 +84,7 @@ version = "0.21.29"
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.9.1"
+    version = "5.9.2"
     optional = true
   [[order.group]]
     id = "heroku/jvm"
@@ -189,7 +189,7 @@ version = "0.21.29"
     optional = true
   [[order.group]]
     id = "heroku/nodejs"
-    version = "5.9.1"
+    version = "5.9.2"
   [[order.group]]
     id = "heroku/procfile"
     version = "4.2.4"
